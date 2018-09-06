@@ -3,6 +3,7 @@ package cn.bitflash;
 import cn.bitflash.config.TokenFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
@@ -17,6 +18,7 @@ import org.springframework.web.filter.CorsFilter;
 @EnableZuulProxy
 @SpringBootApplication
 @EnableRedisHttpSession(redisFlushMode = RedisFlushMode.IMMEDIATE)
+@EnableCaching
 public class BitflashZuulApplication {
 
     public static void main(String[] args) {

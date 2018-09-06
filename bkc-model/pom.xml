@@ -11,6 +11,11 @@
 
     <artifactId>bkc-model</artifactId>
     <dependencies>
+        <!--spring mvc-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <!--注册中心客户端依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

@@ -30,14 +30,6 @@ public interface UserBuyService extends IService<UserBuyEntity> {
     Integer getNumToPaging();
 
     /**
-     * 添加求购信息
-     *
-     * @param userBuyEntity 订单详情
-     * @param uid           用户id
-     */
-    void addBuyMessage(UserBuyEntity userBuyEntity, String uid);
-
-    /**
      * @param uid   用户id
      * @param pages 分页
      * @return 用户所有求购信息

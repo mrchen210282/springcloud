@@ -127,12 +127,29 @@ public class Common {
 
 	/**
 	 * 生成8位随机数
+	 *
 	 * @return
 	 */
-	public static int randomUtil(){
-		Random random = new Random();
-		return 10000000 + random.nextInt(90000000);
+	public static String randomUtil() {
+
+		// 字符源，可以根据需要删减
+		// 去掉1和i ，0和o
+		String generateSource = "23456789abcdefghgklmnpqrstuvwxyz";
+		String rtnStr = "";
+		for (int i = 0; i < 8; i++) {
+			// 循环随机获得当次字符，并移走选出的字符
+			String nowStr = String
+					.valueOf(generateSource.charAt((int) Math.floor(Math.random() * generateSource.length())));
+			rtnStr += nowStr;
+			generateSource = generateSource.replaceAll(nowStr, "" );
+		}
+		return rtnStr.toUpperCase();
 	}
+
+	public static void main(String[] arg) {
+		System.out.println(Common.randomUtil());
+	}
+
 
 	/**
 	 *
@@ -142,14 +159,13 @@ public class Common {
 	 * 100.01 > 100.01
 	 * @return
 	 */
-	public static String decimalFormat(double d) {
-		if(d > 0) {
+	public static String decimalFormat ( double d){
+		if (d > 0) {
 			DecimalFormat df = new DecimalFormat("######0.00");
 			String str = df.format(d);
 			return str;
 		} else {
 			return null;
 		}
-
 	}
 }

@@ -8,6 +8,7 @@ import cn.bitflash.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class UserAccountController {
      * @param param
      * @return
      */
-
+    @PostMapping("/inner/userAccount/selectOne")
     public UserAccountEntity selectOne(Map<String, Object> param) {
         List<UserAccountEntity> entityList = service.selectByMap(param);
         if (entityList.size() > 0) {
@@ -43,6 +44,7 @@ public class UserAccountController {
      *
      * @return
      */
+    @PostMapping("/inner/userAccount/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void updateById(UserAccountEntity entity) {
         service.updateById(entity);

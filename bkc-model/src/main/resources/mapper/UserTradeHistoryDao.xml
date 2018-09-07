@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.bitflash.dao.UserTradeHistoryDao">
+
+    <update id="updateUserTradeHistory" parameterType="cn.bitflash.entity.UserTradeHistoryEntity">
+        update
+        user_trade_history set sell_uid = #{sellUid},sell_quantity = #{sellQuantity},price=#{price},state =
+        #{state},create_time=#{createTime},finish_time=#{finishTime} where user_trade_id =
+        #{userTradeId}
+    </update>
+
+
+    <select id="selectTradeHistory" resultType="cn.bitflash.entity.UserTradeHistoryBean">
+        select user_trade_id,purchase_uid,sell_uid,a.create_time,b.realname
+        as purchaseName,b.mobile as purchaseMobile,b.nickname,b.nicklock,b.mobile,
+        a.sell_quantity AS sellQuantity,
+        a.price from user_trade_history a
+        left join user_info b on a.sell_uid = b.uid
+        <where>
+            1 = 1
+            <if test='userTradeId != null and userTradeId != ""'>
+                and a.user_trade_id = #{userTradeId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectTradeHistoryIncome" resultType="map">
+        select if(isnull(SUM(ut.quantity)),0,SUM(ut.quantity)) quantity from user_trade_history uth
+        left join user_trade ut on uth.user_trade_id = uth.id
+        <where>
+            1 = 1
+            <if test='createTime != null and createTime != ""'>
+                and DATE_FORMAT(ut.create_time,'%Y-%m-d') = #{createTime}
+            </if>
+            <if test='purchaseUid != null and purchaseUid != ""'>
+                and uth.purchase_uid = #{purchaseUid}
+            </if>
+        </where>
+    </select>
+
+
+    <insert id="insertUserTradeHistory" parameterType="cn.bitflash.entity.UserTradeHistoryEntity">
+      insert into user_trade_history (purchase_uid,  purchase_quantity,  sell_uid,  sell_quantity,  `state`,  price,  create_time,user_trade_id)
+      values
+      (#{purchaseUid},#{purchaseQuantity},#{sellUid},#{sellQuantity},#{state},#{price},#{createTime},#{userTradeId})
+    </insert>
+
+</mapper>

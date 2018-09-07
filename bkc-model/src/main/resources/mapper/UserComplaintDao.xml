@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.bitflash.dao.UserComplaintDao">
+
+    <select id="getComplaintMessage" resultType="cn.bitflash.entity.UserComplaintBean">
+	SELECT
+	ucc.*, (
+		SELECT
+			ui.nickname
+		FROM
+			user_info ui
+		WHERE
+			ui.uid = ucc.contacts_uid
+	) AS contactsUname,
+	(
+		SELECT
+			ui.mobile
+		FROM
+			user_info ui
+		WHERE
+			ui.uid = ucc.contacts_uid
+	) AS contactsMobile,
+(
+		SELECT
+			ui.nickname
+		FROM
+			user_info ui
+		WHERE
+			ui.uid = ucc.complaint_uid
+	) AS complaintUname,
+	(
+		SELECT
+			ui.mobile
+		FROM
+			user_info ui
+		WHERE
+			ui.uid = ucc.complaint_uid
+	) AS complaintMobile
+	FROM
+		user_complaint ucc
+	WHERE
+		ucc.order_id = #{id}
+    </select>
+
+</mapper>

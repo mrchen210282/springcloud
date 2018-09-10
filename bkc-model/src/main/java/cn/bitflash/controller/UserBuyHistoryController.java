@@ -40,6 +40,18 @@ public class UserBuyHistoryController {
     }
 
     /**
+     * selectById
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/inner/userBuyHistory/selectById")
+    public UserBuyHistoryEntity selectById(String id) {
+        UserBuyHistoryEntity userBuyHistoryEntity = service.selectById(id);
+        return userBuyHistoryEntity;
+    }
+
+    /**
      * updateById
      *
      * @return
@@ -78,7 +90,6 @@ public class UserBuyHistoryController {
      * @return
      */
     @PostMapping("/inner/userBuyHistory/selectBuyHistory")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public UserBuyHistoryBean selectBuyHistory(String id) {
         UserBuyHistoryBean userBuyHistoryBean = service.selectBuyHistory(id);
         return userBuyHistoryBean;

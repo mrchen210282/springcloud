@@ -7,6 +7,7 @@ import cn.bitflash.service.UserBrokerageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,19 +23,15 @@ public class UserBrokerageController {
     private UserBrokerageService service;
 
     /**
-     * selectOne
+     * selectById
      *
-     * @param param
+     * @param id
      * @return
      */
-
-    public UserBrokerageEntity selectOne(Map<String, Object> param) {
-        List<UserBrokerageEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            UserBrokerageEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
+    @PostMapping("/inner/userBrokerage/selectOne")
+    public UserBrokerageEntity selectById(int id) {
+        UserBrokerageEntity userBrokerageEntity = service.selectById(id);
+        return userBrokerageEntity;
     }
 
     /**
@@ -42,6 +39,7 @@ public class UserBrokerageController {
      *
      * @return
      */
+    @PostMapping("/inner/userBrokerage/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void updateById(UserBrokerageEntity entity) {
         service.updateById(entity);

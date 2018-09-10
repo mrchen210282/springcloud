@@ -2,11 +2,14 @@ package cn.bitflash.controller;
 
 
 import cn.bitflash.entity.UserPayPwdEntity;
+import cn.bitflash.entity.UserPayUrlEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserPayPwdService;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -35,6 +38,18 @@ public class UserPayPwdController {
             return entity;
         }
         return null;
+    }
+
+    /**
+     * selectUid
+     *
+     * @param uid
+     * @return
+     */
+    @PostMapping("inner/userPayPwd/selectUid")
+    public UserPayPwdEntity selectUid(String uid) {
+        UserPayPwdEntity userPayPwdEntity = service.selectOne(new EntityWrapper<UserPayPwdEntity>().eq("uid",uid));
+        return userPayPwdEntity;
     }
 
     /**

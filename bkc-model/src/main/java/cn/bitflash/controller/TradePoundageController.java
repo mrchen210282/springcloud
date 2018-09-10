@@ -39,6 +39,18 @@ public class TradePoundageController {
     }
 
     /**
+     * selectById
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/inner/tradePoundage/selectById")
+    public TradePoundageEntity selectById(String id) {
+        TradePoundageEntity tradePoundageEntity = service.selectById(id);
+        return tradePoundageEntity;
+    }
+
+    /**
      * updateById
      *
      * @return

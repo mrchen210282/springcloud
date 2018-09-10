@@ -36,19 +36,6 @@ public class UserBuyServiceImpl extends ServiceImpl<UserBuyDao, UserBuyEntity> i
     }
 
     @Override
-    public void addBuyMessage(UserBuyEntity userBuyEntity, String uid) {
-        String orderId = Common.randomUtil();
-        userBuyEntity.setId(orderId);
-        System.out.println(userBuyEntity.getId());
-        logger.info("订单号:" + orderId);
-
-        userBuyEntity.setUid(uid);
-        userBuyEntity.setCreateTime(new Date());
-        userBuyEntity.setState(STATE_BUY_CANCEL);
-        baseMapper.insert(userBuyEntity);
-    }
-
-    @Override
     public List<UserBuyBean> selectBuyList(String uid, Integer pages) {
         return baseMapper.selectBuyList(uid, pages);
     }

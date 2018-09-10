@@ -8,6 +8,7 @@ import cn.bitflash.service.UserComplaintService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -53,6 +54,7 @@ public class UserComplaintController {
      *
      * @return
      */
+    @PostMapping("/inner/userComplaint/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void insert(UserComplaintEntity entity) {
         service.insert(entity);

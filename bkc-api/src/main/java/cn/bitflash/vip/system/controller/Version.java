@@ -2,8 +2,14 @@ package cn.bitflash.vip.system.controller;
 
 import cn.bitflash.entity.AppStatusEntity;
 import cn.bitflash.util.R;
+import cn.bitflash.vip.system.feign.SystemFeign;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,21 +19,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
-public class version {
+@RequestMapping("/system")
+@Api(value = "app版本Con",tags={"版本提示"})
+public class Version {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    private SystemFeign systemFeign;
 
-
+    @ApiOperation(value="查看app版本")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "appid", value = "appid",dataType = "String"),
+            @ApiImplicitParam(name = "version",value = "app现在版本号",dataType = "String"),
+            @ApiImplicitParam(name = "imei",value = "手机imei设备码",dataType = "String")
+    })
     @GetMapping("update")
-    public R update(@RequestParam String appid, @RequestParam String version, @RequestParam String imei) {
+    public R update( @RequestParam String appid, @RequestParam String version, @RequestParam String imei) {
         logger.info(appid + "**" + version + "**" + imei);
         String one = "1";
         String zero = "0";
         String status = "status";
         Map<String, String> map = new HashMap<>();
-        AppStatusEntity appStatusEntity = appStatusService.selectById(appid);
+        AppStatusEntity appStatusEntity = systemFeign.selectAppStatusByAppId(appid);
         if (appStatusEntity == null) {
             map.put(status, "-1");
             return R.ok().put("data", map);
@@ -52,7 +66,8 @@ public class version {
                 } else {
                     //app版本< 数据库版本，提示
                     map.put(status, one);
-                    return R.ok().put("data", map);
+                    break;
+                    //return R.ok().put("data", map);
                 }
             }
         }
@@ -74,15 +89,18 @@ public class version {
                     map.put(status, zero);
                 } else {
                     map.put(status, one);
-                    return R.ok().put("data", map);
+                    break;
+                    //return R.ok().put("data", map);
                 }
                 if (i == appVersion.length - 1 && flag == false) {
                     map.put(status, one);
-                    return R.ok().put("data", map);
+                    break;
+                    //return R.ok().put("data", map);
                 }
             }
         }
         return R.ok().put("data", map);
 
     }
+
 }

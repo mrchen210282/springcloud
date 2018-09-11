@@ -9,6 +9,13 @@ import java.util.List;
 public interface UserFeign {
 
     /**
+     * tb_user表
+     */
+    UserEntity selectUserByUid(@RequestParam("uid")String uid);
+
+    Boolean updateUserById(@RequestBody UserEntity userEntity);
+
+    /**
      * user_account表
      */
     UserAccountEntity selectAccountByUid(@RequestParam("uid")String uid);
@@ -17,7 +24,7 @@ public interface UserFeign {
      * user_info表
      */
     //返回对应列的值
-    String selectUserInfoById(@RequestParam("uid")String uid,String column);
+    String selectUserInfoByColumn(@RequestParam("uid")String uid, @RequestParam("column")String column);
 
     Boolean updateUserInfoById(@RequestBody UserInfoEntity userInfo);
 
@@ -40,4 +47,26 @@ public interface UserFeign {
     Boolean insertUserUrl(@RequestBody UserPayUrlEntity userPayUrlEntity);
 
     Boolean updateUserUrlById(@RequestBody UserPayUrlEntity userPayUrlEntity);
+
+    //imgType 1,2,5
+    List<UserPayUrlEntity> selectUserUrlList(@RequestParam("uid")String uid);
+
+    /**
+     * user_pay_pwd 表
+     */
+    UserPayPwdEntity selectUserPwdByUid(@RequestParam("uid")String uid);
+
+    Boolean insertUserPwd(@RequestBody UserPayPwdEntity userPayPwdEntity);
+
+    Boolean updateUserPwdById(@RequestBody UserPayPwdEntity userPayPwdEntity);
+
+    /**
+     * user_trade 表
+     */
+    UserTradeEntity selectTradeById(@RequestParam("id")String id);
+
+    /**
+     * user_buy_history 表
+     */
+    UserBuyHistoryEntity selectBuyHistoryById(@RequestParam("id")String id);
 }

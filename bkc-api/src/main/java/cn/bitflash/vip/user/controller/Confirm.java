@@ -28,7 +28,7 @@ public class Confirm {
     @PostMapping("uploadSFZ")
     public R uploadImgMessage(@RequestParam String img, @RequestParam String imgType,
                               @RequestAttribute("uid") String uid) {
-        String mobile = userFeign.selectUserInfoById(uid,"mobile");
+        String mobile = userFeign.selectUserInfoByColumn(uid,"mobile");
 
         String imgName = imgType.equals("3") ? MD5Util.getMD5Format(mobile+ System.currentTimeMillis()) + "_z" : MD5Util.getMD5Format(mobile + System.currentTimeMillis()) + "_f";
         String imgUrl = "";

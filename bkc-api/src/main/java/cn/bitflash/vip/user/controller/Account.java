@@ -32,7 +32,7 @@ public class Account {
     @PostMapping("/accountInfo")
     public R accountInfo(@RequestAttribute("uid") String uid) {
 
-        String vip = userFeign.selectUserInfoById(uid,"vip");
+        String vip = userFeign.selectUserInfoByColumn(uid,"vip");
         UserAccountEntity account = userFeign.selectAccountByUid(uid);
         //返回值集合
         Map<String, Object> map = new HashMap<>();

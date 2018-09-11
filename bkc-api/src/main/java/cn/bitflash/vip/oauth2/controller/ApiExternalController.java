@@ -1,4 +1,4 @@
-package cn.bitflash.vip.oauth2.controller;
+package cn.bitflash.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cn.bitflash.service.UserAccountService;
+import cn.bitflash.trade.UserAccountEntity;
 import cn.bitflash.trade.UserAccountGameEntity;
 import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
@@ -30,11 +32,11 @@ public class ApiExternalController {
 
 	private Logger logger = LoggerFactory.getLogger(ApiExternalController.class);
 
-	@Autowired
-	private UserAccountGameService userAccountGameService;
-	
 //	@Autowired
-//	private UserAccountService userAccountService;
+//	private UserAccountGameService userAccountGameService;
+
+	@Autowired
+	private UserAccountService userAccountService;
 
 	/**
 	 *
@@ -50,26 +52,26 @@ public class ApiExternalController {
 		String time = request.getParameter("time");
 		String sign =  request.getParameter("sign");
 		String apiKey = "b1gtuVZRWVh0BdBX";
-		
+
 		List<String> inParam = new ArrayList<String>();
 		inParam.add(uid);
 		inParam.add(time);
 		inParam.add(apiKey);
 
 		String mySign = Common.returnMD5(inParam);
-		
-		
+
+
 		logger.info("time:" + time);
 		logger.info("uid:" + uid);
 		if (sign.equals(mySign)) {
 			if (StringUtils.isNotBlank(time) && StringUtils.isNotBlank(uid)) {
 				// String uid = token.getUid();
 				// 解密uid
-				UserAccountGameEntity accountGameEntity = userAccountGameService.selectById(uid);
-//				UserAccountEntity accountEntity = userAccountService.selectById(uid);
-				if (null != accountGameEntity) {
-					String count = accountGameEntity.getAvailableAssets().toString();
-					
+				//UserAccountGameEntity accountGameEntity = userAccountGameService.selectById(uid);
+				UserAccountEntity accountEntity = userAccountService.selectById(uid);
+				if (null != accountEntity) {
+					String count = accountEntity.getAvailableAssets().toString();
+
 					Long timeVal = System.currentTimeMillis();
 					List<String> outParam = new ArrayList<String>();
 					outParam.add(count);
@@ -83,7 +85,7 @@ public class ApiExternalController {
 				}
 			}
 		}
-		
+
 		return R.error().put("code", "500");
 
 	}
@@ -127,38 +129,38 @@ public class ApiExternalController {
 			if (StringUtils.isNotBlank(uid) && StringUtils.isNotBlank(bkcNum) && StringUtils.isNotBlank(flag)) {
 
 				// 解密uid
-				UserAccountGameEntity accountGameEntity = userAccountGameService.selectById(uid);
-//				UserAccountEntity accountEntity = userAccountService.selectById(uid);
-				if (null != accountGameEntity) {
+				//UserAccountGameEntity accountGameEntity = userAccountGameService.selectById(uid);
+				UserAccountEntity accountEntity = userAccountService.selectById(uid);
+				if (null != accountEntity) {
 					BigDecimal regulateIncome = new BigDecimal(bkcNum);
 					if (flag.equals("0")) {
 						// 加法
-						accountGameEntity.setRegulateIncome(accountGameEntity.getRegulateIncome().add(regulateIncome));
+						accountEntity.setRegulateIncome(accountEntity.getRegulateIncome().add(regulateIncome));
 //						accountEntity.setRegulateIncome(accountEntity.getRegulateIncome().add(regulateIncome));
 					} else {
 						// 减法
-						if (accountGameEntity.getAvailableAssets().compareTo(regulateIncome) <= 0) {
+						if (accountEntity.getAvailableAssets().compareTo(regulateIncome) <= 0) {
 							return R.error().put("code", "500");
 						} else {
-							accountGameEntity.setRegulateIncome(accountGameEntity.getRegulateIncome().subtract(regulateIncome));
+							accountEntity.setRegulateIncome(accountEntity.getRegulateIncome().subtract(regulateIncome));
 //							accountEntity.setRegulateIncome(accountEntity.getRegulateIncome().subtract(regulateIncome));
 						}
 					}
-					accountGameEntity.setAvailableAssets(accountGameEntity.getRegulateIncome().add(accountGameEntity.getRegulateRelease()));
-					userAccountGameService.updateById(accountGameEntity);
-					
+					accountEntity.setAvailableAssets(accountEntity.getRegulateIncome().add(accountEntity.getRegulateRelease()));
+					userAccountService.updateById(accountEntity);
+
 //					accountEntity.setAvailableAssets(accountEntity.getRegulateIncome().add(accountEntity.getRegulateRelease()));
 //					userAccountService.updateById(accountEntity);
-					
-					
+
+
 					Long timeVal = System.currentTimeMillis();
 					List<String> outParam = new ArrayList<String>();
-					outParam.add(accountGameEntity.getAvailableAssets().toString());
+					outParam.add(accountEntity.getAvailableAssets().toString());
 //					outParam.add(accountEntity.getAvailableAssets().toString());
 					outParam.add(timeVal.toString());
 					outParam.add(apiKey);
 					String returnSign = Common.returnMD5(outParam);
-					return R.ok().put("code", 1).put("availableAssets", accountGameEntity.getAvailableAssets().toString()).put("time", timeVal).put("sign", returnSign);
+					return R.ok().put("code", 1).put("availableAssets", accountEntity.getAvailableAssets().toString()).put("time", timeVal).put("sign", returnSign);
 //					return R.ok().put("code", 1).put("availableAssets", accountEntity.getAvailableAssets().toString()).put("time", timeVal).put("sign", returnSign);
 				}
 			}

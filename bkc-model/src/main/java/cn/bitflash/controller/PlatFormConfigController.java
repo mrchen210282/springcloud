@@ -7,6 +7,7 @@ import cn.bitflash.service.PlatFormConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -72,6 +73,7 @@ public class PlatFormConfigController {
      *
      * @return
      */
+    @PostMapping("/inner/platFormConfig/getVal")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public String getVal(String key) {
         String val = service.getVal(key);

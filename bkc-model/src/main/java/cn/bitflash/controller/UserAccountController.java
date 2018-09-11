@@ -40,6 +40,18 @@ public class UserAccountController {
     }
 
     /**
+     * selectById
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/inner/userAccount/selectById")
+    public UserAccountEntity selectById(String id) {
+        UserAccountEntity userAccountEntity = service.selectById(id);
+        return userAccountEntity;
+    }
+
+    /**
      * updateById
      *
      * @return

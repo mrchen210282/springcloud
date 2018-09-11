@@ -2,8 +2,10 @@ package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.entity.UserBuyHistoryEntity;
 import cn.bitflash.util.Common;
+import cn.bitflash.util.GeTuiSendMessage;
 import cn.bitflash.util.R;
 import cn.bitflash.util.RedisUtils;
+import cn.bitflash.vip.buy.feign.RemindFeign;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,31 +20,33 @@ import static cn.bitflash.util.Common.*;
 
 @RestController
 @RequestMapping("/buy")
-public class remind {
+public class Remind {
 
     @Autowired
     private RedisUtils redisUtils;
 
+    @Autowired
+    private RemindFeign feign;
+
+
     /**
-     * ------------------4--------------------
-     * <p>
      * -------------点击催单(待收款/待收币)------------
      */
     @PostMapping("remind")
     @Transactional(propagation = Propagation.REQUIRED)
     public R reminders(@RequestParam("id") String id) {
-        UserBuyHistoryEntity userBuyHistoryEntity = userBuyHistoryService.selectOne(new EntityWrapper<UserBuyHistoryEntity>().eq("user_buy_id", id));
+        UserBuyHistoryEntity userBuyHistoryEntity = feign.selectHistoryById(id);
         //获取Cid
         String cid = null;
         //获取推送信息
         String text = null;
         if (STATE_BUY_PAYMONEY.equals(userBuyHistoryEntity.getPurchaseState())) {
-            cid = loginUtils.selectGT(new ModelMap("uid", userBuyHistoryEntity.getPurchaseUid())).getCid();
-            text = sysUtils.getVal("paymoney");
+            cid = feign.selectOne(new ModelMap("uid", userBuyHistoryEntity.getPurchaseUid())).getCid();
+            text = feign.getVal("paymoney");
         }
         if (STATE_BUY_ACCCOIN.equals(userBuyHistoryEntity.getPurchaseState())) {
-            cid = loginUtils.selectGT(new ModelMap("uid", userBuyHistoryEntity.getSellUid())).getCid();
-            text = sysUtils.getVal("reminders");
+            cid = feign.selectOne(new ModelMap("uid", userBuyHistoryEntity.getSellUid())).getCid();
+            text = feign.getVal("reminders");
         }
         String idVal = redisUtils.get(Common.ADD_LOCKNUM + id);
         if (StringUtils.isBlank(idVal)) {
@@ -57,8 +61,6 @@ public class remind {
     }
 
     /**
-     * ------------------4.1--------------------
-     * <p>
      * -------------判定是否催单(待收币)------------
      */
     @PostMapping("remind/decide")

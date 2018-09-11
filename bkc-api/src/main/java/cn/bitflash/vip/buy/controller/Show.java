@@ -1,10 +1,11 @@
 package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserAccountEntity;
 import cn.bitflash.entity.UserBuyBean;
 import cn.bitflash.entity.UserBuyMessageBean;
 import cn.bitflash.util.R;
+import cn.bitflash.vip.buy.feign.ShowFeign;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedList;
@@ -14,7 +15,10 @@ import static cn.bitflash.util.Common.*;
 
 @RestController
 @RequestMapping("/buy/list")
-public class list {
+public class Show {
+
+    @Autowired
+    private ShowFeign feign;
 
     /**-----------------------------------------------显示求购信息列表-----------------------------------------------------*/
 
@@ -25,14 +29,14 @@ public class list {
      * @return 除用户所有求购信息
      */
     @Login
-    @PostMapping("buying")
-    public R showNeedMessage(@RequestAttribute("uid") String uid, @RequestParam("pages") String pages, @UserAccount UserAccountEntity userAccount) {
-        List<UserBuyMessageBean> ub = userBuyService.getBuyMessage(uid, Integer.valueOf(pages));
+    @PostMapping("showBuyMessage")
+    public R showNeedMessage(@RequestAttribute("uid") String uid, @RequestParam("pages") String pages) {
+        List<UserBuyMessageBean> ub = feign.getBuyMessage(uid, Integer.valueOf(pages));
         if (ub == null || ub.size() < 0) {
             return R.error("暂时没有求购信息");
         }
-        Integer count = userBuyService.getNumToPaging();
-        return R.ok().put("count", count).put("list", ub).put("availableAssets", userAccount.getAvailableAssets());
+        Integer count = feign.getNumToPaging();
+        return R.ok().put("count", count).put("list", ub);
     }
 
     /**
@@ -42,13 +46,13 @@ public class list {
      * @return 用户的所有交易信息
      */
     @Login
-    @PostMapping("order")
+    @PostMapping("showBuyMessageOwn")
     public R showUserBuyMessage(@RequestAttribute("uid") String uid, @RequestParam("pages") String pages) {
-        List<UserBuyBean> userBuyEntities = userBuyService.selectBuyList(uid, Integer.valueOf(pages));
+        List<UserBuyBean> userBuyEntities = feign.selectBuyList(uid, Integer.valueOf(pages));
         List<UserBuyBean> userBuyEntitiesList = new LinkedList<UserBuyBean>();
         String state = null;
 
-        Integer count = userBuyService.selectUserBuyOwnCount(uid);
+        Integer count = feign.selectUserBuyOwnCount(uid);
 
         for (UserBuyBean userBuyEntity : userBuyEntities) {
             if (userBuyEntity.getUid().equals(uid)) {
@@ -73,8 +77,6 @@ public class list {
             userBuyEntity.setState(state);
             userBuyEntitiesList.add(userBuyEntity);
         }
-
-
         return R.ok().put("userBuyEntitiesList", userBuyEntitiesList).put("count", count);
     }
 }

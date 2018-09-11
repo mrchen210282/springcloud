@@ -7,15 +7,10 @@ import cn.bitflash.entity.UserBuyEntity;
 import cn.bitflash.entity.UserBuyHistoryEntity;
 import cn.bitflash.util.Common;
 import cn.bitflash.util.R;
-import cn.bitflash.util.TradeUtil;
-import cn.bitflash.vip.buy.feign.TradePoundageFeign;
-import cn.bitflash.vip.buy.feign.UserAccountFeign;
-import cn.bitflash.vip.buy.feign.UserBuyFeign;
-import cn.bitflash.vip.buy.feign.UserBuyHistoryFeign;
+import cn.bitflash.vip.buy.feign.AddOrCancelFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -26,21 +21,12 @@ import static cn.bitflash.util.Common.*;
 
 @RestController
 @RequestMapping("/buy")
-public class addOrCancelBuy {
+public class AddOrCancelBuy {
 
     private TradeUtil tradeUtil;
 
     @Autowired
-    private UserBuyFeign userBuyFeign;
-
-    @Autowired
-    private TradePoundageFeign tradePoundageFeign;
-
-    @Autowired
-    private UserBuyHistoryFeign userBuyHistoryFeign;
-
-    @Autowired
-    private UserAccountFeign userAccountFeign;
+    private AddOrCancelFeign feign;
 
     /**
      * --------------发布---------------
@@ -64,11 +50,9 @@ public class addOrCancelBuy {
         userBuyEntity.setUid(uid);
         userBuyEntity.setCreateTime(new Date());
         userBuyEntity.setState(STATE_BUY_CANCEL);
-        userBuyFeign.insert(userBuyEntity);
+        feign.insertBuy(userBuyEntity);
         return R.ok().put("code", SUCCESS);
     }
-
-
 
     /**
      * --------------点击撤销--------------
@@ -76,20 +60,18 @@ public class addOrCancelBuy {
     @PostMapping("recall")
     @Transactional(propagation = Propagation.REQUIRED)
     public R cancelBuyMessage(@RequestParam String id) {
-        UserBuyEntity ub = userBuyFeign.selectOne(new ModelMap("id",id));
+        UserBuyEntity ub = feign.selectUsreBuyById(id);
         if (ub == null || STATE_BUY_CANCELFIISH.equals(ub.getState())) {
             return R.ok().put("code", FAIL);
         }
         if (ub.getState().equals(STATE_BUY_CANCEL)) {
             ub.setState(STATE_BUY_CANCELFIISH);
             ub.setCancelTime(new Date());
-            userBuyFeign.updateById(ub);
+            feign.updateById(ub);
             return R.ok().put("code", SUCCESS);
         }
         return R.ok();
     }
-
-
 
     /**
      * ---------------下单----------------
@@ -109,8 +91,7 @@ public class addOrCancelBuy {
     public R addBuyMessageHistory(@RequestParam("id") String id, @RequestAttribute("uid") String uid) {
 
         //交易状态:'1'资金不足,'2'订单不存在
-
-        UserBuyEntity userBuy = userBuyFeign.selectOne(new ModelMap("id", id));
+        UserBuyEntity userBuy = feign.selectUsreBuyById(id);
         if (userBuy == null || !STATE_BUY_CANCEL.equals(userBuy.getState())) {
             return R.ok().put("code", TRADEMISS);
         }
@@ -118,7 +99,7 @@ public class addOrCancelBuy {
         //获取手续费
         Map<String, Float> map = tradeUtil.poundage(id);
         //扣除手续费
-        UserAccountEntity userAccountEntity = userAccountFeign.selectOne(new ModelMap("uid", uid));
+        UserAccountEntity userAccountEntity = feign.selectAccountById(uid);
         //不足支付扣款
         if (new BigDecimal(map.get("totalQuantity")).compareTo(userAccountEntity.getAvailableAssets()) == 1) {
             return R.ok().put("code", FAIL);
@@ -132,11 +113,11 @@ public class addOrCancelBuy {
         tradePoundageEntity.setUid(uid);
         tradePoundageEntity.setUserTradeId(id);
         tradePoundageEntity.setQuantity(new BigDecimal(map.get("buyQuantity")));
-        tradePoundageFeign.insert(tradePoundageEntity);
+        feign.insertRTradePoundage(tradePoundageEntity);
 
         //修改user_buy订单状态
         userBuy.setState(STATE_BUY_PAYMONEY);
-        userBuyFeign.updateById(userBuy);
+        feign.updateById(userBuy);
 
         //添加订单到user_buy_history
         UserBuyHistoryEntity buyHistory = new UserBuyHistoryEntity();
@@ -147,9 +128,8 @@ public class addOrCancelBuy {
         buyHistory.setSellState(STATE_BUY_ACCMONEY);
         buyHistory.setSellUid(uid);
         buyHistory.setUserBuyId(id);
-        userBuyHistoryFeign.insert(buyHistory);
+        feign.insertBuyHistory(buyHistory);
 
         return R.ok().put("code", SUCCESS);
     }
-
 }

@@ -30,7 +30,7 @@ public class UserBuyController {
      * @param param
      * @return
      */
-    @PostMapping("/inner/usreBuy/selectOne")
+    @PostMapping("/inner/userBuy/selectOne")
     public UserBuyEntity selectOne(Map<String, Object> param) {
         List<UserBuyEntity> entityList = service.selectByMap(param);
         if (entityList.size() > 0) {
@@ -41,11 +41,24 @@ public class UserBuyController {
     }
 
     /**
+     * selectById
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/inner/userBuy/selectById")
+    public UserBuyEntity selectById(String id) {
+        UserBuyEntity userBuyEntity = service.selectById(id);
+        return userBuyEntity;
+    }
+
+
+    /**
      * updateById
      *
      * @return
      */
-    @PostMapping("/inner/usreBuy/updateById")
+    @PostMapping("/inner/userBuy/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void updateById(UserBuyEntity entity) {
         service.updateById(entity);
@@ -56,7 +69,7 @@ public class UserBuyController {
      *
      * @return
      */
-    @PostMapping("/inner/usreBuy/insert")
+    @PostMapping("/inner/userBuy/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void insert(UserBuyEntity entity) {
         service.insert(entity);
@@ -67,7 +80,7 @@ public class UserBuyController {
      *
      * @return
      */
-    @PostMapping("/inner/usreBuy/deleteById")
+    @PostMapping("/inner/userBuy/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(String id) {
         service.deleteById(id);
@@ -78,6 +91,7 @@ public class UserBuyController {
      *
      * @return
      */
+    @PostMapping("/inner/userBuy/getBuyMessage")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public List<UserBuyMessageBean> getBuyMessage(String uid, Integer pages) {
         List<UserBuyMessageBean> userBuyMessageBeans = service.getBuyMessage(uid, pages);
@@ -89,6 +103,7 @@ public class UserBuyController {
      *
      * @return
      */
+    @PostMapping("/inner/userBuy/getNumToPaging")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public Integer getNumToPaging() {
         int num = service.getNumToPaging();
@@ -100,6 +115,7 @@ public class UserBuyController {
      *
      * @return
      */
+    @PostMapping("/inner/userBuy/selectBuyList")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public List<UserBuyBean> selectBuyList(String uid, Integer pages) {
         List<UserBuyBean> userBuyBeans = service.selectBuyList(uid, pages);
@@ -111,6 +127,7 @@ public class UserBuyController {
      *
      * @return
      */
+    @PostMapping("/inner/userBuy/selectUserBuyOwnCount")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public Integer selectUserBuyOwnCount(String uid) {
         int num = service.selectUserBuyOwnCount(uid);
@@ -122,6 +139,7 @@ public class UserBuyController {
      *
      * @return
      */
+    @PostMapping("/inner/userBuy/selectAppealList")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public List<UserBuyBean> selectAppealList(String uid, Integer pages) {
         List<UserBuyBean> userBuyBeans = service.selectAppealList(uid, pages);
@@ -133,6 +151,7 @@ public class UserBuyController {
      *
      * @return
      */
+    @PostMapping("/inner/userBuy/selectAppealCount")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public Integer selectAppealCount(String uid) {
         int num = service.selectAppealCount(uid);

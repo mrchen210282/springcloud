@@ -81,7 +81,7 @@ public class UserPayUrlEntity implements Serializable {
         this.mobile = mobile;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date crateTime;
 
     public Integer getId() {

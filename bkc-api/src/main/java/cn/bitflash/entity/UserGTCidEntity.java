@@ -41,3 +41,11 @@ public class UserGTCidEntity implements Serializable {
         this.updateTime = updateTime;
     }
 }
+
+
+
+
+
+
+
+

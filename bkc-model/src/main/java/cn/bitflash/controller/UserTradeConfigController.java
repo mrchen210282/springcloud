@@ -7,6 +7,7 @@ import cn.bitflash.service.UserTradeConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class UserTradeConfigController {
      * @param param
      * @return
      */
-
+    @PostMapping("/inner/userTradeConfigEntity/selectOne")
     public UserTradeConfigEntity selectOne(Map<String, Object> param) {
         List<UserTradeConfigEntity> entityList = service.selectByMap(param);
         if (entityList.size() > 0) {

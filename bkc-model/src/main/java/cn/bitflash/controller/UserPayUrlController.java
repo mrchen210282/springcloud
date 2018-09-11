@@ -4,9 +4,11 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.UserPayUrlEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserPayUrlService;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,6 +38,7 @@ public class UserPayUrlController {
         }
         return null;
     }
+
 
     /**
      * updateById

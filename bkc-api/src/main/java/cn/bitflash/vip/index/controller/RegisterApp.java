@@ -43,14 +43,12 @@ public class RegisterApp {
             Date now = new Date();
             Boolean flag2 = indexFeign.insertAccount(uid, now);
             if (flag2) {
-                Boolean flag3 = indexFeign.insertGame(uid, now);
+                String name = this.getName();
+                Boolean flag3 = indexFeign.insertInfo(uid, mobile, false, name);
                 if (flag3) {
-                    String name = this.getName();
-                    Boolean flag4 = indexFeign.insertInfo(uid, mobile, false, name);
-                    if (flag4) {
-                        logger.info("手机号：" + form.getMobile() + ",注册成功，途径app，没有推广码");
-                        return R.ok("注册成功");
-                    }
+                    logger.info("手机号：" + form.getMobile() + ",注册成功，途径app，没有推广码");
+                    return R.ok("注册成功");
+
                 }
             }
         }
@@ -85,7 +83,7 @@ public class RegisterApp {
                         String name = this.getName();
                         Boolean flag4 = indexFeign.insertInfoCode(uid, mobile, true, name, invitationCode);
                         if (flag4) {
-                            logger.info("手机号：" + mobile + ",注册成功,邀请码："+invitationCode);
+                            logger.info("手机号：" + mobile + ",注册成功,邀请码：" + invitationCode);
                             return R.ok("注册成功");
                         }
                     }

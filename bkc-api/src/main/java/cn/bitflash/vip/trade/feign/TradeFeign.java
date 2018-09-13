@@ -51,12 +51,21 @@ public interface TradeFeign {
 
     Boolean delUserTradeById(@RequestParam("orderId")String orderId);
 
+    Boolean insertUserTradeHistory(@RequestBody UserTradeHistoryEntity historyEntity);
+
+    /**
+     *user_trade_config 表
+     */
+    UserTradeConfigEntity selectTradeConfigById(@RequestParam("id")Integer id);
+
     /**
      * trade_poundage 表
      */
     TradePoundageEntity selectTradePoundageById(@RequestParam("id")String id);
 
     Boolean deleteTradePoundageById(@RequestParam("id")String id);
+
+    Boolean insertTradePoundage(@RequestBody TradePoundageEntity poundageEntity);
 
     /**
      * user_pay_pwd 表
@@ -69,6 +78,8 @@ public interface TradeFeign {
     UserAccountEntity selectAccountByUid(@RequestParam("uid")String uid);
 
     Boolean updateUserAccount(@RequestBody UserAccountEntity account);
+
+    Map<String, Object> responseTrade(@RequestParam("uid")String uid);
 
     /**
      * user_brokerage 表

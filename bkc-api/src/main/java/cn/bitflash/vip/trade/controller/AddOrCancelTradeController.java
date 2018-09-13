@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 @RequestMapping("/api")
 public class AddOrCancelTradeController {
 
-    private final Logger logger = LoggerFactory.getLogger(AddOrCancelTradeController.class);
+     
 
     /**
      * 添加卖出记录

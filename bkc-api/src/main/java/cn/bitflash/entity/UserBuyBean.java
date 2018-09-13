@@ -16,15 +16,19 @@
 
 package cn.bitflash.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 用户
  *
  * @author gaoyuguo
  */
-public class UserBuyBean extends UserBuyEntity implements Serializable {
+public class UserBuyBean implements Serializable {
+
 
     private String nickname;
 
@@ -45,6 +49,91 @@ public class UserBuyBean extends UserBuyEntity implements Serializable {
     private String purchaseUid;
 
     private String purchaseState;
+    private String id;
+
+    private String uid;
+
+    //求购数量
+    private float quantity;
+
+    //价格
+    private float price;
+
+    //状态
+    private String state;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date cancelTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date payTime;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public float getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(float quantity) {
+        this.quantity = quantity;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getCancelTime() {
+        return cancelTime;
+    }
+
+    public void setCancelTime(Date cancelTime) {
+        this.cancelTime = cancelTime;
+    }
+
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
 
     public String getNickname() {
         return nickname;
@@ -125,4 +214,5 @@ public class UserBuyBean extends UserBuyEntity implements Serializable {
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
+
 }

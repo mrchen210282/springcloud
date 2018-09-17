@@ -4,7 +4,7 @@ import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.TradePoundageEntity;
 import cn.bitflash.entity.UserTradeBean;
 import cn.bitflash.util.Common;
-import cn.bitflash.utils.R;
+import cn.bitflash.util.R;
 import cn.bitflash.vip.trade.feign.TradeFeign;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,23 +3,18 @@ package cn.bitflash.vip.trade.controller;
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.*;
 import cn.bitflash.util.Common;
-import cn.bitflash.utils.R;
+import cn.bitflash.util.R;
 import cn.bitflash.vip.trade.feign.TradeFeign;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.DispatcherServlet;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Confirm {
 

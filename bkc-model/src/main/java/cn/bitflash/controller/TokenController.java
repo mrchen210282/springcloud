@@ -5,9 +5,11 @@ import cn.bitflash.entity.TokenEntity;
 import cn.bitflash.entity.UserEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.TokenService;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,6 +38,11 @@ public class TokenController {
             return entity;
         }
         return null;
+    }
+
+    @ApiParam
+    public Boolean insertOrUpdateToken(@RequestBody TokenEntity tokenEntity){
+        return false;
     }
 
     /**

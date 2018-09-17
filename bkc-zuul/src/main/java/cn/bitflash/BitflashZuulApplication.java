@@ -1,6 +1,8 @@
+/*
 package cn.bitflash;
 
 import cn.bitflash.config.TokenFilter;
+import com.fasterxml.jackson.core.filter.TokenFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -51,3 +53,4 @@ public class BitflashZuulApplication {
     }
 
 }
+*/

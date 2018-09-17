@@ -19,7 +19,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/user")
 @Api(value = "实名Con", tags = {"用户上传sfz图片"})
-public class Confirm {
+public class Confirm2 {
 
     @Autowired
     private UserFeign userFeign;

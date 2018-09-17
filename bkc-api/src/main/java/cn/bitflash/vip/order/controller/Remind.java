@@ -34,7 +34,7 @@ public class Remind {
 
     @Login
     @PostMapping("/check")
-    public cn.bitflash.utils.R checkAppeal(@RequestParam("id") String id, @RequestAttribute("uid") String uid) {
+    public R checkAppeal(@RequestParam("id") String id, @RequestAttribute("uid") String uid) {
         String name = null;
         String mobile = null;
 
@@ -49,12 +49,12 @@ public class Remind {
         }
         //判定订单不存在
         if (userComplaintBean == null) {
-            return cn.bitflash.utils.R.ok().put("code", "订单不存在");
+            return R.ok().put("code", "订单不存在");
         }
 
         Map<String, Float> map = this.poundage(id, userComplaintBean.getComplaintState());
 
-        return cn.bitflash.utils.R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("totalQuantity", map.get("totalQuantity")).put("price", map.get("price")).put("buyQuantity", map.get("buyQuantity")).put("totalMoney", map.get("totalMoney"));
+        return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("totalQuantity", map.get("totalQuantity")).put("price", map.get("price")).put("buyQuantity", map.get("buyQuantity")).put("totalMoney", map.get("totalMoney"));
     }
 
     public Map<String, Float> poundage(String id, String state) {

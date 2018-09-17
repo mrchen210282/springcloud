@@ -7,6 +7,9 @@ import cn.bitflash.util.ValidatorUtils;
 import cn.bitflash.vip.index.entity.RegisterForm;
 import cn.bitflash.vip.index.feign.IndexFeign;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,7 @@ public class RegisterApp {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @PostMapping("register")
+    @ApiOperation(value = "注册")
     public R register(@RequestBody RegisterForm form) {
         //验证表单
         ValidatorUtils.validateEntity(form);
@@ -38,7 +42,12 @@ public class RegisterApp {
         }
 
         String uid = generateUUID32();
-        Boolean flag = indexFeign.insertUserEntity(uid, mobile, form.getPwd(), generateUUID32());
+        UserEntity us = new UserEntity();
+        us.setMobile(mobile);
+        us.setPassword(form.getPwd());
+        us.setUuid(generateUUID32());
+        us.setUid(uid);
+        Boolean flag = indexFeign.insertUserEntity(us);
         if (flag) {
             Date now = new Date();
             Boolean flag2 = indexFeign.insertAccount(uid, now);
@@ -60,7 +69,7 @@ public class RegisterApp {
         return R.error("注册失败");
     }
 
-    @GetMapping("registerWeb")
+    /*@GetMapping("registerWeb")
     public R register2(@RequestParam String mobile, @RequestParam String pwd,
                        @RequestParam("invitationCode") String invitationCode, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
@@ -97,7 +106,7 @@ public class RegisterApp {
         indexFeign.delUserInfoByUid(uid);
 
         return R.error("注册失败");
-    }
+    }*/
 
     private String generateUUID32() {
         return UUID.randomUUID().toString().replace("-", "").toUpperCase();

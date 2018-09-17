@@ -18,7 +18,7 @@ import static cn.bitflash.util.Common.*;
 public class Show {
 
     @Autowired
-    private ShowFeign feign;
+    private ShowFeign showFeign;
 
     /**-----------------------------------------------显示求购信息列表-----------------------------------------------------*/
 
@@ -31,11 +31,11 @@ public class Show {
     @Login
     @PostMapping("showBuyMessage")
     public R showNeedMessage(@RequestAttribute("uid") String uid, @RequestParam("pages") String pages) {
-        List<UserBuyMessageBean> ub = feign.getBuyMessage(uid, Integer.valueOf(pages));
+        List<UserBuyMessageBean> ub = showFeign.getBuyMessage(uid, Integer.valueOf(pages));
         if (ub == null || ub.size() < 0) {
             return R.error("暂时没有求购信息");
         }
-        Integer count = feign.getNumToPaging();
+        Integer count = showFeign.getNumToPaging();
         return R.ok().put("count", count).put("list", ub);
     }
 
@@ -48,11 +48,11 @@ public class Show {
     @Login
     @PostMapping("showBuyMessageOwn")
     public R showUserBuyMessage(@RequestAttribute("uid") String uid, @RequestParam("pages") String pages) {
-        List<UserBuyBean> userBuyEntities = feign.selectBuyList(uid, Integer.valueOf(pages));
+        List<UserBuyBean> userBuyEntities = showFeign.selectBuyList(uid, Integer.valueOf(pages));
         List<UserBuyBean> userBuyEntitiesList = new LinkedList<UserBuyBean>();
         String state = null;
 
-        Integer count = feign.selectUserBuyOwnCount(uid);
+        Integer count = showFeign.selectUserBuyOwnCount(uid);
 
         for (UserBuyBean userBuyEntity : userBuyEntities) {
             if (userBuyEntity.getUid().equals(uid)) {

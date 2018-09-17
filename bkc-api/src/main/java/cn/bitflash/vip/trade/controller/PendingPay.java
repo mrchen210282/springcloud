@@ -1,3 +1,4 @@
+/*
 package cn.bitflash.vip.trade.controller;
 
 import cn.bitflash.annotation.Login;
@@ -71,3 +72,4 @@ public class PendingPay {
         return R.ok();
     }
 }
+*/

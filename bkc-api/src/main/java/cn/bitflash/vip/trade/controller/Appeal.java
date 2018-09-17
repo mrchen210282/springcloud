@@ -6,7 +6,7 @@ import cn.bitflash.entity.UserComplaintEntity;
 import cn.bitflash.entity.UserTradeEntity;
 import cn.bitflash.entity.UserTradeHistoryEntity;
 import cn.bitflash.util.Common;
-import cn.bitflash.utils.R;
+import cn.bitflash.util.R;
 import cn.bitflash.vip.trade.feign.TradeFeign;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

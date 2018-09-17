@@ -3,10 +3,7 @@ package cn.bitflash.vip.system.controller;
 import cn.bitflash.entity.AppStatusEntity;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.system.feign.SystemFeign;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/system")
-@Api(value = "app版本Con",tags={"版本提示"})
+@Api(value = "app版本Con", tags = {"版本提示"})
 public class Version {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -28,14 +25,9 @@ public class Version {
     @Autowired
     private SystemFeign systemFeign;
 
-    @ApiOperation(value="查看app版本")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "appid", value = "appid",dataType = "String"),
-            @ApiImplicitParam(name = "version",value = "app现在版本号",dataType = "String"),
-            @ApiImplicitParam(name = "imei",value = "手机imei设备码",dataType = "String")
-    })
+    @ApiOperation(value = "查看app版本")
     @GetMapping("update")
-    public R update( @RequestParam String appid, @RequestParam String version, @RequestParam String imei) {
+    public R update(@ApiParam @RequestParam String appid, @ApiParam @RequestParam String version, @ApiParam @RequestParam String imei) {
         logger.info(appid + "**" + version + "**" + imei);
         String one = "1";
         String zero = "0";

@@ -132,7 +132,7 @@ public class AddOrCancel {
 
     @Login
     @PostMapping("responseTrade")
-    public cn.bitflash.utils.R responseTrade(@RequestAttribute("uid") String uid) {
+    public R responseTrade(@RequestAttribute("uid") String uid) {
 
         UserAccountEntity userAccount = tradeFeign.selectAccountByUid(uid);
 
@@ -152,17 +152,17 @@ public class AddOrCancel {
             String availableAssets = Common.decimalFormat(Double.valueOf(userAccount.getAvailableAssets().toString()));
             returnMap.put("availableAssets", availableAssets);
         }
-        return cn.bitflash.utils.R.ok().put("userAccount", returnMap);
+        return R.ok().put("userAccount", returnMap);
     }
 
     @Login
     @PostMapping("addLock")
-    public cn.bitflash.utils.R addLock(@RequestParam String orderId, @RequestAttribute("uid") String uid) throws ParseException {
+    public R addLock(@RequestParam String orderId, @RequestAttribute("uid") String uid) throws ParseException {
         logger.info("下单addLock:订单号" + orderId);
         if (StringUtils.isNotBlank(orderId)) {
             UserTradeEntity userTradeEntity = tradeFeign.selectTradeById(orderId);
             if (userTradeEntity.getState().equals(Common.STATE_CANCEL)) {
-                return cn.bitflash.utils.R.error(501, "订单已经被撤销,无法锁定");
+                return R.error(501, "订单已经被撤销,无法锁定");
             }
             String countKey = Common.COUNT_LOCK + uid;
             logger.debug("当前锁定订单的数量为：" + redisUtils.get(countKey));
@@ -201,15 +201,15 @@ public class AddOrCancel {
                     //设置过期时间为当天剩余时间的秒数
                     redisUtils.set(countKey, ++count, (tomorrow - now));
 
-                    return cn.bitflash.utils.R.ok();
+                    return R.ok();
                 } else if (str[1].equals(uid)) {
-                    return cn.bitflash.utils.R.error(502, "订单被锁定,本人锁定");
+                    return R.error(502, "订单被锁定,本人锁定");
                 }
-                return cn.bitflash.utils.R.error(503, "订单已经被锁定");
+                return R.error(503, "订单已经被锁定");
             }
-            return cn.bitflash.utils.R.error(504, "当天锁定数量已到上限");
+            return R.error(504, "当天锁定数量已到上限");
         }
-        return cn.bitflash.utils.R.error(505, "无此订单信息");
+        return R.error(505, "无此订单信息");
 
 
     }

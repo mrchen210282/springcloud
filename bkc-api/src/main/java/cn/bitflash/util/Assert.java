@@ -34,8 +34,20 @@ public abstract class Assert {
         }
     }
 
+    public static void isNotBlank(String str, String message) {
+        if (StringUtils.isNotBlank(str)) {
+            throw new RRException(message);
+        }
+    }
+
     public static void isNull(Object object, String message) {
         if (object == null) {
+            throw new RRException(message);
+        }
+    }
+
+    public static void isNotNull(Object object, String message) {
+        if (object != null) {
             throw new RRException(message);
         }
     }

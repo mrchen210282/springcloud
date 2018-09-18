@@ -53,6 +53,15 @@ public class UserTradeEntity implements Serializable {
      */
     private BigDecimal price;
 
+    private String purchaseUid;
+
+    public String getPurchaseUid() {
+        return purchaseUid;
+    }
+
+    public void setPurchaseUid(String purchaseUid) {
+        this.purchaseUid = purchaseUid;
+    }
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;

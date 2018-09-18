@@ -4,9 +4,13 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.AppStatusEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.AppStatusService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -17,6 +21,7 @@ import java.util.Map;
  * @author GAOYGUUO
  */
 @RestController
+@RequestMapping("test")
 public class AppStatusController {
 
     @Autowired
@@ -29,13 +34,15 @@ public class AppStatusController {
      * @return
      */
 
-    public AppStatusEntity selectOne(Map<String, Object> param) {
-        List<AppStatusEntity> appStatusEntities = appStatusService.selectByMap(param);
-        if (appStatusEntities.size() > 0) {
-            AppStatusEntity appStatusEntity = appStatusEntities.get(0);
-            return appStatusEntity;
-        }
-        return null;
+    @PostMapping("testCode")
+    public JSONObject selectOne(@RequestParam String appid) {
+        AppStatusEntity app = appStatusService.selectById(appid);
+        JSONObject json =new JSONObject();
+        json.put("version",app.getVersion());
+        json.put("url",app.getUrl());
+        json.put("note",app.getNote());
+        json.put("title",app.getTitle());
+        return json;
     }
 
     /**

@@ -10,21 +10,12 @@ public class UserGTCidEntity implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
 
     private String uid;
 
     private String cid;
 
     private Date updateTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUid() {
         return uid;
@@ -50,3 +41,11 @@ public class UserGTCidEntity implements Serializable {
         this.updateTime = updateTime;
     }
 }
+
+
+
+
+
+
+
+

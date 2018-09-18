@@ -5,10 +5,11 @@ import cn.bitflash.entity.LoginForm;
 import cn.bitflash.entity.UserEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,13 @@ import java.util.Map;
  * @author GAOYGUUO
  */
 @RestController
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
-    private UserService service;
+    private UserService userService;
+
+
 
     /**
      * selectOne
@@ -30,7 +34,7 @@ public class UserController {
      */
 
     public UserEntity selectOne(Map<String, Object> param) {
-        List<UserEntity> entityList = service.selectByMap(param);
+        List<UserEntity> entityList = userService.selectByMap(param);
         if (entityList.size() > 0) {
             UserEntity entity = entityList.get(0);
             return entity;
@@ -45,7 +49,7 @@ public class UserController {
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void updateById(UserEntity entity) {
-        service.updateById(entity);
+        userService.updateById(entity);
     }
 
     /**
@@ -54,40 +58,42 @@ public class UserController {
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(UserEntity entity) {
-        service.insert(entity);
+    @PostMapping("insert")
+    public void insert(@RequestBody JSONObject object) {
+        System.out.println(object.getString("uid"));
     }
 
     /**
      * deleteById
-     *
-     * @return
+     * @param mobile String
+     * @return null
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(String id) {
-        service.deleteById(id);
+    @PostMapping("deleteById")
+    public void deleteById(@RequestParam("mobile")String mobile) {
+        userService.deleteById(mobile);
     }
 
     /**
      * queryByMobile
-     *
-     * @return
+     * @param mobile String
+     * @return uid：value, mobile：value, password：value
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public UserEntity queryByMobile(String mobile) {
-        UserEntity userEntity = service.queryByMobile(mobile);
+    @PostMapping("queryByMobile")
+    public UserEntity queryByMobile(@RequestParam("mobile")String mobile) {
+        UserEntity userEntity = userService.queryByMobile(mobile);
         return userEntity;
     }
 
-    /**
+  /*  *//**
      * login
      *
      * @return
-     */
+     *//*
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public Map<String, Object> login(LoginForm form) {
-        Map<String, Object> map = service.login(form);
+        Map<String, Object> map = userService.login(form);
         return map;
-    }
+    }*/
 
 }

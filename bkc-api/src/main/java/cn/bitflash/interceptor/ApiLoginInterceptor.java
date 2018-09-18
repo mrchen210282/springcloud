@@ -35,6 +35,8 @@ public class ApiLoginInterceptor extends HandlerInterceptorAdapter {
         if (annotation == null) {
             return true;
         }
+
+
         String token = (String) request.getSession().getAttribute(TOKEN);
 
         //token为空

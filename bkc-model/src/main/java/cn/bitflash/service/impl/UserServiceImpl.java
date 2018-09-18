@@ -21,6 +21,7 @@ import cn.bitflash.entity.TokenEntity;
 import cn.bitflash.entity.UserEntity;
 import cn.bitflash.entity.UserGTCidEntity;
 import cn.bitflash.dao.UserDao;
+import cn.bitflash.exception.RRException;
 import cn.bitflash.service.TokenService;
 import cn.bitflash.service.UserGTCidService;
 import cn.bitflash.service.UserService;
@@ -35,14 +36,6 @@ import java.util.Map;
 
 @Service("userService")
 public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements UserService {
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private UserGTCidService userGTCidService;
-
-    @Autowired
-    private RedisUtils redisUtils;
 
     @Override
     public UserEntity queryByMobile(String mobile) {
@@ -51,40 +44,4 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         return baseMapper.selectOne(userEntity);
     }
 
-
-    @Override
-    public Map<String, Object> login(LoginForm form) {
-        UserEntity user = queryByMobile(form.getMobile());
-        //Assert.isNull(user, "手机号或密码错误" );
-
-        // 密码错误
-        if (!user.getPassword().equals(form.getPassword())) {
-            throw new RRException("手机号或密码错误");
-        }
-
-        // 获取登录token
-        TokenEntity tokenEntity = tokenService.createToken(user);
-        redisUtils.set(tokenEntity.getToken(), tokenEntity, 60 * 60 * 24 * 15);
-
-        Map<String, Object> map = new HashMap<>(2);
-        String time = System.currentTimeMillis() + "bkc";
-        map.put("token", AESTokenUtil.setToken(time, tokenEntity.getToken()));
-        map.put("expire", time);
-
-        UserGTCidEntity gt = userGTCidService.selectOne(new EntityWrapper<UserGTCidEntity>().eq("uid", user.getUid()));
-
-        if (gt == null) {
-            gt = new UserGTCidEntity();
-            gt.setUid(user.getUid());
-            gt.setCid(form.getCid());
-            gt.setUpdateTime(new Date());
-            userGTCidService.insert(gt);
-        } else if (!gt.getCid().equals(form.getCid())) {
-            gt.setCid(form.getCid());
-            userGTCidService.updateById(gt);
-        }
-
-
-        return map;
-    }
 }

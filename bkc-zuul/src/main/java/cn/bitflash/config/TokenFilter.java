@@ -1,3 +1,4 @@
+/*
 package cn.bitflash.config;
 
 import cn.bitflash.exception.RRException;
@@ -11,17 +12,18 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Base64;
 
+*/
 /**
  * zuul拦截器
  *
  * @author eric
- */
+ *//*
+
 public class TokenFilter extends ZuulFilter {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -31,7 +33,8 @@ public class TokenFilter extends ZuulFilter {
     public static final String TIME = "time";
     public static final String TOKEN = "token";
 
-    /**
+    */
+/**
      * filterType：过滤器的类型，它决定过滤器在请求的哪个生命周期中执行。
      * pre：可以在请求被路由之前调用
      * route：在路由请求时候被调用
@@ -39,25 +42,30 @@ public class TokenFilter extends ZuulFilter {
      * error：处理请求时发生错误时被调用
      *
      * @return pre
-     */
+     *//*
+
     @Override
     public String filterType() {
         return "pre";
     }
 
-    /**
+    */
+/**
      * filterOrder：过滤器的执行顺序
      * 当请求在一个阶段中存在多个过滤器时，需要根据该方法返回的值来依次执行。
      * 数字越小，执行过程越往前
-     */
+     *//*
+
     @Override
     public int filterOrder() {
         return 0;
     }
 
-    /**
+    */
+/**
      * 如果请求地址中标包含登录接口则不执行该过滤器
-     */
+     *//*
+
     @Override
     public boolean shouldFilter() {
         RequestContext ctx = RequestContext.getCurrentContext();
@@ -129,3 +137,4 @@ public class TokenFilter extends ZuulFilter {
     }
 
 }
+*/

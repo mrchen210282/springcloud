@@ -17,8 +17,8 @@
 package cn.bitflash.service.impl;
 
 import cn.bitflash.dao.UserTradeConfigDao;
+import cn.bitflash.entity.UserTradeConfigEntity;
 import cn.bitflash.service.UserTradeConfigService;
-import cn.bitflash.trade.UserTradeConfigEntity;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

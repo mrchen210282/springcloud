@@ -1,11 +1,8 @@
 package cn.bitflash.vip.buy.controller;
 
-import cn.bitflash.entity.TradePoundageEntity;
-import cn.bitflash.entity.UserAccountEntity;
-import cn.bitflash.entity.UserBuyEntity;
-import cn.bitflash.entity.UserBuyHistoryEntity;
+import cn.bitflash.entity.*;
 import cn.bitflash.util.R;
-import cn.bitflash.vip.buy.feign.PendingPayFeign;
+import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +16,11 @@ import java.util.Date;
 import static cn.bitflash.util.Common.*;
 
 @RestController
-@RequestMapping("/buy/readyToPay")
+@RequestMapping("/buy/pendingPay")
 public class PendingPay {
 
     @Autowired
-    private PendingPayFeign feign;
+    private BuyFeign feign;
 
     /**
      * --------点击已付款(待付款)-----------
@@ -34,13 +31,8 @@ public class PendingPay {
         UserBuyEntity userBuyEntity = feign.selectBuyById(id);
         //设置支付时间,user_buy订单状态
         userBuyEntity.setPayTime(new Date());
-        userBuyEntity.setState(STATE_BUY_ACCCOIN);
-        feign.updateById(userBuyEntity);
-        //修改交易状态
-        UserBuyHistoryEntity userBuyHistoryEntity = feign.selectHistoryById(id);
-        userBuyHistoryEntity.setSellState(STATE_BUY_PAYCOIN);
-        userBuyHistoryEntity.setPurchaseState(STATE_BUY_ACCCOIN);
-        feign.updateHistoryById(userBuyHistoryEntity);
+        userBuyEntity.setState(ORDER_STATE_STEP2);
+        feign.updateBuyById(userBuyEntity);
         return R.ok().put("code", SUCCESS);
     }
 
@@ -51,16 +43,15 @@ public class PendingPay {
     @Transactional(propagation = Propagation.REQUIRED)
     public R recall(@RequestParam("id") String id) {
         //查询uid
-        UserBuyHistoryEntity userBuyHistoryEntity = feign.selectHistoryById(id);
+        UserBuyEntity userBuyEntity = feign.selectBuyById(id);
         //获取trade_poundage手续费，并返还，删除该信息
-        TradePoundageEntity tradePoundageEntity = feign.selectPoundageById(id);
-        UserAccountEntity userAccountEntity = feign.selectAccountById(userBuyHistoryEntity.getSellUid());
-        userAccountEntity.setRegulateIncome(tradePoundageEntity.getPoundage().add(tradePoundageEntity.getQuantity()).add(userAccountEntity.getRegulateIncome()));
-        userAccountEntity.setAvailableAssets(tradePoundageEntity.getPoundage().add(tradePoundageEntity.getQuantity()).add(userAccountEntity.getAvailableAssets()));
+        BuyPoundageEntity buyPoundageEntity = feign.selectPoundageById(id);
+        UserAccountEntity userAccountEntity = feign.selectAccountById(userBuyEntity.getSellUid());
+        userAccountEntity.setRegulateIncome(buyPoundageEntity.getPoundage().add(buyPoundageEntity.getQuantity()).add(userAccountEntity.getRegulateIncome()));
+        userAccountEntity.setAvailableAssets(buyPoundageEntity.getPoundage().add(buyPoundageEntity.getQuantity()).add(userAccountEntity.getAvailableAssets()));
         feign.updateAccountById(userAccountEntity);
-        feign.deletePoundageById(id);
+        feign.deletePoundage(id);
         //删除求购历史订单
-        feign.deleteHistoryById(id);
         feign.deleteBuyById(id);
         return R.ok().put("code", SUCCESS);
     }

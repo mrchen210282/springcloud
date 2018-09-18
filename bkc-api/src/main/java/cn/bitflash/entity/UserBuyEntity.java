@@ -8,6 +8,14 @@ import java.util.Date;
 /**
  * 求购
  *
+ * state
+ * 0：撤销
+ * 1：发布
+ * 2：待付款 -- 待收款
+ * 3：待收币 -- 待确认
+ * 6. 完成
+ * 9. 申诉
+ *
  * @author gaoyuguo
  */
 public class UserBuyEntity implements Serializable {
@@ -21,11 +29,6 @@ public class UserBuyEntity implements Serializable {
      * 求购者id
      */
     private String purchaseUid;
-
-    /**
-     * 求购者状态
-     */
-    private String purchaseState;
 
     /**
      * 数量
@@ -43,9 +46,9 @@ public class UserBuyEntity implements Serializable {
     private String sellUid;
 
     /**
-     * 卖出者状态
+     * 订单状态
      */
-    private String sellState;
+    private String state;
 
     /**
      * 发布时间
@@ -57,7 +60,7 @@ public class UserBuyEntity implements Serializable {
      * 支付时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date cancelTime;
+    private Date payTime;
 
     public String getId() {
         return id;
@@ -73,14 +76,6 @@ public class UserBuyEntity implements Serializable {
 
     public void setPurchaseUid(String purchaseUid) {
         this.purchaseUid = purchaseUid;
-    }
-
-    public String getPurchaseState() {
-        return purchaseState;
-    }
-
-    public void setPurchaseState(String purchaseState) {
-        this.purchaseState = purchaseState;
     }
 
     public float getQuantity() {
@@ -107,12 +102,12 @@ public class UserBuyEntity implements Serializable {
         this.sellUid = sellUid;
     }
 
-    public String getSellState() {
-        return sellState;
+    public String getState() {
+        return state;
     }
 
-    public void setSellState(String sellState) {
-        this.sellState = sellState;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public Date getCreateTime() {
@@ -123,11 +118,11 @@ public class UserBuyEntity implements Serializable {
         this.createTime = createTime;
     }
 
-    public Date getCancelTime() {
-        return cancelTime;
+    public Date getPayTime() {
+        return payTime;
     }
 
-    public void setCancelTime(Date cancelTime) {
-        this.cancelTime = cancelTime;
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
     }
 }

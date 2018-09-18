@@ -4,7 +4,7 @@ import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.*;
 import cn.bitflash.util.Common;
 import cn.bitflash.util.R;
-import cn.bitflash.vip.buy.feign.AddOrCancelFeign;
+import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,7 @@ public class AddOrCancelBuy {
     private TradeUtil tradeUtil;
 
     @Autowired
-    private AddOrCancelFeign feign;
+    private BuyFeign feign;
 
     /**
      * --------------发布---------------
@@ -38,7 +38,6 @@ public class AddOrCancelBuy {
         if (userBuyEntity == null) {
             return R.error(501, "求购信息为空");
         }
-
         Float num = userBuyEntity.getQuantity();
         if (num % 100 != 0 || num < 100) {
             return R.error(502, "求购数量最低为100，且为100的倍数");
@@ -48,8 +47,9 @@ public class AddOrCancelBuy {
         userBuyEntity.setId(orderId);
         userBuyEntity.setPurchaseUid(uid);
         userBuyEntity.setCreateTime(new Date());
-        userBuyEntity.setPurchaseState(STATE_BUY_PUBLISH);
+        userBuyEntity.setState(ORDER_STATE_PUBLISH);
         feign.insertBuy(userBuyEntity);
+
         return R.ok().put("code", SUCCESS);
     }
 
@@ -59,24 +59,22 @@ public class AddOrCancelBuy {
     @PostMapping("recall")
     @Transactional(propagation = Propagation.REQUIRED)
     public R cancelBuyMessage(@RequestParam String id) {
-        UserBuyEntity ub = feign.selectUsreBuyById(id);
-        if (ub == null || !STATE_BUY_PUBLISH.equals(ub.getPurchaseState())) {
+        UserBuyEntity ub = feign.selectBuyById(id);
+        if (ub == null || !ORDER_STATE_PUBLISH.equals(ub.getState())) {
             return R.ok().put("code", FAIL);
         }
-
         //user_buy删除记录
         feign.deleteBuyById(id);
-
         //user_buy_histoty添加该记录为撤销完成
         UserBuyHistoryEntity userBuyHistoryEntity = new UserBuyHistoryEntity();
         userBuyHistoryEntity.setId(id);
-        userBuyHistoryEntity.setOrderState(STATE_BUY_CANCEL);
+        userBuyHistoryEntity.setOrderState(ORDER_STATE_CANCEL);
         userBuyHistoryEntity.setPrice(ub.getPrice());
         userBuyHistoryEntity.setQuantity(ub.getQuantity());
         userBuyHistoryEntity.setPurchaseUid(ub.getPurchaseUid());
         userBuyHistoryEntity.setSellUid(null);
         userBuyHistoryEntity.setFinishTime(new Date());
-        feign.insertBuyHistory(userBuyHistoryEntity);
+        feign.insertHistory(userBuyHistoryEntity);
 
         return R.ok().put("code", SUCCESS);
     }
@@ -99,14 +97,12 @@ public class AddOrCancelBuy {
     public R addBuyMessageHistory(@RequestParam("id") String id, @RequestAttribute("uid") String uid) {
 
         //查询订单是否存在
-        UserBuyEntity userBuy = feign.selectUsreBuyById(id);
-        if (userBuy == null || !STATE_BUY_PUBLISH.equals(userBuy.getPurchaseState())) {
+        UserBuyEntity userBuy = feign.selectBuyById(id);
+        if (userBuy == null || !ORDER_STATE_PUBLISH.equals(userBuy.getState())) {
             return R.ok().put("code", TRADEMISS);
         }
-
         //获取手续费
         Map<String, Float> map = tradeUtil.poundage(id);
-
         //扣除手续费
         boolean dec = tradeUtil.deduct(new BigDecimal(map.get("totalQuantity")), uid);
         if(dec == false){
@@ -120,13 +116,12 @@ public class AddOrCancelBuy {
         buyPoundageEntity.setPoundage(new BigDecimal(map.get("totalPoundage")));
         buyPoundageEntity.setQuantity(new BigDecimal(map.get("buyQuantity")));
         buyPoundageEntity.setCreateTime(new Date());
-        feign.insertBuyPoundage(buyPoundageEntity);
+        feign.insertPoundage(buyPoundageEntity);
 
         //修改user_buy
         userBuy.setSellUid(uid);
-        userBuy.setSellState(STATE_BUY_ACCMONEY);
-        userBuy.setPurchaseState(STATE_BUY_PAYMONEY);
-        feign.updateById(userBuy);
+        userBuy.setState(ORDER_STATE_STEP1);
+        feign.updateBuyById(userBuy);
 
         return R.ok().put("code", SUCCESS);
     }

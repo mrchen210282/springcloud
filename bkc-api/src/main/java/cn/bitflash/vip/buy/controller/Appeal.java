@@ -1,10 +1,9 @@
 package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.entity.UserBuyEntity;
-import cn.bitflash.entity.UserBuyHistoryEntity;
 import cn.bitflash.entity.UserComplaintEntity;
 import cn.bitflash.util.R;
-import cn.bitflash.vip.buy.feign.AppealFeign;
+import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,7 @@ import static cn.bitflash.util.Common.*;
 public class Appeal {
 
     @Autowired
-    private AppealFeign feign;
+    private BuyFeign feign;
 
     /**
      * --------------点击申诉(待收币)---------
@@ -30,20 +29,19 @@ public class Appeal {
     @PostMapping("appeal")
     @Transactional(propagation = Propagation.REQUIRED)
     public R appeal(@RequestParam("id") String id) {
-        UserBuyHistoryEntity userBuyHistoryEntity = feign.selectById(id);
         //修改订单状态
         UserBuyEntity userBuyEntity = feign.selectBuyById(id);
-        userBuyEntity.setState(STATE_BUY_APPEAL);
-        feign.updateById(userBuyEntity);
+        userBuyEntity.setState(ORDER_STATE_APPEAL);
+        feign.updateBuyById(userBuyEntity);
         //添加订单到申诉表中
         UserComplaintEntity userComplaintEntity = new UserComplaintEntity();
         userComplaintEntity.setComplaintState("1");
-        userComplaintEntity.setComplaintUid(userBuyEntity.getUid());
-        userComplaintEntity.setContactsUid(userBuyHistoryEntity.getSellUid());
+        userComplaintEntity.setComplaintUid(userBuyEntity.getPurchaseUid());
+        userComplaintEntity.setContactsUid(userBuyEntity.getSellUid());
         userComplaintEntity.setCreateTime(new Date());
         userComplaintEntity.setOrderId(id);
-        userComplaintEntity.setOrderState("0");
-        feign.insert(userComplaintEntity);
+        userComplaintEntity.setOrderState(userBuyEntity.getState());
+        feign.insertComplaint(userComplaintEntity);
         return R.ok().put("code", SUCCESS);
     }
 }

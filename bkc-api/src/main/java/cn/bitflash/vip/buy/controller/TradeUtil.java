@@ -2,11 +2,8 @@ package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.entity.UserAccountEntity;
 import cn.bitflash.entity.UserBuyEntity;
-import cn.bitflash.util.R;
-import cn.bitflash.vip.buy.feign.TradeFeign;
+import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
 import java.math.BigDecimal;
@@ -16,8 +13,8 @@ import java.util.Map;
 
 public class TradeUtil {
 
-@Autowired
-private TradeFeign feign;
+    @Autowired
+    private BuyFeign feign;
 
     /**
      * ----------------------------手续费+订单数量------------------------
@@ -31,7 +28,7 @@ private TradeFeign feign;
         //交易数量
         Float buyQuantity = Float.parseFloat(df.format(userBuy.getQuantity()));
         //手续费比率
-        Float poundage = feign.selectOne(new ModelMap("remark", "交易手续费")).getPoundage();
+        Float poundage = feign.selectConfig("交易手续费").getPoundage();
         //手续费数量
         Float totalPoundage = buyQuantity * poundage;
         //实际交易总数量
@@ -54,8 +51,7 @@ private TradeFeign feign;
     /**
      * --------------------------------扣款-------------------------------
      */
-    @Transactional(propagation = Propagation.REQUIRED)
-    public R deduct(BigDecimal money, String uid) {
+    public boolean deduct(BigDecimal money, String uid) {
         UserAccountEntity userAccountEntity = feign.selectAccountById(uid);
         if (userAccountEntity.getAvailableAssets().compareTo(money) != -1) {
             if (userAccountEntity.getRegulateRelease().compareTo(money) != -1) {
@@ -67,8 +63,8 @@ private TradeFeign feign;
                 userAccountEntity.setAvailableAssets(userAccountEntity.getAvailableAssets().subtract(money));
             }
             feign.updateAccountById(userAccountEntity);
-            return R.ok();
+            return true;
         }
-        return R.error("资金不足，扣款失败");
+        return false;
     }
 }

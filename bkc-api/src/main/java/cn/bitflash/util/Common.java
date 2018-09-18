@@ -27,33 +27,22 @@ public class Common {
 	// 申拆中
 	public final static String STATE_COMPLAINT = "9";
 
-	//------------------求购------------------------
+	//------------------------求购------------------------
 
-	// 已撤销
-	public final static String STATE_BUY_CANCELFIISH = "0";
-
-	// 可撤销
-	public final static String STATE_BUY_CANCEL = "1";
-
-	// 待付款
-	public final static String STATE_BUY_PAYMONEY = "2";
-
-	// 代收款
-	public final static String STATE_BUY_ACCMONEY = "3";
-
-	// 待确认
-	public final static String STATE_BUY_PAYCOIN = "4";
-
-	// 代收币
-	public final static String STATE_BUY_ACCCOIN = "5";
-
-	// 完成
-	public final static String STATE_BUY_FINISH = "6";
-
-	// 申诉中
-	public final static String STATE_BUY_APPEAL = "9";
-
+	//订单撤销
+	public final static String ORDER_STATE_CANCEL = "0";
+	//订单取消
+	public final static String ORDER_STATE_PUBLISH = "1";
+	//待付款 -- 待收款
+	public final static String ORDER_STATE_STEP1 = "2";
+	//待收币 -- 待确认
+	public final static String ORDER_STATE_STEP2 = "3";
+	//订单完成
+	public final static String ORDER_STATE_FINISH = "6";
+	//订单申诉
+	public final static String ORDER_STATE_APPEAL = "9";
 	//------------------finish----------------------
+
 
 	//----------------code值---------------------
 

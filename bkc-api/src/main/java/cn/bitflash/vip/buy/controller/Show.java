@@ -2,23 +2,21 @@ package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserBuyBean;
-import cn.bitflash.entity.UserBuyMessageBean;
 import cn.bitflash.util.R;
-import cn.bitflash.vip.buy.feign.ShowFeign;
+import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import static cn.bitflash.util.Common.*;
 
 @RestController
-@RequestMapping("/buy/list")
+@RequestMapping("/buy/show")
 public class Show {
 
     @Autowired
-    private ShowFeign showFeign;
+    private BuyFeign feign;
 
     /**-----------------------------------------------显示求购信息列表-----------------------------------------------------*/
 
@@ -29,13 +27,13 @@ public class Show {
      * @return 除用户所有求购信息
      */
     @Login
-    @PostMapping("showBuyMessage")
+    @PostMapping("buying")
     public R showNeedMessage(@RequestAttribute("uid") String uid, @RequestParam("pages") String pages) {
-        List<UserBuyMessageBean> ub = showFeign.getBuyMessage(uid, Integer.valueOf(pages));
+        List<UserBuyBean> ub = feign.showBuying(uid, Integer.valueOf(pages));
         if (ub == null || ub.size() < 0) {
             return R.error("暂时没有求购信息");
         }
-        Integer count = showFeign.getNumToPaging();
+        Integer count = feign.getNumToPaging();
         return R.ok().put("count", count).put("list", ub);
     }
 
@@ -46,37 +44,33 @@ public class Show {
      * @return 用户的所有交易信息
      */
     @Login
-    @PostMapping("showBuyMessageOwn")
+    @PostMapping("order")
     public R showUserBuyMessage(@RequestAttribute("uid") String uid, @RequestParam("pages") String pages) {
-        List<UserBuyBean> userBuyEntities = showFeign.selectBuyList(uid, Integer.valueOf(pages));
-        List<UserBuyBean> userBuyEntitiesList = new LinkedList<UserBuyBean>();
-        String state = null;
 
-        Integer count = showFeign.selectUserBuyOwnCount(uid);
+        List<UserBuyBean> userBuyBeans = feign.selectOrder(uid, Integer.valueOf(pages));
 
-        for (UserBuyBean userBuyEntity : userBuyEntities) {
-            if (userBuyEntity.getUid().equals(uid)) {
-                state = userBuyEntity.getState();
-            } else if (uid.equals(userBuyEntity.getSellUid())) {
-                state = userBuyEntity.getSellState();
-            } else if (uid.equals(userBuyEntity.getPurchaseUid())) {
-                state = userBuyEntity.getPurchaseState();
+        for (UserBuyBean userBuyBean : userBuyBeans) {
+            //卖家
+            if (uid.equals(userBuyBean.getSellUid())) {
+                if(ORDER_STATE_STEP1.equals(userBuyBean.getState())){
+                    userBuyBean.setState("待收款");
+                } else if(ORDER_STATE_STEP2.equals(userBuyBean.getState())){
+                    userBuyBean.setState("待确认");
+                }
             }
-
-            if (STATE_BUY_CANCEL.equals(state)) {
-                state = "可撤销";
-            } else if (STATE_BUY_ACCMONEY.equals(state)) {
-                state = "待收款";
-            } else if (STATE_BUY_PAYMONEY.equals(state)) {
-                state = "待付款";
-            } else if (STATE_BUY_PAYCOIN.equals(state)) {
-                state = "待确认";
-            } else if (STATE_BUY_ACCCOIN.equals(state)) {
-                state = "待收币";
+            //买家
+            if (uid.equals(userBuyBean.getPurchaseUid())) {
+                if(ORDER_STATE_PUBLISH.equals(userBuyBean.getState())){
+                    userBuyBean.setState("可撤销");
+                } else if(ORDER_STATE_STEP1.equals(userBuyBean.getState())){
+                    userBuyBean.setState("待付款");
+                } else if(ORDER_STATE_STEP2.equals(userBuyBean.getState())){
+                    userBuyBean.setState("待收币");
+                }
             }
-            userBuyEntity.setState(state);
-            userBuyEntitiesList.add(userBuyEntity);
         }
-        return R.ok().put("userBuyEntitiesList", userBuyEntitiesList).put("count", count);
+
+        Integer count = feign.showOrderCount(uid);
+        return R.ok().put("userBuyBeans", userBuyBeans).put("count", count);
     }
 }

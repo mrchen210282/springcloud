@@ -1,11 +1,11 @@
 package cn.bitflash.vip.buy.controller;
 
-import cn.bitflash.entity.UserBuyHistoryEntity;
+import cn.bitflash.entity.UserBuyEntity;
 import cn.bitflash.util.Common;
 import cn.bitflash.util.GeTuiSendMessage;
 import cn.bitflash.util.R;
 import cn.bitflash.util.RedisUtils;
-import cn.bitflash.vip.buy.feign.RemindFeign;
+import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
@@ -26,7 +26,7 @@ public class Remind {
     private RedisUtils redisUtils;
 
     @Autowired
-    private RemindFeign feign;
+    private BuyFeign feign;
 
 
     /**
@@ -35,17 +35,17 @@ public class Remind {
     @PostMapping("remind")
     @Transactional(propagation = Propagation.REQUIRED)
     public R reminders(@RequestParam("id") String id) {
-        UserBuyHistoryEntity userBuyHistoryEntity = feign.selectHistoryById(id);
+        UserBuyEntity userBuyEntity = feign.selectBuyById(id);
         //获取Cid
         String cid = null;
         //获取推送信息
         String text = null;
-        if (STATE_BUY_PAYMONEY.equals(userBuyHistoryEntity.getPurchaseState())) {
-            cid = feign.selectOne(new ModelMap("uid", userBuyHistoryEntity.getPurchaseUid())).getCid();
+        if (ORDER_STATE_STEP1.equals(userBuyEntity.getState())) {
+            cid = feign.selectCid(new ModelMap("uid", userBuyEntity.getPurchaseUid())).getCid();
             text = feign.getVal("paymoney");
         }
-        if (STATE_BUY_ACCCOIN.equals(userBuyHistoryEntity.getPurchaseState())) {
-            cid = feign.selectOne(new ModelMap("uid", userBuyHistoryEntity.getSellUid())).getCid();
+        if (ORDER_STATE_STEP2.equals(userBuyEntity.getState())) {
+            cid = feign.selectCid(new ModelMap("uid", userBuyEntity.getSellUid())).getCid();
             text = feign.getVal("reminders");
         }
         String idVal = redisUtils.get(Common.ADD_LOCKNUM + id);

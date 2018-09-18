@@ -1,9 +1,9 @@
 package cn.bitflash.vip.buy.controller;
 
+import cn.bitflash.entity.UserBuyBean;
 import cn.bitflash.entity.UserBuyEntity;
-import cn.bitflash.entity.UserBuyHistoryBean;
 import cn.bitflash.util.R;
-import cn.bitflash.vip.buy.feign.CheckFeign;
+import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,7 @@ public class Check {
     private TradeUtil tradeUtil;
 
     @Autowired
-    private CheckFeign feign;
+    private BuyFeign feign;
 
     /**
      * -------------查看交易详情-------------
@@ -32,14 +32,15 @@ public class Check {
     @PostMapping("buying")
     public R showBuyMessagePage(@RequestParam("id") String id) {
         //订单详情
-        UserBuyEntity userBuy = feign.selectUsreBuyById(id);
+        UserBuyEntity userBuy = feign.selectBuyById(id);
         //判定订单不存在
-        if (userBuy == null || !"1".equals(userBuy.getState())) {
+        if (userBuy == null || !ORDER_STATE_PUBLISH.equals(userBuy.getState())) {
             return R.ok().put("code", TRADEMISS);
         }
         //获取手续费
         Map<String, Float> map = tradeUtil.poundage(id);
-        return R.ok().put("code", SUCCESS).put("userBuy", userBuy).put("poundage", map.get("poundage") * 100).put("totalMoney", map.get("totalMoney")).put("totalQuantity", map.get("totalQuantity"));
+        return R.ok().put("code", SUCCESS).put("userBuy", userBuy).put("poundage", map.get("poundage") * 100)
+                .put("totalMoney", map.get("totalMoney")).put("totalQuantity", map.get("totalQuantity"));
     }
 
 
@@ -51,21 +52,14 @@ public class Check {
      */
     @PostMapping("order")
     public R checkOrder(@RequestParam("id") String id) {
-        Object userBean = new Object();
-
-        UserBuyHistoryBean userBuyHistoryBean = feign.selectBuyHistory(id);
-        if (userBuyHistoryBean == null || "".equals(userBuyHistoryBean)) {
-            UserBuyEntity userBuy = feign.selectUsreBuyById(id);
-            if (userBuy == null) {
-                return R.ok().put("code", "订单不存在");
-            }
-            userBean = userBuy;
-        } else {
-            userBean = userBuyHistoryBean;
+       UserBuyBean userBuyBean = feign.selectOrderCheck(id);
+        if (userBuyBean == null) {
+            return R.ok().put("code", "订单不存在");
         }
         Map<String, Float> map = tradeUtil.poundage(id);
-
-        return R.ok().put("userBean", userBean).put("totalQuantity", map.get("totalQuantity")).put("price", map.get("price")).put("buyQuantity", map.get("buyQuantity")).put("totalMoney", map.get("totalMoney"));
+        return R.ok().put("userBean", userBuyBean).put("totalQuantity", map.get("totalQuantity"))
+                .put("price", map.get("price")).put("buyQuantity", map.get("buyQuantity"))
+                .put("totalMoney", map.get("totalMoney"));
     }
 
 }

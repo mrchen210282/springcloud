@@ -16,8 +16,8 @@ import java.util.Map;
 
 public class TradeUtil {
 
-@Autowired
-private TradeFeign feign;
+    @Autowired
+    private TradeFeign feign;
 
     /**
      * ----------------------------手续费+订单数量------------------------
@@ -54,8 +54,7 @@ private TradeFeign feign;
     /**
      * --------------------------------扣款-------------------------------
      */
-    @Transactional(propagation = Propagation.REQUIRED)
-    public R deduct(BigDecimal money, String uid) {
+    public boolean deduct(BigDecimal money, String uid) {
         UserAccountEntity userAccountEntity = feign.selectAccountById(uid);
         if (userAccountEntity.getAvailableAssets().compareTo(money) != -1) {
             if (userAccountEntity.getRegulateRelease().compareTo(money) != -1) {
@@ -67,8 +66,8 @@ private TradeFeign feign;
                 userAccountEntity.setAvailableAssets(userAccountEntity.getAvailableAssets().subtract(money));
             }
             feign.updateAccountById(userAccountEntity);
-            return R.ok();
+            return true;
         }
-        return R.error("资金不足，扣款失败");
+        return false;
     }
 }

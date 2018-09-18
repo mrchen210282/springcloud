@@ -48,6 +48,7 @@ public class Show {
     @Login
     @PostMapping("showBuyMessageOwn")
     public R showUserBuyMessage(@RequestAttribute("uid") String uid, @RequestParam("pages") String pages) {
+
         List<UserBuyBean> userBuyEntities = feign.selectBuyList(uid, Integer.valueOf(pages));
         List<UserBuyBean> userBuyEntitiesList = new LinkedList<UserBuyBean>();
         String state = null;

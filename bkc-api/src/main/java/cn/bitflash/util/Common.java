@@ -27,13 +27,13 @@ public class Common {
 	// 申拆中
 	public final static String STATE_COMPLAINT = "9";
 
-	//------------------求购------------------------
+	//------------------------求购------------------------
 
 	// 已撤销
-	public final static String STATE_BUY_CANCELFIISH = "0";
+	public final static String STATE_BUY_CANCEL = "0";
 
 	// 可撤销
-	public final static String STATE_BUY_CANCEL = "1";
+	public final static String STATE_BUY_PUBLISH = "1";
 
 	// 待付款
 	public final static String STATE_BUY_PAYMONEY = "2";
@@ -54,6 +54,14 @@ public class Common {
 	public final static String STATE_BUY_APPEAL = "9";
 
 	//------------------finish----------------------
+	//订单完成
+	public final static String ORDER_STATE_FINISH = "0";
+	//订单撤销
+	public final static String ORDER_STATE_CANCEL = "1";
+	//订单取消
+	public final static String ORDER_STATE_RECALL = "2";
+	//订单申诉
+	public final static String ORDER_STATE_APPEAL = "3";
 
 	//----------------code值---------------------
 

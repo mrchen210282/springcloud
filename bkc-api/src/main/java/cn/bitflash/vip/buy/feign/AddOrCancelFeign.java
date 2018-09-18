@@ -1,6 +1,9 @@
 package cn.bitflash.vip.buy.feign;
 
 import cn.bitflash.entity.*;
+import cn.bitflash.exception.RRException;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 
 public interface AddOrCancelFeign {
@@ -20,6 +23,9 @@ public interface AddOrCancelFeign {
     @PostMapping("/inner/userBuyHistory/insert")
     void insertBuyHistory(UserBuyHistoryEntity entity);
 
-    @PostMapping("/inner/tradePoundage/insert")
-    void insertRTradePoundage(TradePoundageEntity entity);
+    @PostMapping("/inner/buyPoundage/insert")
+    void insertBuyPoundage(BuyPoundageEntity entity);
+
+    @PostMapping("/inner/userBuy/deleteById")
+    void deleteBuyById(String id);
 }

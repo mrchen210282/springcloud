@@ -1,10 +1,7 @@
 package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.TradePoundageEntity;
-import cn.bitflash.entity.UserAccountEntity;
-import cn.bitflash.entity.UserBuyEntity;
-import cn.bitflash.entity.UserBuyHistoryEntity;
+import cn.bitflash.entity.*;
 import cn.bitflash.util.Common;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.buy.feign.AddOrCancelFeign;
@@ -37,9 +34,11 @@ public class AddOrCancelBuy {
     @Login
     @PostMapping("publish")
     public R addBuyMessage(@RequestBody UserBuyEntity userBuyEntity, @RequestAttribute("uid") String uid) {
+
         if (userBuyEntity == null) {
             return R.error(501, "求购信息为空");
         }
+
         Float num = userBuyEntity.getQuantity();
         if (num % 100 != 0 || num < 100) {
             return R.error(502, "求购数量最低为100，且为100的倍数");
@@ -47,9 +46,9 @@ public class AddOrCancelBuy {
 
         String orderId = Common.randomUtil();
         userBuyEntity.setId(orderId);
-        userBuyEntity.setUid(uid);
+        userBuyEntity.setPurchaseUid(uid);
         userBuyEntity.setCreateTime(new Date());
-        userBuyEntity.setState(STATE_BUY_CANCEL);
+        userBuyEntity.setPurchaseState(STATE_BUY_PUBLISH);
         feign.insertBuy(userBuyEntity);
         return R.ok().put("code", SUCCESS);
     }
@@ -61,16 +60,25 @@ public class AddOrCancelBuy {
     @Transactional(propagation = Propagation.REQUIRED)
     public R cancelBuyMessage(@RequestParam String id) {
         UserBuyEntity ub = feign.selectUsreBuyById(id);
-        if (ub == null || STATE_BUY_CANCELFIISH.equals(ub.getState())) {
+        if (ub == null || !STATE_BUY_PUBLISH.equals(ub.getPurchaseState())) {
             return R.ok().put("code", FAIL);
         }
-        if (ub.getState().equals(STATE_BUY_CANCEL)) {
-            ub.setState(STATE_BUY_CANCELFIISH);
-            ub.setCancelTime(new Date());
-            feign.updateById(ub);
-            return R.ok().put("code", SUCCESS);
-        }
-        return R.ok();
+
+        //user_buy删除记录
+        feign.deleteBuyById(id);
+
+        //user_buy_histoty添加该记录为撤销完成
+        UserBuyHistoryEntity userBuyHistoryEntity = new UserBuyHistoryEntity();
+        userBuyHistoryEntity.setId(id);
+        userBuyHistoryEntity.setOrderState(STATE_BUY_CANCEL);
+        userBuyHistoryEntity.setPrice(ub.getPrice());
+        userBuyHistoryEntity.setQuantity(ub.getQuantity());
+        userBuyHistoryEntity.setPurchaseUid(ub.getPurchaseUid());
+        userBuyHistoryEntity.setSellUid(null);
+        userBuyHistoryEntity.setFinishTime(new Date());
+        feign.insertBuyHistory(userBuyHistoryEntity);
+
+        return R.ok().put("code", SUCCESS);
     }
 
     /**
@@ -90,45 +98,35 @@ public class AddOrCancelBuy {
     @Transactional(propagation = Propagation.REQUIRED)
     public R addBuyMessageHistory(@RequestParam("id") String id, @RequestAttribute("uid") String uid) {
 
-        //交易状态:'1'资金不足,'2'订单不存在
+        //查询订单是否存在
         UserBuyEntity userBuy = feign.selectUsreBuyById(id);
-        if (userBuy == null || !STATE_BUY_CANCEL.equals(userBuy.getState())) {
+        if (userBuy == null || !STATE_BUY_PUBLISH.equals(userBuy.getPurchaseState())) {
             return R.ok().put("code", TRADEMISS);
         }
 
         //获取手续费
         Map<String, Float> map = tradeUtil.poundage(id);
+
         //扣除手续费
-        UserAccountEntity userAccountEntity = feign.selectAccountById(uid);
-        //不足支付扣款
-        if (new BigDecimal(map.get("totalQuantity")).compareTo(userAccountEntity.getAvailableAssets()) == 1) {
+        boolean dec = tradeUtil.deduct(new BigDecimal(map.get("totalQuantity")), uid);
+        if(dec == false){
             return R.ok().put("code", FAIL);
         }
-        tradeUtil.deduct(new BigDecimal(map.get("totalQuantity")), uid);
 
         //添加手续费记录
-        TradePoundageEntity tradePoundageEntity = new TradePoundageEntity();
-        tradePoundageEntity.setCreateTime(new Date());
-        tradePoundageEntity.setPoundage(new BigDecimal(map.get("totalPoundage")));
-        tradePoundageEntity.setUid(uid);
-        tradePoundageEntity.setUserTradeId(id);
-        tradePoundageEntity.setQuantity(new BigDecimal(map.get("buyQuantity")));
-        feign.insertRTradePoundage(tradePoundageEntity);
+        BuyPoundageEntity buyPoundageEntity = new BuyPoundageEntity();
+        buyPoundageEntity.setUserBuyId(id);
+        buyPoundageEntity.setSellUid(uid);
+        buyPoundageEntity.setPoundage(new BigDecimal(map.get("totalPoundage")));
+        buyPoundageEntity.setQuantity(new BigDecimal(map.get("buyQuantity")));
+        buyPoundageEntity.setCreateTime(new Date());
+        feign.insertBuyPoundage(buyPoundageEntity);
 
-        //修改user_buy订单状态
-        userBuy.setState(STATE_BUY_PAYMONEY);
+        //修改user_buy
+        userBuy.setSellUid(uid);
+        userBuy.setSellState(STATE_BUY_ACCMONEY);
+        userBuy.setPurchaseState(STATE_BUY_PAYMONEY);
         feign.updateById(userBuy);
-
-        //添加订单到user_buy_history
-        UserBuyHistoryEntity buyHistory = new UserBuyHistoryEntity();
-        buyHistory.setPrice(new BigDecimal(userBuy.getPrice()));
-        buyHistory.setPurchaseState(STATE_BUY_PAYMONEY);
-        buyHistory.setPurchaseUid(userBuy.getUid());
-        buyHistory.setQuantity(new BigDecimal(userBuy.getQuantity()));
-        buyHistory.setSellState(STATE_BUY_ACCMONEY);
-        buyHistory.setSellUid(uid);
-        buyHistory.setUserBuyId(id);
-        feign.insertBuyHistory(buyHistory);
 
         return R.ok().put("code", SUCCESS);
     }

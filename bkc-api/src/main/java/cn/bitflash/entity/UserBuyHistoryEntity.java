@@ -31,7 +31,12 @@ public class UserBuyHistoryEntity implements Serializable {
     /**
      * 求购订单id
      */
-    private String userBuyId;
+    private String id;
+
+    /**
+     * 订单状态
+     */
+    private String orderState;
 
     /**
      * 求购者id
@@ -39,19 +44,14 @@ public class UserBuyHistoryEntity implements Serializable {
     private String purchaseUid;
 
     /**
-     * 求购者状态
-     */
-    private String purchaseState;
-
-    /**
      * 数量
      */
-    private BigDecimal quantity;
+    private float quantity;
 
     /**
      * 价格
      */
-    private BigDecimal price;
+    private float price;
 
     /**
      * 卖出者id
@@ -59,22 +59,25 @@ public class UserBuyHistoryEntity implements Serializable {
     private String sellUid;
 
     /**
-     * 卖出者状态
-     */
-    private String sellState;
-
-    /**
      * 完成时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date finishTime;
 
-    public String getUserBuyId() {
-        return userBuyId;
+    public String getId() {
+        return id;
     }
 
-    public void setUserBuyId(String userBuyId) {
-        this.userBuyId = userBuyId;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getOrderState() {
+        return orderState;
+    }
+
+    public void setOrderState(String orderState) {
+        this.orderState = orderState;
     }
 
     public String getPurchaseUid() {
@@ -85,27 +88,19 @@ public class UserBuyHistoryEntity implements Serializable {
         this.purchaseUid = purchaseUid;
     }
 
-    public String getPurchaseState() {
-        return purchaseState;
-    }
-
-    public void setPurchaseState(String purchaseState) {
-        this.purchaseState = purchaseState;
-    }
-
-    public BigDecimal getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(BigDecimal quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -115,14 +110,6 @@ public class UserBuyHistoryEntity implements Serializable {
 
     public void setSellUid(String sellUid) {
         this.sellUid = sellUid;
-    }
-
-    public String getSellState() {
-        return sellState;
-    }
-
-    public void setSellState(String sellState) {
-        this.sellState = sellState;
     }
 
     public Date getFinishTime() {

@@ -12,28 +12,52 @@ import java.util.Date;
  */
 public class UserBuyEntity implements Serializable {
 
-    private static final long serialVersionUID = 1798150948428590399L;
+    /**
+     * 订单号
+     */
     private String id;
 
-    private String uid;
+    /**
+     * 求购者id
+     */
+    private String purchaseUid;
 
-    //求购数量
+    /**
+     * 求购者状态
+     */
+    private String purchaseState;
+
+    /**
+     * 数量
+     */
     private float quantity;
 
-    //价格
+    /**
+     * 价格
+     */
     private float price;
 
-    //状态
-    private String state;
+    /**
+     * 卖出者id
+     */
+    private String sellUid;
 
+    /**
+     * 卖出者状态
+     */
+    private String sellState;
+
+    /**
+     * 发布时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
+    /**
+     * 支付时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date cancelTime;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date payTime;
 
     public String getId() {
         return id;
@@ -43,12 +67,20 @@ public class UserBuyEntity implements Serializable {
         this.id = id;
     }
 
-    public String getUid() {
-        return uid;
+    public String getPurchaseUid() {
+        return purchaseUid;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setPurchaseUid(String purchaseUid) {
+        this.purchaseUid = purchaseUid;
+    }
+
+    public String getPurchaseState() {
+        return purchaseState;
+    }
+
+    public void setPurchaseState(String purchaseState) {
+        this.purchaseState = purchaseState;
     }
 
     public float getQuantity() {
@@ -67,16 +99,20 @@ public class UserBuyEntity implements Serializable {
         this.price = price;
     }
 
-    public String getState() {
-        return state;
+    public String getSellUid() {
+        return sellUid;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setSellUid(String sellUid) {
+        this.sellUid = sellUid;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    public String getSellState() {
+        return sellState;
+    }
+
+    public void setSellState(String sellState) {
+        this.sellState = sellState;
     }
 
     public Date getCreateTime() {
@@ -93,13 +129,5 @@ public class UserBuyEntity implements Serializable {
 
     public void setCancelTime(Date cancelTime) {
         this.cancelTime = cancelTime;
-    }
-
-    public Date getPayTime() {
-        return payTime;
-    }
-
-    public void setPayTime(Date payTime) {
-        this.payTime = payTime;
     }
 }

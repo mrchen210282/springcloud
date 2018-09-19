@@ -3,18 +3,17 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.UserGTCidEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserGTCidService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * @author GAOYGUUO
+ * @author GAOYUGUO
  */
 @RestController
 public class UserGTCidController {
@@ -23,19 +22,19 @@ public class UserGTCidController {
     private UserGTCidService service;
 
     /**
-     * selectOne
+     * selectById
      *
-     * @param param
      * @return
      */
-    @PostMapping("/inner/userGTCidEntity/selectOne")
-    public UserGTCidEntity selectOne(Map<String, Object> param) {
-        List<UserGTCidEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            UserGTCidEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
+    @PostMapping("/inner/userGTCid/selectById")
+    public JSONObject selectById(@RequestParam("id") Integer id) {
+        UserGTCidEntity entity = service.selectById(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", entity.getId());
+        jsonObject.put("uid", entity.getUid());
+        jsonObject.put("cid", entity.getCid());
+        jsonObject.put("updateTime", entity.getUpdateTime());
+        return jsonObject;
     }
 
     /**
@@ -43,8 +42,14 @@ public class UserGTCidController {
      *
      * @return
      */
+    @PostMapping("/inner/userGTCid/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(UserGTCidEntity entity) {
+    public void updateById(@RequestBody JSONObject json) {
+        UserGTCidEntity entity = new UserGTCidEntity();
+        entity.setId(json.getInteger("id"));
+        entity.setUid(json.getString("uid"));
+        entity.setCid(json.getString("cid"));
+        entity.setUpdateTime(json.getDate("updateTime"));
         service.updateById(entity);
     }
 
@@ -53,8 +58,14 @@ public class UserGTCidController {
      *
      * @return
      */
+    @PostMapping("/inner/userGTCid/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(UserGTCidEntity entity) {
+    public void insert(@RequestBody JSONObject json) {
+        UserGTCidEntity entity = new UserGTCidEntity();
+        entity.setId(json.getInteger("id"));
+        entity.setUid(json.getString("uid"));
+        entity.setCid(json.getString("cid"));
+        entity.setUpdateTime(json.getDate("updateTime"));
         service.insert(entity);
     }
 
@@ -63,8 +74,9 @@ public class UserGTCidController {
      *
      * @return
      */
+    @PostMapping("/inner/userGTCid/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(int id) {
+    public void deleteById(@RequestParam("id") Integer id) {
         service.deleteById(id);
     }
 

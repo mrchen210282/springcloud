@@ -1,22 +1,20 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserBuyBean;
 import cn.bitflash.entity.UserBuyEntity;
-import cn.bitflash.entity.UserBuyMessageBean;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserBuyService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * @author GAOYGUUO
+ * @author GAOYUGUO
  */
 @RestController
 public class UserBuyController {
@@ -25,33 +23,24 @@ public class UserBuyController {
     private UserBuyService service;
 
     /**
-     * selectOne
-     *
-     * @param param
-     * @return
-     */
-    @PostMapping("/inner/userBuy/selectOne")
-    public UserBuyEntity selectOne(Map<String, Object> param) {
-        List<UserBuyEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            UserBuyEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
-    }
-
-    /**
      * selectById
      *
-     * @param id
      * @return
      */
     @PostMapping("/inner/userBuy/selectById")
-    public UserBuyEntity selectById(String id) {
-        UserBuyEntity userBuyEntity = service.selectById(id);
-        return userBuyEntity;
+    public JSONObject selectById(@RequestParam("id") String id) {
+        UserBuyEntity entity = service.selectById(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", entity.getId());
+        jsonObject.put("purchaseUid", entity.getPurchaseUid());
+        jsonObject.put("quantity", entity.getQuantity());
+        jsonObject.put("price", entity.getPrice());
+        jsonObject.put("sellUid", entity.getSellUid());
+        jsonObject.put("state", entity.getState());
+        jsonObject.put("createTime", entity.getCreateTime());
+        jsonObject.put("payTime", entity.getPayTime());
+        return jsonObject;
     }
-
 
     /**
      * updateById
@@ -60,7 +49,16 @@ public class UserBuyController {
      */
     @PostMapping("/inner/userBuy/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(UserBuyEntity entity) {
+    public void updateById(@RequestBody JSONObject json) {
+        UserBuyEntity entity = new UserBuyEntity();
+        entity.setId(json.getString("id"));
+        entity.setPurchaseUid(json.getString("purchaseUid"));
+        entity.setQuantity(json.getFloat("quantity"));
+        entity.setPrice(json.getFloat("price"));
+        entity.setSellUid(json.getString("sellUid"));
+        entity.setState(json.getString("state"));
+        entity.setCreateTime(json.getDate("createTime"));
+        entity.setPayTime(json.getDate("payTime"));
         service.updateById(entity);
     }
 
@@ -71,7 +69,16 @@ public class UserBuyController {
      */
     @PostMapping("/inner/userBuy/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(UserBuyEntity entity) {
+    public void insert(@RequestBody JSONObject json) {
+        UserBuyEntity entity = new UserBuyEntity();
+        entity.setId(json.getString("id"));
+        entity.setPurchaseUid(json.getString("purchaseUid"));
+        entity.setQuantity(json.getFloat("quantity"));
+        entity.setPrice(json.getFloat("price"));
+        entity.setSellUid(json.getString("sellUid"));
+        entity.setState(json.getString("state"));
+        entity.setCreateTime(json.getDate("createTime"));
+        entity.setPayTime(json.getDate("payTime"));
         service.insert(entity);
     }
 
@@ -82,79 +89,7 @@ public class UserBuyController {
      */
     @PostMapping("/inner/userBuy/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(String id) {
+    public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
-    }
-
-    /**
-     * getBuyMessage
-     *
-     * @return
-     */
-    @PostMapping("/inner/userBuy/getBuyMessage")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public List<UserBuyMessageBean> getBuyMessage(String uid, Integer pages) {
-        List<UserBuyMessageBean> userBuyMessageBeans = service.getBuyMessage(uid, pages);
-        return userBuyMessageBeans;
-    }
-
-    /**
-     * getNumToPaging
-     *
-     * @return
-     */
-    @PostMapping("/inner/userBuy/getNumToPaging")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public Integer getNumToPaging() {
-        int num = service.getNumToPaging();
-        return num;
-    }
-
-    /**
-     * selectBuyList
-     *
-     * @return
-     */
-    @PostMapping("/inner/userBuy/selectBuyList")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public List<UserBuyBean> selectBuyList(String uid, Integer pages) {
-        List<UserBuyBean> userBuyBeans = service.selectBuyList(uid, pages);
-        return userBuyBeans;
-    }
-
-    /**
-     * selectUserBuyOwnCount
-     *
-     * @return
-     */
-    @PostMapping("/inner/userBuy/selectUserBuyOwnCount")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public Integer selectUserBuyOwnCount(String uid) {
-        int num = service.selectUserBuyOwnCount(uid);
-        return num;
-    }
-
-    /**
-     * selectAppealList
-     *
-     * @return
-     */
-    @PostMapping("/inner/userBuy/selectAppealList")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public List<UserBuyBean> selectAppealList(String uid, Integer pages) {
-        List<UserBuyBean> userBuyBeans = service.selectAppealList(uid, pages);
-        return userBuyBeans;
-    }
-
-    /**
-     * selectAppealCount
-     *
-     * @return
-     */
-    @PostMapping("/inner/userBuy/selectAppealCount")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public Integer selectAppealCount(String uid) {
-        int num = service.selectAppealCount(uid);
-        return num;
     }
 }

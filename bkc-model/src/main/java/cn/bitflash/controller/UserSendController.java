@@ -3,16 +3,17 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.UserSendEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserSendService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * @author GAOYGUUO
+ * @author GAOYUGUO
  */
 @RestController
 public class UserSendController {
@@ -21,19 +22,21 @@ public class UserSendController {
     private UserSendService service;
 
     /**
-     * selectOne
+     * selectById
      *
-     * @param param
      * @return
      */
-
-    public UserSendEntity selectOne(Map<String, Object> param) {
-        List<UserSendEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            UserSendEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
+    @PostMapping("/inner/userSend/selectById")
+    public JSONObject selectById(@RequestParam("id") Integer id) {
+        UserSendEntity entity = service.selectById(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", entity.getId());
+        jsonObject.put("sendUid", entity.getSendeeUid());
+        jsonObject.put("quantity", entity.getQuantity());
+        jsonObject.put("sendeeUid", entity.getSendeeUid());
+        jsonObject.put("uuid", entity.getUuid());
+        jsonObject.put("sendTime", entity.getSendTime());
+        return jsonObject;
     }
 
     /**
@@ -41,8 +44,16 @@ public class UserSendController {
      *
      * @return
      */
+    @PostMapping("/inner/userSend/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(UserSendEntity entity) {
+    public void updateById(@RequestBody JSONObject json) {
+        UserSendEntity entity = new UserSendEntity();
+        entity.setId(json.getInteger("id"));
+        entity.setSendUid(json.getString("sendUid"));
+        entity.setQuantity(json.getFloat("quantity"));
+        entity.setSendeeUid(json.getString("sendeeUid"));
+        entity.setUuid(json.getString("uuid"));
+        entity.setSendTime(json.getDate("sendTime"));
         service.updateById(entity);
     }
 
@@ -51,8 +62,16 @@ public class UserSendController {
      *
      * @return
      */
+    @PostMapping("/inner/userSend/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(UserSendEntity entity) {
+    public void insert(@RequestBody JSONObject json) {
+        UserSendEntity entity = new UserSendEntity();
+        entity.setId(json.getInteger("id"));
+        entity.setSendUid(json.getString("sendUid"));
+        entity.setQuantity(json.getFloat("quantity"));
+        entity.setSendeeUid(json.getString("sendeeUid"));
+        entity.setUuid(json.getString("uuid"));
+        entity.setSendTime(json.getDate("sendTime"));
         service.insert(entity);
     }
 
@@ -61,53 +80,10 @@ public class UserSendController {
      *
      * @return
      */
+    @PostMapping("/inner/userSend/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(String id) {
+    public void deleteById(@RequestParam("id") Integer id) {
         service.deleteById(id);
-    }
-
-    /**
-     * selectaccount
-     *
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public List<UserSendEntity> selectaccount(String send_uid, Integer pages) {
-        List<UserSendEntity> userSendEntities = service.selectaccount(send_uid, pages);
-        return userSendEntities;
-    }
-
-    /**
-     * selectaccept
-     *
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public List<UserSendEntity> selectaccept(String send_uid, Integer pages) {
-        List<UserSendEntity> userSendEntities = service.selectaccept(send_uid, pages);
-        return userSendEntities;
-    }
-
-    /**
-     * selectaccountcount
-     *
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public Integer selectaccountcount(String send_uid) {
-        int count = service.selectaccountcount(send_uid);
-        return count;
-    }
-
-    /**
-     * selectacceptcount
-     *
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public Integer selectacceptcount(String send_uid) {
-        int count = service.selectacceptcount(send_uid);
-        return count;
     }
 
 }

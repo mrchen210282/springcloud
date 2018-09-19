@@ -1,21 +1,20 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserAccountBean;
 import cn.bitflash.entity.UserAccountEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserAccountService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * @author GAOYGUUO
+ * @author GAOYUGUO
  */
 @RestController
 public class UserAccountController {
@@ -24,31 +23,28 @@ public class UserAccountController {
     private UserAccountService service;
 
     /**
-     * selectOne
-     *
-     * @param param
-     * @return
-     */
-    @PostMapping("/inner/userAccount/selectOne")
-    public UserAccountEntity selectOne(Map<String, Object> param) {
-        List<UserAccountEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            UserAccountEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
-    }
-
-    /**
      * selectById
      *
-     * @param id
      * @return
      */
     @PostMapping("/inner/userAccount/selectById")
-    public UserAccountEntity selectById(String id) {
-        UserAccountEntity userAccountEntity = service.selectById(id);
-        return userAccountEntity;
+    public JSONObject selectById(@RequestParam("id") String id) {
+        UserAccountEntity entity = service.selectById(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("uid", entity.getUid());
+        jsonObject.put("purchase", entity.getPurchase());
+        jsonObject.put("giveAmount", entity.getGiveAmount());
+        jsonObject.put("totelAssets", entity.getTotelAssets());
+        jsonObject.put("regulateRelease", entity.getRegulateRelease());
+        jsonObject.put("regulateIncome", entity.getRegulateIncome());
+        jsonObject.put("frozenAssets", entity.getFrozenAssets());
+        jsonObject.put("availableAssets", entity.getAvailableAssets());
+        jsonObject.put("lftAchievement", entity.getLftAchievement());
+        jsonObject.put("rgtAchievement", entity.getRgtAchievement());
+        jsonObject.put("totelIncome", entity.getTotelIncome());
+        jsonObject.put("dailyIncome", entity.getDailyIncome());
+        jsonObject.put("createTime", entity.getCreateTime());
+        return jsonObject;
     }
 
     /**
@@ -58,7 +54,21 @@ public class UserAccountController {
      */
     @PostMapping("/inner/userAccount/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(UserAccountEntity entity) {
+    public void updateById(@RequestBody JSONObject json) {
+        UserAccountEntity entity = new UserAccountEntity();
+        entity.setUid(json.getString("uid"));
+        entity.setPurchase(json.getBigDecimal("purchase"));
+        entity.setGiveAmount(json.getBigDecimal("giveAmount"));
+        entity.setTotelAssets(json.getBigDecimal("totelAssets"));
+        entity.setRegulateRelease(json.getBigDecimal("regulateRelease"));
+        entity.setRegulateIncome(json.getBigDecimal("regulateIncome"));
+        entity.setFrozenAssets(json.getBigDecimal("frozenAssets"));
+        entity.setAvailableAssets(json.getBigDecimal("availableAssets"));
+        entity.setLftAchievement(json.getBigDecimal("lftAchievement"));
+        entity.setRgtAchievement(json.getBigDecimal("rgtAchievement"));
+        entity.setTotelIncome(json.getBigDecimal("totelIncome"));
+        entity.setDailyIncome(json.getBigDecimal("dailyIncome"));
+        entity.setCreateTime(json.getDate("createTime"));
         service.updateById(entity);
     }
 
@@ -67,8 +77,23 @@ public class UserAccountController {
      *
      * @return
      */
+    @PostMapping("/inner/userAccount/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(UserAccountEntity entity) {
+    public void insert(@RequestBody JSONObject json) {
+        UserAccountEntity entity = new UserAccountEntity();
+        entity.setUid(json.getString("uid"));
+        entity.setPurchase(json.getBigDecimal("purchase"));
+        entity.setGiveAmount(json.getBigDecimal("giveAmount"));
+        entity.setTotelAssets(json.getBigDecimal("totelAssets"));
+        entity.setRegulateRelease(json.getBigDecimal("regulateRelease"));
+        entity.setRegulateIncome(json.getBigDecimal("regulateIncome"));
+        entity.setFrozenAssets(json.getBigDecimal("frozenAssets"));
+        entity.setAvailableAssets(json.getBigDecimal("availableAssets"));
+        entity.setLftAchievement(json.getBigDecimal("lftAchievement"));
+        entity.setRgtAchievement(json.getBigDecimal("rgtAchievement"));
+        entity.setTotelIncome(json.getBigDecimal("totelIncome"));
+        entity.setDailyIncome(json.getBigDecimal("dailyIncome"));
+        entity.setCreateTime(json.getDate("createTime"));
         service.insert(entity);
     }
 
@@ -77,29 +102,9 @@ public class UserAccountController {
      *
      * @return
      */
+    @PostMapping("/inner/userAccount/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(String id) {
+    public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
-    }
-
-    /**
-     * updateUserAccountByParam
-     *
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateUserAccountByParam(UserAccountEntity userAccountEntity) {
-        service.updateUserAccountByParam(userAccountEntity);
-    }
-
-    /**
-     * updateUserAccountByParam
-     *
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public UserAccountBean selectUserAccount(Map<String, Object> map) {
-        UserAccountBean userAccountBean = service.selectUserAccount(map);
-        return userAccountBean;
     }
 }

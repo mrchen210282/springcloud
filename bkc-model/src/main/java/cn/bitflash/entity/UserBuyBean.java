@@ -16,35 +16,170 @@
 
 package cn.bitflash.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.Date;
 
 /**
- * 用户
+ * 求购
  *
  * @author gaoyuguo
  */
 public class UserBuyBean extends UserBuyEntity implements Serializable {
 
-    private String nickname;
+    /**
+     * 订单号
+     */
+    private String id;
 
-    private BigDecimal userPrice;
-
-    private String userQuantity;
-
-    private String orderState;
-
-    private String orderId;
-
-    private String complaintState;
-
-    private String sellUid;
-
-    private String sellState;
-
+    /**
+     * 求购者id
+     */
     private String purchaseUid;
 
-    private String purchaseState;
+    /**
+     * 求购者昵称
+     */
+    private String purchaseNickname;
+
+    /**
+     * 求购者电话
+     */
+    private String purMobile;
+
+    /**
+     * 数量
+     */
+    private float quantity;
+
+    /**
+     * 价格
+     */
+    private float price;
+
+    /**
+     * 卖出者id
+     */
+    private String sellUid;
+
+    /**
+     * 卖出者昵称
+     */
+    private String sellNickname;
+
+    /**
+     * 卖出者电话
+     */
+    private String sellMobile;
+
+    /**
+     * 发布时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
+
+    /**
+     * 支付时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date payTime;
+
+    /**
+     * 昵称
+     * @return
+     */
+    private String nickname;
+
+    /**
+     * 状态
+     * @return
+     */
+    private String state;
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getPurchaseUid() {
+        return purchaseUid;
+    }
+
+    @Override
+    public void setPurchaseUid(String purchaseUid) {
+        this.purchaseUid = purchaseUid;
+    }
+
+    public String getPurchaseNickname() {
+        return purchaseNickname;
+    }
+
+    public void setPurchaseNickname(String purchaseNickname) {
+        this.purchaseNickname = purchaseNickname;
+    }
+
+    @Override
+    public float getQuantity() {
+        return quantity;
+    }
+
+    @Override
+    public void setQuantity(float quantity) {
+        this.quantity = quantity;
+    }
+
+    @Override
+    public float getPrice() {
+        return price;
+    }
+
+    @Override
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    @Override
+    public String getSellUid() {
+        return sellUid;
+    }
+
+    @Override
+    public void setSellUid(String sellUid) {
+        this.sellUid = sellUid;
+    }
+
+    public String getSellNickname() {
+        return sellNickname;
+    }
+
+    public void setSellNickname(String sellNickname) {
+        this.sellNickname = sellNickname;
+    }
+
+    @Override
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    @Override
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
 
     public String getNickname() {
         return nickname;
@@ -54,75 +189,27 @@ public class UserBuyBean extends UserBuyEntity implements Serializable {
         this.nickname = nickname;
     }
 
-    public BigDecimal getUserPrice() {
-        return userPrice;
+    public String getState() {
+        return state;
     }
 
-    public void setUserPrice(BigDecimal userPrice) {
-        this.userPrice = userPrice;
+    public void setState(String state) {
+        this.state = state;
     }
 
-    public String getUserQuantity() {
-        return userQuantity;
+    public String getPurMobile() {
+        return purMobile;
     }
 
-    public void setUserQuantity(String userQuantity) {
-        this.userQuantity = userQuantity;
+    public void setPurMobile(String purMobile) {
+        this.purMobile = purMobile;
     }
 
-    public String getOrderState() {
-        return orderState;
+    public String getSellMobile() {
+        return sellMobile;
     }
 
-    public void setOrderState(String orderState) {
-        this.orderState = orderState;
-    }
-
-    public String getComplaintState() {
-        return complaintState;
-    }
-
-    public void setComplaintState(String complaintState) {
-        this.complaintState = complaintState;
-    }
-
-    public String getSellUid() {
-        return sellUid;
-    }
-
-    public void setSellUid(String sellUid) {
-        this.sellUid = sellUid;
-    }
-
-    public String getSellState() {
-        return sellState;
-    }
-
-    public void setSellState(String sellState) {
-        this.sellState = sellState;
-    }
-
-    public String getPurchaseUid() {
-        return purchaseUid;
-    }
-
-    public void setPurchaseUid(String purchaseUid) {
-        this.purchaseUid = purchaseUid;
-    }
-
-    public String getPurchaseState() {
-        return purchaseState;
-    }
-
-    public void setPurchaseState(String purchaseState) {
-        this.purchaseState = purchaseState;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setSellMobile(String sellMobile) {
+        this.sellMobile = sellMobile;
     }
 }

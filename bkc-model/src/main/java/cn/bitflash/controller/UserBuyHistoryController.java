@@ -1,21 +1,20 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserBuyHistoryBean;
 import cn.bitflash.entity.UserBuyHistoryEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserBuyHistoryService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * @author GAOYGUUO
+ * @author GAOYUGUO
  */
 @RestController
 public class UserBuyHistoryController {
@@ -24,31 +23,22 @@ public class UserBuyHistoryController {
     private UserBuyHistoryService service;
 
     /**
-     * selectOne
-     *
-     * @param param
-     * @return
-     */
-    @PostMapping("/inner/userBuyHistory/selectOne")
-    public UserBuyHistoryEntity selectOne(Map<String, Object> param) {
-        List<UserBuyHistoryEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            UserBuyHistoryEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
-    }
-
-    /**
      * selectById
      *
-     * @param id
      * @return
      */
     @PostMapping("/inner/userBuyHistory/selectById")
-    public UserBuyHistoryEntity selectById(String id) {
-        UserBuyHistoryEntity userBuyHistoryEntity = service.selectById(id);
-        return userBuyHistoryEntity;
+    public JSONObject selectById(@RequestParam("id") String id) {
+        UserBuyHistoryEntity entity = service.selectById(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", entity.getId());
+        jsonObject.put("orderState", entity.getOrderState());
+        jsonObject.put("purchaseUid", entity.getPurchaseUid());
+        jsonObject.put("quantity", entity.getQuantity());
+        jsonObject.put("price", entity.getPrice());
+        jsonObject.put("sellUid", entity.getSellUid());
+        jsonObject.put("finishTime", entity.getFinishTime());
+        return jsonObject;
     }
 
     /**
@@ -58,7 +48,15 @@ public class UserBuyHistoryController {
      */
     @PostMapping("/inner/userBuyHistory/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(UserBuyHistoryEntity entity) {
+    public void updateById(@RequestBody JSONObject json) {
+        UserBuyHistoryEntity entity = new UserBuyHistoryEntity();
+        entity.setId(json.getString("id"));
+        entity.setOrderState(json.getString("orderState"));
+        entity.setPurchaseUid(json.getString("purchaseUid"));
+        entity.setQuantity(json.getFloat("quantity"));
+        entity.setPrice(json.getFloat("price"));
+        entity.setSellUid(json.getString("sellUid"));
+        entity.setFinishTime(json.getDate("finishTime"));
         service.updateById(entity);
     }
 
@@ -69,7 +67,15 @@ public class UserBuyHistoryController {
      */
     @PostMapping("/inner/userBuyHistory/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(UserBuyHistoryEntity entity) {
+    public void insert(@RequestBody JSONObject json) {
+        UserBuyHistoryEntity entity = new UserBuyHistoryEntity();
+        entity.setId(json.getString("id"));
+        entity.setOrderState(json.getString("orderState"));
+        entity.setPurchaseUid(json.getString("purchaseUid"));
+        entity.setQuantity(json.getFloat("quantity"));
+        entity.setPrice(json.getFloat("price"));
+        entity.setSellUid(json.getString("sellUid"));
+        entity.setFinishTime(json.getDate("finishTime"));
         service.insert(entity);
     }
 
@@ -80,19 +86,8 @@ public class UserBuyHistoryController {
      */
     @PostMapping("/inner/userBuyHistory/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(String id) {
+    public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
-    }
-
-    /**
-     * selectBuyHistory
-     *
-     * @return
-     */
-    @PostMapping("/inner/userBuyHistory/selectBuyHistory")
-    public UserBuyHistoryBean selectBuyHistory(String id) {
-        UserBuyHistoryBean userBuyHistoryBean = service.selectBuyHistory(id);
-        return userBuyHistoryBean;
     }
 
 }

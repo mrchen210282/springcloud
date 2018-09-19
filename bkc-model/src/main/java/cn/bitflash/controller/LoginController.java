@@ -4,16 +4,17 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.UserEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.LoginService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * @author GAOYGUUO
+ * @author GAOYUGUO
  */
 @RestController
 public class LoginController {
@@ -22,19 +23,19 @@ public class LoginController {
     private LoginService service;
 
     /**
-     * selectOne
+     * selectById
      *
-     * @param param
      * @return
      */
-
-    public UserEntity selectOne(Map<String, Object> param) {
-        List<UserEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            UserEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
+    @PostMapping("/inner/login/selectById")
+    public JSONObject selectById(@RequestParam("id") String id) {
+        UserEntity entity = service.selectById(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("uid", entity.getUid());
+        jsonObject.put("uuid", entity.getUuid());
+        jsonObject.put("password", entity.getPassword());
+        jsonObject.put("mobile", entity.getMobile());
+        return jsonObject;
     }
 
     /**
@@ -42,8 +43,14 @@ public class LoginController {
      *
      * @return
      */
+    @PostMapping("/inner/login/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(UserEntity entity) {
+    public void updateById(@RequestBody JSONObject json) {
+        UserEntity entity = new UserEntity();
+        entity.setMobile(json.getString("mobile"));
+        entity.setPassword(json.getString("password"));
+        entity.setUuid(json.getString("uuid"));
+        entity.setUid(json.getString("uid"));
         service.updateById(entity);
     }
 
@@ -52,8 +59,14 @@ public class LoginController {
      *
      * @return
      */
+    @PostMapping("/inner/login/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(UserEntity entity) {
+    public void insert(@RequestBody JSONObject json) {
+        UserEntity entity = new UserEntity();
+        entity.setMobile(json.getString("mobile"));
+        entity.setPassword(json.getString("password"));
+        entity.setUuid(json.getString("uuid"));
+        entity.setUid(json.getString("uid"));
         service.insert(entity);
     }
 
@@ -62,9 +75,9 @@ public class LoginController {
      *
      * @return
      */
+    @PostMapping("/inner/login/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(String id) {
+    public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
     }
-
 }

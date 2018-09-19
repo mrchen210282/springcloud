@@ -9,7 +9,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.Map;
  * @author GAOYGUUO
  */
 @RestController
+@RequestMapping("token")
 public class TokenController {
 
     @Autowired
@@ -41,8 +44,9 @@ public class TokenController {
     }
 
     @ApiParam
+    @PostMapping("insertOrUpdateToken")
     public Boolean insertOrUpdateToken(@RequestBody TokenEntity tokenEntity){
-        return false;
+        return service.insertOrUpdate(tokenEntity);
     }
 
     /**

@@ -1,6 +1,9 @@
 package cn.bitflash.vip.order.feign;
 
 import cn.bitflash.entity.*;
+import cn.bitflash.vip.order.entity.OrderTradeDetail;
+import cn.bitflash.vip.trade.entity.UserTradeConfigEntity;
+import cn.bitflash.vip.trade.entity.UserTradeDetail;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,4 +44,17 @@ public interface OrderFeign {
      */
     @PostMapping("")
     UserTradeConfigEntity selectTradeConfigById(@RequestParam("id") int id);
+
+    /**
+     * user_trade_history
+     */
+    List<UserTradeJoinBuyEntity> selectFinishOrder(@RequestParam("uid")String uid,
+                                                   @RequestParam("pageNum")String pageNum,
+                                                   @RequestParam("pageTotal")String pageTotal);
+
+    Integer selectFinishOrderCount(@RequestParam("uid")String uid,
+                                   @RequestParam("pageNum")String pageNum,
+                                   @RequestParam("pageTotal")String pageTotal);
+
+    OrderTradeDetail checkSuccess(@RequestParam("id")String id);
 }

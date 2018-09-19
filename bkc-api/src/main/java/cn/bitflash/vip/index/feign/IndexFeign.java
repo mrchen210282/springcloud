@@ -36,7 +36,7 @@ public interface IndexFeign {
      * tb_token表
      */
     @ApiOperation(value = "插入或者更新用户token值")
-    @PostMapping("")
+    @PostMapping("token/insertOrUpdateToken")
     Boolean insertOrUpdateToken(@RequestBody TokenEntity tokenEntity);
 
     /**

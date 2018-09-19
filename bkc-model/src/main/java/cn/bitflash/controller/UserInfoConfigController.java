@@ -4,16 +4,17 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.UserInfoConfigEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserInfoConfigService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * @author GAOYGUUO
+ * @author GAOYUGUO
  */
 @RestController
 public class UserInfoConfigController {
@@ -22,19 +23,20 @@ public class UserInfoConfigController {
     private UserInfoConfigService service;
 
     /**
-     * selectOne
+     * selectById
      *
-     * @param param
      * @return
      */
-
-    public UserInfoConfigEntity selectOne(Map<String, Object> param) {
-        List<UserInfoConfigEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            UserInfoConfigEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
+    @PostMapping("/inner/userInfoConfig/selectById")
+    public JSONObject selectById(@RequestParam("id") Integer id) {
+        UserInfoConfigEntity entity = service.selectById(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", entity.getId());
+        jsonObject.put("min", entity.getMin());
+        jsonObject.put("showPower", entity.getShowPower());
+        jsonObject.put("giveRate", entity.getGiveRate());
+        jsonObject.put("showGiveRate", entity.getShowGiveRate());
+        return jsonObject;
     }
 
     /**
@@ -42,8 +44,15 @@ public class UserInfoConfigController {
      *
      * @return
      */
+    @PostMapping("/inner/userInfoConfig/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(UserInfoConfigEntity entity) {
+    public void updateById(@RequestBody JSONObject json) {
+        UserInfoConfigEntity entity = new UserInfoConfigEntity();
+        entity.setId(json.getInteger("id"));
+        entity.setMin(json.getInteger("min"));
+        entity.setShowPower(json.getString("showPower"));
+        entity.setGiveRate(json.getDouble("giveRate"));
+        entity.setShowGiveRate(json.getString("showGiveRate"));
         service.updateById(entity);
     }
 
@@ -52,8 +61,15 @@ public class UserInfoConfigController {
      *
      * @return
      */
+    @PostMapping("/inner/userInfoConfig/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(UserInfoConfigEntity entity) {
+    public void insert(@RequestBody JSONObject json) {
+        UserInfoConfigEntity entity = new UserInfoConfigEntity();
+        entity.setId(json.getInteger("id"));
+        entity.setMin(json.getInteger("min"));
+        entity.setShowPower(json.getString("showPower"));
+        entity.setGiveRate(json.getDouble("giveRate"));
+        entity.setShowGiveRate(json.getString("showGiveRate"));
         service.insert(entity);
     }
 
@@ -62,8 +78,9 @@ public class UserInfoConfigController {
      *
      * @return
      */
+    @PostMapping("/inner/userInfoConfig/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(int id) {
+    public void deleteById(@RequestParam("id") Integer id) {
         service.deleteById(id);
     }
 

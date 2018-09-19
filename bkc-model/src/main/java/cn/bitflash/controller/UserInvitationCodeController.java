@@ -4,16 +4,17 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserInvitationCodeService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * @author GAOYGUUO
+ * @author GAOYUGUO
  */
 @RestController
 public class UserInvitationCodeController {
@@ -22,19 +23,18 @@ public class UserInvitationCodeController {
     private UserInvitationCodeService service;
 
     /**
-     * selectOne
+     * selectById
      *
-     * @param param
      * @return
      */
-
-    public UserInvitationCodeEntity selectOne(Map<String, Object> param) {
-        List<UserInvitationCodeEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            UserInvitationCodeEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
+    @PostMapping("/inner/userInvitationCode/selectById")
+    public JSONObject selectById(@RequestParam("id") String id) {
+        UserInvitationCodeEntity entity = service.selectById(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("uid", entity.getUid());
+        jsonObject.put("lftCode", entity.getLftCode());
+        jsonObject.put("rgtCode", entity.getRgtCode());
+        return jsonObject;
     }
 
     /**
@@ -42,8 +42,13 @@ public class UserInvitationCodeController {
      *
      * @return
      */
+    @PostMapping("/inner/userInvitationCode/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(UserInvitationCodeEntity entity) {
+    public void updateById(@RequestBody JSONObject json) {
+        UserInvitationCodeEntity entity = new UserInvitationCodeEntity();
+        entity.setUid(json.getString("uid"));
+        entity.setLftCode(json.getString("lftCode"));
+        entity.setRgtCode(json.getString("rgtCode"));
         service.updateById(entity);
     }
 
@@ -52,8 +57,13 @@ public class UserInvitationCodeController {
      *
      * @return
      */
+    @PostMapping("/inner/userInvitationCode/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(UserInvitationCodeEntity entity) {
+    public void insert(@RequestBody JSONObject json) {
+        UserInvitationCodeEntity entity = new UserInvitationCodeEntity();
+        entity.setUid(json.getString("uid"));
+        entity.setLftCode(json.getString("lftCode"));
+        entity.setRgtCode(json.getString("rgtCode"));
         service.insert(entity);
     }
 
@@ -62,8 +72,9 @@ public class UserInvitationCodeController {
      *
      * @return
      */
+    @PostMapping("/inner/userInvitationCode/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(String id) {
+    public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
     }
 

@@ -4,16 +4,22 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.PriceLinechartEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.PriceLinechartService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
- * @author GAOYGUUO
+ * @author GAOYUGUO
  */
 @RestController
 public class PriceLinechartController {
@@ -22,19 +28,20 @@ public class PriceLinechartController {
     private PriceLinechartService service;
 
     /**
-     * selectOne
+     * selectById
      *
-     * @param param
      * @return
      */
-
-    public PriceLinechartEntity selectOne(Map<String, Object> param) {
-        List<PriceLinechartEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            PriceLinechartEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
+    @PostMapping("/inner/priceLinechart/selectById")
+    public JSONObject selectById(@RequestParam("id") String id) {
+        PriceLinechartEntity entity = service.selectById(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("rateTime", entity.getRateTime());
+        jsonObject.put("bkc", entity.getBkc());
+        jsonObject.put("rate", entity.getRate());
+        jsonObject.put("cny", entity.getCny());
+        jsonObject.put("price", entity.getPrice());
+        return jsonObject;
     }
 
     /**
@@ -42,8 +49,21 @@ public class PriceLinechartController {
      *
      * @return
      */
+    @PostMapping("/inner/priceLinechart/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(PriceLinechartEntity entity) {
+    public void updateById(@RequestBody JSONObject json) {
+
+        Date date = json.getDate("rateTime");
+        Instant instant = date.toInstant();
+        ZoneId zone = ZoneId.systemDefault();
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
+
+        PriceLinechartEntity entity = new PriceLinechartEntity();
+        entity.setRateTime(localDateTime);
+        entity.setCny(json.getInteger("cny"));
+        entity.setBkc(json.getFloat("bkc"));
+        entity.setRate(json.getFloat("rate"));
+        entity.setPrice(json.getFloat("price"));
         service.updateById(entity);
     }
 
@@ -52,8 +72,20 @@ public class PriceLinechartController {
      *
      * @return
      */
+    @PostMapping("/inner/priceLinechart/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(PriceLinechartEntity entity) {
+    public void insert(@RequestBody JSONObject json) {
+        Date date = json.getDate("rateTime");
+        Instant instant = date.toInstant();
+        ZoneId zone = ZoneId.systemDefault();
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
+
+        PriceLinechartEntity entity = new PriceLinechartEntity();
+        entity.setRateTime(localDateTime);
+        entity.setCny(json.getInteger("cny"));
+        entity.setBkc(json.getFloat("bkc"));
+        entity.setRate(json.getFloat("rate"));
+        entity.setPrice(json.getFloat("price"));
         service.insert(entity);
     }
 
@@ -62,9 +94,10 @@ public class PriceLinechartController {
      *
      * @return
      */
+    @PostMapping("/inner/priceLinechart/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(PriceLinechartEntity entity) {
-        service.deleteById(entity);
+    public void deleteById(@RequestParam("id") String id) {
+        service.deleteById(id);
     }
 
 }

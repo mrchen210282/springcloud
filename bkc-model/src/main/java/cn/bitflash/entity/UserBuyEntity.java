@@ -1,8 +1,5 @@
 package cn.bitflash.entity;
 
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
@@ -11,32 +8,57 @@ import java.util.Date;
 /**
  * 求购
  *
+ * state
+ * 0：撤销
+ * 1：发布
+ * 2：待付款 -- 待收款
+ * 3：待收币 -- 待确认
+ * 6. 完成
+ * 9. 申诉
+ *
  * @author gaoyuguo
  */
-@TableName("user_buy")
 public class UserBuyEntity implements Serializable {
 
-    private static final long serialVersionUID = 1798150948428590399L;
-    @TableId(type = IdType.INPUT)
+    /**
+     * 订单号
+     */
     private String id;
 
-    private String uid;
+    /**
+     * 求购者id
+     */
+    private String purchaseUid;
 
-    //求购数量
+    /**
+     * 数量
+     */
     private float quantity;
 
-    //价格
+    /**
+     * 价格
+     */
     private float price;
 
-    //状态
+    /**
+     * 卖出者id
+     */
+    private String sellUid;
+
+    /**
+     * 订单状态
+     */
     private String state;
 
+    /**
+     * 发布时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date cancelTime;
-
+    /**
+     * 支付时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date payTime;
 
@@ -48,12 +70,12 @@ public class UserBuyEntity implements Serializable {
         this.id = id;
     }
 
-    public String getUid() {
-        return uid;
+    public String getPurchaseUid() {
+        return purchaseUid;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setPurchaseUid(String purchaseUid) {
+        this.purchaseUid = purchaseUid;
     }
 
     public float getQuantity() {
@@ -72,6 +94,14 @@ public class UserBuyEntity implements Serializable {
         this.price = price;
     }
 
+    public String getSellUid() {
+        return sellUid;
+    }
+
+    public void setSellUid(String sellUid) {
+        this.sellUid = sellUid;
+    }
+
     public String getState() {
         return state;
     }
@@ -80,24 +110,12 @@ public class UserBuyEntity implements Serializable {
         this.state = state;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public Date getCancelTime() {
-        return cancelTime;
-    }
-
-    public void setCancelTime(Date cancelTime) {
-        this.cancelTime = cancelTime;
     }
 
     public Date getPayTime() {

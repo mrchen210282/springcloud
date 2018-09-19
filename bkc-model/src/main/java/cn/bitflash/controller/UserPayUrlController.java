@@ -4,18 +4,17 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.UserPayUrlEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserPayUrlService;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * @author GAOYGUUO
+ * @author GAOYUGUO
  */
 @RestController
 public class UserPayUrlController {
@@ -24,29 +23,40 @@ public class UserPayUrlController {
     private UserPayUrlService service;
 
     /**
-     * selectOne
+     * selectById
      *
-     * @param param
      * @return
      */
-
-    public UserPayUrlEntity selectOne(Map<String, Object> param) {
-        List<UserPayUrlEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            UserPayUrlEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
+    @PostMapping("/inner/userPayUrl/selectById")
+    public JSONObject selectById(@RequestParam("id") String id) {
+        UserPayUrlEntity entity = service.selectById(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", entity.getId());
+        jsonObject.put("uid", entity.getUid());
+        jsonObject.put("imgType", entity.getImgType());
+        jsonObject.put("imgUrl", entity.getImgUrl());
+        jsonObject.put("mobile", entity.getMobile());
+        jsonObject.put("name", entity.getName());
+        jsonObject.put("account", entity.getAccount());
+        return jsonObject;
     }
-
 
     /**
      * updateById
      *
      * @return
      */
+    @PostMapping("/inner/userPayUrl/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(UserPayUrlEntity entity) {
+    public void updateById(@RequestBody JSONObject json) {
+        UserPayUrlEntity entity = new UserPayUrlEntity();
+        entity.setId(json.getInteger("id"));
+        entity.setUid(json.getString("uid"));
+        entity.setImgType(json.getString("imgType"));
+        entity.setImgUrl(json.getString("imgUrl"));
+        entity.setMobile(json.getString("mobile"));
+        entity.setName(json.getString("name"));
+        entity.setAccount(json.getString("account"));
         service.updateById(entity);
     }
 
@@ -55,8 +65,17 @@ public class UserPayUrlController {
      *
      * @return
      */
+    @PostMapping("/inner/userPayUrl/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(UserPayUrlEntity entity) {
+    public void insert(@RequestBody JSONObject json) {
+        UserPayUrlEntity entity = new UserPayUrlEntity();
+        entity.setId(json.getInteger("id"));
+        entity.setUid(json.getString("uid"));
+        entity.setImgType(json.getString("imgType"));
+        entity.setImgUrl(json.getString("imgUrl"));
+        entity.setMobile(json.getString("mobile"));
+        entity.setName(json.getString("name"));
+        entity.setAccount(json.getString("account"));
         service.insert(entity);
     }
 
@@ -65,8 +84,9 @@ public class UserPayUrlController {
      *
      * @return
      */
+    @PostMapping("/inner/userPayUrl/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(int id) {
+    public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
     }
 

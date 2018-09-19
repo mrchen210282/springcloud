@@ -1,19 +1,24 @@
 package cn.bitflash.vip.trade.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.*;
+import cn.bitflash.entity.TradePoundageEntity;
+import cn.bitflash.entity.UserAccountEntity;
+import cn.bitflash.entity.UserTradeConfigEntity;
+import cn.bitflash.entity.UserTradeEntity;
 import cn.bitflash.util.Common;
 import cn.bitflash.util.R;
+import cn.bitflash.util.RedisKey;
 import cn.bitflash.util.RedisUtils;
 import cn.bitflash.vip.trade.feign.TradeFeign;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -28,6 +33,9 @@ import java.util.Map;
  * @author wangjun
  * @version 2018年7月4日上午9:44:17
  */
+@RestController
+@RequestMapping("/trade")
+@Api(value = "用户交易", tags = "卖出，")
 public class AddOrCancel {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -42,7 +50,8 @@ public class AddOrCancel {
     @Login
     @PostMapping("publish")
     @Transactional
-    public R publish(@RequestAttribute("uid") String uid, @RequestParam String quantity, @RequestParam String price) {
+    @ApiOperation(value = "卖出操作")
+    public R publish(@RequestAttribute("uid") String uid, @ApiParam @RequestParam String quantity, @ApiParam @RequestParam String price) {
 
         UserAccountEntity userAccount = tradeFeign.selectAccountByUid(uid);
         // 先校验出售数量是否大于已有数量
@@ -132,13 +141,12 @@ public class AddOrCancel {
 
     @Login
     @PostMapping("responseTrade")
+    @ApiOperation(value = "卖出记录")
     public R responseTrade(@RequestAttribute("uid") String uid) {
 
         UserAccountEntity userAccount = tradeFeign.selectAccountByUid(uid);
-
-        UserAccountEntity userAccountEntity = tradeFeign.selectAccountByUid(userAccount.getUid());
         Map<String, Object> returnMap = null;
-        if (null != userAccountEntity) {
+        if (null != userAccount) {
             returnMap = tradeFeign.responseTrade(userAccount.getUid());
             //可卖份数 = 可用额度 / 100
             if (userAccount.getAvailableAssets().compareTo(new BigDecimal(0)) <= -1) {
@@ -157,59 +165,46 @@ public class AddOrCancel {
 
     @Login
     @PostMapping("addLock")
-    public R addLock(@RequestParam String orderId, @RequestAttribute("uid") String uid) throws ParseException {
-        logger.info("下单addLock:订单号" + orderId);
-        if (StringUtils.isNotBlank(orderId)) {
-            UserTradeEntity userTradeEntity = tradeFeign.selectTradeById(orderId);
-            if (userTradeEntity.getState().equals(Common.STATE_CANCEL)) {
-                return R.error(501, "订单已经被撤销,无法锁定");
-            }
-            String countKey = Common.COUNT_LOCK + uid;
-            logger.debug("当前锁定订单的数量为：" + redisUtils.get(countKey));
-            Integer count = redisUtils.get(countKey, Integer.class) == null ? 0 : redisUtils.get(countKey, Integer.class);
-            if (count < 3) {
-                String[] str = redisUtils.get(orderId, String[].class);
-                if (str == null || str.length == 0) {
-
-                    //加入历史记录
-                    UserTradeHistoryEntity userTradeHistory = new UserTradeHistoryEntity();
-                    userTradeHistory.setUserTradeId(orderId);
-                    userTradeHistory.setSellUid(userTradeEntity.getUid());
-                    userTradeHistory.setSellQuantity(userTradeEntity.getQuantity());
-                    userTradeHistory.setPrice(userTradeEntity.getPrice());
-                    userTradeHistory.setPurchaseUid(uid);
-                    userTradeHistory.setPurchaseQuantity(userTradeEntity.getQuantity());
-                    userTradeHistory.setCreateTime(new Date());
-                    userTradeHistory.setState(Common.STATE_LOCK);
-                    tradeFeign.insertUserTradeHistory(userTradeHistory);
-
-                    //更新订单状态
-                    userTradeEntity.setState(Common.STATE_LOCK);
-                    tradeFeign.updateTrade(userTradeEntity);
-
-                    //统计锁定数量
-                    str = new String[2];
-                    str[0] = orderId;
-                    str[1] = uid;
-                    redisUtils.set(orderId, str, 60 * 60);
-                    //当天时间凌晨23:59:59的秒数
-                    long tomorrow = LocalDateTime.now().withHour(23)
-                            .withMinute(59)
-                            .withSecond(59).toEpochSecond(ZoneOffset.of("+8"));
-                    //当前时间秒数
-                    long now = LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));
-                    //设置过期时间为当天剩余时间的秒数
-                    redisUtils.set(countKey, ++count, (tomorrow - now));
-
-                    return R.ok();
-                } else if (str[1].equals(uid)) {
-                    return R.error(502, "订单被锁定,本人锁定");
-                }
-                return R.error(503, "订单已经被锁定");
-            }
-            return R.error(504, "当天锁定数量已到上限");
+    @ApiOperation("下单")
+    public R addLock(@ApiParam(value = "订单id") @RequestParam String orderId, @RequestAttribute("uid") String uid) throws ParseException {
+        UserTradeEntity userTradeEntity = tradeFeign.selectTradeById(orderId);
+        if (userTradeEntity.getState().equals(Common.STATE_CANCEL)) {
+            return R.error(501, "订单已经被撤销,无法锁定");
         }
-        return R.error(505, "无此订单信息");
+        //下单次数缓存key
+        String countKey = RedisKey.COUNT_LOCK + uid;
+        Integer count = redisUtils.get(countKey, Integer.class) == null ? 0 : redisUtils.get(countKey, Integer.class);
+        //下单最大次数
+        int trade = Integer.valueOf(tradeFeign.getVal(Common.LOCK_TRADE));
+        if (count < trade) {
+            String[] str = redisUtils.get(orderId, String[].class);
+            if (str == null || str.length == 0) {
+                //统计锁定数量
+                str = new String[2];
+                str[0] = orderId;
+                str[1] = uid;
+                redisUtils.set(orderId, str, 60 * 60);
+                //当天时间凌晨23:59:59的秒数
+                long tomorrow = LocalDateTime.now().withHour(23)
+                        .withMinute(59)
+                        .withSecond(59).toEpochSecond(ZoneOffset.of("+8"));
+                //当前时间秒数
+                long now = LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));
+                //设置过期时间为当天剩余时间的秒数
+                redisUtils.set(countKey, ++count, (tomorrow - now));
+                //更新订单状态
+                userTradeEntity.setState(Common.STATE_LOCK);
+                userTradeEntity.setPurchaseUid(uid);
+                tradeFeign.updateTrade(userTradeEntity);
+                logger.info("当前锁定订单的数量为：" + count);
+                logger.info("下单addLock:订单号" + orderId);
+                return R.ok();
+            } else if (str[1].equals(uid)) {
+                return R.error(502, "订单被锁定,本人锁定");
+            }
+            return R.error(503, "订单已经被锁定");
+        }
+        return R.error(504, "当天锁定数量已到上限");
 
 
     }

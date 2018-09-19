@@ -10,7 +10,6 @@ import java.io.Serializable;
 public class AppStatusEntity implements Serializable {
 
 
-    private String appid;
 
     private String version;
 
@@ -19,14 +18,6 @@ public class AppStatusEntity implements Serializable {
     private String note;
 
     private String title;
-
-    public String getAppid() {
-        return appid;
-    }
-
-    public void setAppid(String appid) {
-        this.appid = appid;
-    }
 
     public String getVersion() {
         return version;

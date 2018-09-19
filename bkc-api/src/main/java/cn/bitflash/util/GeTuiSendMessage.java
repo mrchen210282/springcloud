@@ -19,7 +19,7 @@ public class GeTuiSendMessage {
 
 
     //单发
-    public static R sendSingleMessage(String text, String cid) throws Exception {
+    public static String sendSingleMessage(String text, String cid) throws Exception {
 
         IIGtPush push = new IGtPush(host, appKey, masterSecret);
         IBatch batch = push.getBatch();
@@ -41,6 +41,6 @@ public class GeTuiSendMessage {
         target.setClientId(cid);
         batch.add(message, target);
 
-        return R.ok(batch.submit().getResponse().toString());
+        return batch.submit().getResponse().toString();
     }
 }

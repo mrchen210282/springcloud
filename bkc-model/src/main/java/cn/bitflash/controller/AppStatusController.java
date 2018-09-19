@@ -8,23 +8,31 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Map;
+
+
 /**
+ * @author GAOYGUUO
  * @author GAOYUGUO
  */
 @RestController
 public class AppStatusController {
 
     @Autowired
+    private AppStatusService appStatusService;
     private AppStatusService service;
 
     /**
      * selectById
      *
+     * @param param
      * @return
      */
     @PostMapping("/inner/appStatus/selectById")
@@ -46,6 +54,8 @@ public class AppStatusController {
      */
     @PostMapping("/inner/appStatus/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
+    public void updateById(AppStatusEntity appStatusEntity) {
+        appStatusService.updateById(appStatusEntity);
     public void updateById(@RequestBody JSONObject json) {
         AppStatusEntity entity = new AppStatusEntity();
         entity.setAppid(json.getString("appId"));
@@ -63,6 +73,8 @@ public class AppStatusController {
      */
     @PostMapping("/inner/appStatus/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
+    public void insert(AppStatusEntity appStatusEntity) {
+        appStatusService.insert(appStatusEntity);
     public void insert(@RequestBody JSONObject json) {
         AppStatusEntity entity = new AppStatusEntity();
         entity.setAppid(json.getString("appId"));
@@ -80,6 +92,8 @@ public class AppStatusController {
      */
     @PostMapping("/inner/appStatus/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
+    public void deleteById(String id) {
+        appStatusService.deleteById(id);
     public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
     }

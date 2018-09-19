@@ -70,49 +70,27 @@ public class Common {
 	// vip等级0
 	public final static String VIP_LEVEL_0 = "0";
 
-	// 下载图片服务器地址
-	public final static String PICTURE_URL = "picture_url";
+	// 锁定订单次数
+	public final static String LOCK_TRADE = "lock_trade";
 
-	// redis缓存订单号key
-	public final static String ADD_LOCK = "userTrade_";
+
 
 	// redis缓存订单号key
 	public final static String ADD_LOCKNUM = "userBuy_";
 
-	// redis统计锁定订单数量
-	public final static String COUNT_LOCK = "countLock_";
 
 	// 发送信息标题内容值
 	public final static String MSG_TEXT = "text_msg";
 
 	public final static double poundage = 0.025;
 
-	public final static String SHOW_DATE = "show_date";
 
 	public final static String TOKEN = "token";
 	public final static String MOBILE = "mobile";
 
-	//交易手续费
-	public final static String TRADE_CONFIG_ID = "1";
 
 	//申拆状态:未处理0
 	public final static String COMPLAINT_NO = "0";
-
-	//申拆状态:已处理1
-	public final static String COMPLAINT_YES = "1";
-
-	public static String returnMD5(List<String> list) {
-		if (list.size() > 0) {
-			StringBuffer buf = new StringBuffer();
-			for (int i = 0; i < list.size(); i++) {
-				buf.append(list.get(i));
-			}
-			String returnSign = new ExternalMD5(buf.toString()).asHex();
-			return returnSign;
-		} else {
-			return null;
-		}
-	}
 
 	/**
 	 * 生成8位随机数

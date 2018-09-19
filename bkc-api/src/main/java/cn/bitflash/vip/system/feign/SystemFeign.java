@@ -18,7 +18,7 @@ import java.util.List;
 public interface SystemFeign {
 
     @ApiOperation(value = "根据手机号查询")
-    @PostMapping("")
+    @PostMapping("test/testCode")
     AppStatusEntity selectAppStatusByAppId(@RequestParam("appid")String appid);
 
     @PostMapping("")

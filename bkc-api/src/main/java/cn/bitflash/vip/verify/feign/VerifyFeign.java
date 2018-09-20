@@ -11,19 +11,18 @@ import java.util.List;
 
 @FeignClient(value = "bkc-model")
 public interface VerifyFeign {
-    @PostMapping("")
-    UserInfoEntity selectUserInfoByUid(@RequestParam("uid")String uid);
+    @PostMapping("/inner/userInfo/selectById")
+    UserInfoEntity selectUserInfoByUid(@RequestParam("id")String uid);
 
     /**
      * user_pay_pwd 表
      */
-    @PostMapping("")
-    UserPayPwdEntity selectUserPwdByUid(@RequestParam("uid")String uid);
+    @PostMapping("/inner/userPayPwd/selectById")
+    UserPayPwdEntity selectUserPwdByUid(@RequestParam("id")String uid);
 
     /**
      * user_pay_url表
      */
-    //imgType 1,2,5
-    @PostMapping("")
-    List<UserPayUrlEntity> selectUserUrlList(@RequestParam("uid")String uid);
+    @PostMapping("/inner/userPayUrl/selectList")
+    List<UserPayUrlEntity> selectUserUrlList(@RequestParam("id")String uid);
 }

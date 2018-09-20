@@ -3,6 +3,7 @@ package cn.bitflash.vip.usersend.controller;
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.*;
 import cn.bitflash.util.R;
+import cn.bitflash.vip.trade.entity.UserTradeConfigEntity;
 import cn.bitflash.vip.usersend.feign.SendFrign;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;

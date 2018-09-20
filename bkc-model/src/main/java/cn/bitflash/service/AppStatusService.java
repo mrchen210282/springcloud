@@ -1,7 +1,7 @@
 package cn.bitflash.service;
 
 
-import cn.bitflash.entity.AppStatusEntity;
+import cn.bitflash.entities.AppStatusEntity;
 import com.baomidou.mybatisplus.service.IService;
 
 /**

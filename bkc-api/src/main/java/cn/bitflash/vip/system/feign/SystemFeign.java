@@ -21,9 +21,9 @@ public interface SystemFeign {
     @PostMapping("test/testCode")
     AppStatusEntity selectAppStatusByAppId(@RequestParam("appid")String appid);
 
-    @PostMapping("")
+    @PostMapping("/inner/user/selectById")
     @ApiOperation(value = "根据手机号查询用户是否存在")
-    UserEntity selectUserEntityByMobile(@RequestParam("mobile")String mobile);
+    UserEntity selectUserEntityByMobile(@RequestParam("id")String mobile);
     @PostMapping("")
     @ApiOperation(value = "查询区间时间内的价格")
     List<PriceChart> selectLineChartByDate(@RequestParam("after") Date after, @RequestParam("yesterday") Date yesterday);

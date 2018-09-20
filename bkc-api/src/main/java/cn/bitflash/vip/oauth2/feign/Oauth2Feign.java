@@ -11,9 +11,9 @@ public interface Oauth2Feign {
     /**
      * user_account 表
      */
-    @PostMapping("")
-    UserAccountEntity selectAccountByUid(@RequestParam("uid")String uid);
-    @PostMapping("")
+    @PostMapping("/inner/userAccount/selectById")
+    UserAccountEntity selectAccountByUid(@RequestParam("id")String uid);
+    @PostMapping("/inner/userAccount/updateById")
     Boolean updateAccountById(@RequestBody UserAccountEntity account);
 
 }

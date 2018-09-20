@@ -1,7 +1,7 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.PlatformConfigEntity;
+import cn.bitflash.entities.PlatformConfigEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.PlatFormConfigService;
 import com.alibaba.fastjson.JSONObject;
@@ -85,6 +85,18 @@ public class PlatFormConfigController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") Integer id) {
         service.deleteById(id);
+    }
+
+    /**
+     * getVal
+     *
+     * @param key
+     * @return
+     */
+    @PostMapping("/inner/platFormConfig/getVal")
+    String getVal(@RequestParam("key") String key){
+        String val = service.getVal(key);
+        return val;
     }
 
 }

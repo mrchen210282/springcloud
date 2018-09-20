@@ -1,7 +1,7 @@
 package cn.bitflash.service.impl;
 
 import cn.bitflash.entity.UserBuyHistoryBean;
-import cn.bitflash.entity.UserBuyHistoryEntity;
+import cn.bitflash.entities.UserBuyHistoryEntity;
 import cn.bitflash.dao.UserBuyHistoryDao;
 import cn.bitflash.service.UserBuyHistoryService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;

@@ -1,5 +1,7 @@
 package cn.bitflash.entity;
 
+import cn.bitflash.entities.UserComplaintEntity;
+
 import java.io.Serializable;
 
 /**

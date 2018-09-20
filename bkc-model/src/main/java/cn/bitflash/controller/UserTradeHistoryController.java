@@ -1,9 +1,11 @@
 package cn.bitflash.controller;
 
 
+import cn.bitflash.entity.UserTradeConfigEntity;
 import cn.bitflash.entity.UserTradeHistoryEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserTradeHistoryService;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,9 +38,8 @@ public class UserTradeHistoryController {
         jsonObject.put("purchaseQuantity", entity.getPurchaseQuantity());
         jsonObject.put("sellUid", entity.getSellUid());
         jsonObject.put("sellQuantity", entity.getSellQuantity());
-        jsonObject.put("state", entity.getState());
+        jsonObject.put("orderState", entity.getOrderState());
         jsonObject.put("price", entity.getPrice());
-        jsonObject.put("createTime", entity.getCreateTime());
         jsonObject.put("finishTime", entity.getFinishTime());
         return jsonObject;
     }
@@ -57,9 +58,8 @@ public class UserTradeHistoryController {
         entity.setPurchaseQuantity(json.getBigDecimal("purchaseQuantity"));
         entity.setSellUid(json.getString("sellUid"));
         entity.setSellQuantity(json.getBigDecimal("sellQuantity"));
-        entity.setState(json.getString("state"));
+        entity.setOrderState(json.getString("orderState"));
         entity.setPrice(json.getBigDecimal("price"));
-        entity.setCreateTime(json.getDate("createTime"));
         entity.setFinishTime(json.getDate("finishTime"));
         service.updateById(entity);
     }
@@ -78,9 +78,8 @@ public class UserTradeHistoryController {
         entity.setPurchaseQuantity(json.getBigDecimal("purchaseQuantity"));
         entity.setSellUid(json.getString("sellUid"));
         entity.setSellQuantity(json.getBigDecimal("sellQuantity"));
-        entity.setState(json.getString("state"));
+        entity.setOrderState(json.getString("orderState"));
         entity.setPrice(json.getBigDecimal("price"));
-        entity.setCreateTime(json.getDate("createTime"));
         entity.setFinishTime(json.getDate("finishTime"));
         service.insert(entity);
     }

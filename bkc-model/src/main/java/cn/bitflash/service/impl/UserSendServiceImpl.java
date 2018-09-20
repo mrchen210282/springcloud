@@ -17,7 +17,7 @@
 package cn.bitflash.service.impl;
 
 
-import cn.bitflash.entity.UserSendEntity;
+import cn.bitflash.entities.UserSendEntity;
 import cn.bitflash.dao.UserSendDao;
 import cn.bitflash.service.UserSendService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;

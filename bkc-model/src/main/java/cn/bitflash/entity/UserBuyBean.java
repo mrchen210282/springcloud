@@ -16,6 +16,7 @@
 
 package cn.bitflash.entity;
 
+import cn.bitflash.entities.UserBuyEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;

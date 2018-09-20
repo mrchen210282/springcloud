@@ -1,8 +1,7 @@
 package cn.bitflash.dao;
 
 import cn.bitflash.entity.UserBuyBean;
-import cn.bitflash.entity.UserBuyEntity;
-import cn.bitflash.entity.UserBuyMessageBean;
+import cn.bitflash.entities.UserBuyEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +16,7 @@ import java.util.List;
  */
 public interface UserBuyDao extends BaseMapper<UserBuyEntity> {
 
-    Integer getNumToPaging();
+    Integer showBuyingCount(String uid);
 
     List<UserBuyBean> showBuying(@Param("uid") String uid, @Param("pages") Integer pages);
 

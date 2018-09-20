@@ -1,7 +1,7 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserComplaintEntity;
+import cn.bitflash.entities.UserComplaintEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserComplaintService;
 import com.alibaba.fastjson.JSONObject;

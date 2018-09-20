@@ -16,6 +16,8 @@
 
 package cn.bitflash.entity;
 
+import cn.bitflash.entities.UserBuyHistoryEntity;
+
 import java.io.Serializable;
 
 /**

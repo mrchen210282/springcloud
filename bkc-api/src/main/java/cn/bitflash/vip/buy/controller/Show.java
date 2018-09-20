@@ -33,7 +33,7 @@ public class Show {
         if (ub == null || ub.size() < 0) {
             return R.error("暂时没有求购信息");
         }
-        Integer count = feign.getNumToPaging();
+        Integer count = feign.showBuyingCount(uid);
         return R.ok().put("count", count).put("list", ub);
     }
 
@@ -47,7 +47,7 @@ public class Show {
     @PostMapping("order")
     public R showUserBuyMessage(@RequestAttribute("uid") String uid, @RequestParam("pages") String pages) {
 
-        List<UserBuyBean> userBuyBeans = feign.selectOrder(uid, Integer.valueOf(pages));
+        List<UserBuyBean> userBuyBeans = feign.showOrder(uid, Integer.valueOf(pages));
 
         for (UserBuyBean userBuyBean : userBuyBeans) {
             //卖家

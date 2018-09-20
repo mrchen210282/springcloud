@@ -2,7 +2,7 @@ package cn.bitflash.dao;
 
 
 import cn.bitflash.entity.UserComplaintBean;
-import cn.bitflash.entity.UserComplaintEntity;
+import cn.bitflash.entities.UserComplaintEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**

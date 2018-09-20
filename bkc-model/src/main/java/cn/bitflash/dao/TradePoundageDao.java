@@ -1,7 +1,7 @@
 package cn.bitflash.dao;
 
 
-import cn.bitflash.entity.TradePoundageEntity;
+import cn.bitflash.entities.TradePoundageEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 import java.util.Map;

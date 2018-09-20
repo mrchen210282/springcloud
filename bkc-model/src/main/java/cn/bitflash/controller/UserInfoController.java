@@ -1,7 +1,7 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserInfoEntity;
+import cn.bitflash.entities.UserInfoEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserInfoService;
 import com.alibaba.fastjson.JSONObject;
@@ -104,5 +104,37 @@ public class UserInfoController {
     public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
     }
+
+    /**
+     * insertInfoIndex
+     */
+    @PostMapping("/inner/userInfouser/insertInfoIndex")
+    Boolean insertInfoIndex(@RequestParam("uid")String uid,@RequestParam("mobile")String mobile,@RequestParam("isInvitation")boolean flag,@RequestParam("name")String name){
+        UserInfoEntity entity = new UserInfoEntity();
+        entity.setUid(uid);
+        entity.setMobile(mobile);
+        entity.setIsInvitation(flag);
+        entity.setNickname(name);
+        entity.setRealname(name);
+        return service.insert(entity);
+    }
+
+    /**
+     * insertInfoCode
+     */
+    @PostMapping("/inner/userInfouser/insertInfoCode")
+    Boolean insertInfoCode(@RequestParam("uid")String uid,@RequestParam("mobile")String mobile,
+                           @RequestParam("isInvitation")boolean flag,@RequestParam("name")String name
+            ,@RequestParam("code")String code){
+        UserInfoEntity entity = new UserInfoEntity();
+        entity.setUid(uid);
+        entity.setMobile(mobile);
+        entity.setIsInvitation(flag);
+        entity.setNickname(name);
+        entity.setRealname(name);
+        entity.setInvitationCode(code);
+        return service.insert(entity);
+    }
+
 
 }

@@ -15,24 +15,24 @@ public interface LevelFeign {
     /**
      * user_account 表
      */
-    @PostMapping("")
-    UserAccountEntity selectAccountByUid(@RequestParam("uid")String uid);
-    @PostMapping("")
+    @PostMapping("/inner/userAccount/selectById")
+    UserAccountEntity selectAccountByUid(@RequestParam("id")String uid);
+    @PostMapping("/inner/userAccount/updateById")
     Boolean updateAccountById(@RequestBody UserAccountEntity account);
 
     /**
      * user_info 表
      */
-    @PostMapping("")
-    UserInfoEntity selectUserInfoByUid(@RequestParam("uid")String uid);
+    @PostMapping("/inner/userInfo/selectById")
+    UserInfoEntity selectUserInfoByUid(@RequestParam("id")String uid);
 
-    @PostMapping("")
+    @PostMapping("/inner/userInfo/updateById")
     Boolean updateUserInfoById(@RequestBody UserInfoEntity userInfo);
 
     /**
      * user_relation 表
      */
-    @PostMapping("")
+    @PostMapping("/inner/userRelation/selectRelationByCode")
     UserRelationEntity selectRelationByCode(@RequestParam("code")String code);
 
     @PostMapping("")
@@ -41,12 +41,12 @@ public interface LevelFeign {
     /**
      * user_invitation_code 表
      */
-    @PostMapping("")
-    UserInvitationCodeEntity selectInvitationCodeByUid(@RequestParam("uid")String uid);
+    @PostMapping("/inner/userInvitationCode/selectById")
+    UserInvitationCodeEntity selectInvitationCodeByUid(@RequestParam("id")String uid);
 
-    @PostMapping("")
+    @PostMapping("/inner/userInvitationCode/selectCodeByCode")
     UserInvitationCodeEntity selectInvitationCodeByCode(@RequestParam("code")String code);
-    @PostMapping("")
+    @PostMapping("/inner/userInvitationCode/insert")
     Boolean insertInvitationCode(@RequestBody UserInvitationCodeEntity code);
     @PostMapping("")
     Boolean insertTreeNode(@RequestParam("pid")String pid,@RequestParam("uid") String uid,@RequestParam("code")String code);
@@ -54,12 +54,12 @@ public interface LevelFeign {
     /**
      * platform_config 表
      */
-    @PostMapping("")
+    @PostMapping("/inner/platFormConfig/getVal")
     String getVal(@RequestParam("key")String key);
 
     /**
      * user_info_config表
      */
-    @PostMapping("")
+    @PostMapping("/inner/userInfoConfig/selectById")
     UserInfoConfigEntity selectInfoConfigById(@RequestParam("vip")Integer vip);
 }

@@ -3,8 +3,8 @@
 
 <mapper namespace="cn.bitflash.dao.UserBuyDao">
 
-    <select id="getNumToPaging" resultType="java.lang.Integer">
-        select count(0) from user_buy where state = '1'
+    <select id="showBuyingCount" resultType="java.lang.Integer">
+        select count(0) from user_buy where ub.purchase_uid != #{uid} and ub.state = '1'
     </select>
 
     <select id="showBuying" resultType="cn.bitflash.entity.UserBuyBean">

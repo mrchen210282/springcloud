@@ -1,7 +1,7 @@
 package cn.bitflash.service.impl;
 
 import cn.bitflash.entity.UserComplaintBean;
-import cn.bitflash.entity.UserComplaintEntity;
+import cn.bitflash.entities.UserComplaintEntity;
 import cn.bitflash.dao.UserComplaintDao;
 import cn.bitflash.service.UserComplaintService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;

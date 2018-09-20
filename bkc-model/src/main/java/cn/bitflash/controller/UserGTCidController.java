@@ -1,15 +1,10 @@
 package cn.bitflash.controller;
 
-import cn.bitflash.entity.UserGTCidEntity;
-import cn.bitflash.exception.RRException;
+import cn.bitflash.entities.UserGTCidEntity;
 import cn.bitflash.service.UserGTCidService;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author GAOYGUUO
@@ -21,56 +16,23 @@ public class UserGTCidController {
     @Autowired
     private UserGTCidService service;
 
-    /**
-     * selectOne
-     *
-     * @param param
-     * @return
-     */
-    @PostMapping("/inner/userGTCidEntity/selectOne")
-    public UserGTCidEntity selectOne(Map<String, Object> param) {
-        List<UserGTCidEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            UserGTCidEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
-    }
 
     /**
-     * updateById
+     * selectCid
      *
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(UserGTCidEntity entity) {
-        service.updateById(entity);
+    @PostMapping("/inner/userGTCidEntity/selectCid")
+    String selectCid(@RequestParam("uid") String uid){
+        String cid = service.selectOne(new EntityWrapper<UserGTCidEntity>().eq("uid",uid)).getCid();
+        return cid;
     }
 
     /**
-     * insert
-     *
-     * @return
+     * user_getui_cid表
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(UserGTCidEntity entity) {
-        service.insert(entity);
+    @PostMapping("/inner/userGTCidEntity/insertOrUpdateGT")
+    public Boolean insertOrUpdateGT(@RequestBody UserGTCidEntity userGTCidEntity){
+        return service.insertOrUpdate(userGTCidEntity);
     }
-
-    /**
-     * deleteById
-     *
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(int id) {
-        service.deleteById(id);
-    }
-
-    @PostMapping("insertOrUpdateGT")
-    public Boolean insertOrUpdateGT(@RequestBody UserGTCidEntity entity){
-        return service.insertOrUpdate(entity);
-    }
-
-
 }

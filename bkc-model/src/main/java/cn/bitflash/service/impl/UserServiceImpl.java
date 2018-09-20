@@ -16,23 +16,11 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.entity.LoginForm;
-import cn.bitflash.entity.TokenEntity;
-import cn.bitflash.entity.UserEntity;
-import cn.bitflash.entity.UserGTCidEntity;
+import cn.bitflash.entities.UserEntity;
 import cn.bitflash.dao.UserDao;
-import cn.bitflash.exception.RRException;
-import cn.bitflash.service.TokenService;
-import cn.bitflash.service.UserGTCidService;
 import cn.bitflash.service.UserService;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service("userService")
 public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements UserService {

@@ -5,6 +5,7 @@ import cn.bitflash.entity.UserAccountEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserAccountService;
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 /**
  * @author GAOYUGUO
@@ -106,5 +109,16 @@ public class UserAccountController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
+    }
+
+    /**
+     * insertAccountIndex
+     */
+    @PostMapping("/inner/userAccount/insertAccountIndex")
+    Boolean insertAccountIndex(@RequestParam("uid")String uid, @RequestParam("date") Date date){
+        UserAccountEntity entity = new UserAccountEntity();
+        entity.setUid(uid);
+        entity.setCreateTime(date);
+        return service.insert(entity);
     }
 }

@@ -20,7 +20,7 @@ public interface BuyFeign {
      *
      * @param entity
      */
-    @PostMapping("/inner/usreBuy/insert")
+    @PostMapping("/inner/userBuy/updateById")
     void insertBuy(@RequestBody UserBuyEntity entity);
 
     /**
@@ -29,7 +29,7 @@ public interface BuyFeign {
      * @param id
      * @return
      */
-    @PostMapping("/inner/usreBuy/selectById")
+    @PostMapping("/inner/userBuy/selectById")
     UserBuyEntity selectBuyById(@RequestParam("id") String id);
 
     /**
@@ -37,8 +37,16 @@ public interface BuyFeign {
      *
      * @param entity
      */
-    @PostMapping("/inner/usreBuy/updateById")
+    @PostMapping("/inner/userBuy/updateById")
     void updateBuyById(@RequestBody UserBuyEntity entity);
+
+    /**
+     * deleteById
+     *
+     * @param id
+     */
+    @PostMapping("/inner/userBuy/deleteById")
+    void deleteBuyById(@RequestParam("id") String id);
 
     /**
      * showBuying
@@ -52,12 +60,12 @@ public interface BuyFeign {
 
 
     /**
-     * getNumToPaging
+     * showBuyingCount
      *
      * @return
      */
-    @PostMapping("/inner/userBuy/getNumToPaging")
-    Integer getNumToPaging();
+    @PostMapping("/inner/userBuy/showBuyingCount")
+    Integer showBuyingCount(@RequestParam("uid") String uid);
 
     /**
      * showOrder
@@ -79,14 +87,6 @@ public interface BuyFeign {
     @PostMapping("/inner/userBuy/showOrderCount")
     Integer showOrderCount(@RequestParam("uid") String uid);
 
-
-    /**
-     * deleteById
-     *
-     * @param id
-     */
-    @PostMapping("/inner/userBuy/deleteById")
-    void deleteBuyById(@RequestParam("id") String id);
 
     /**
      * checkOrder
@@ -113,15 +113,6 @@ public interface BuyFeign {
      */
     @PostMapping("/inner/userBuyHistory/selectById")
     UserBuyHistoryEntity selectHistoryById(@RequestParam("id") String id);
-
-    /**
-     * selectBuyHistory
-     *
-     * @param id
-     * @return
-     */
-    @PostMapping("/inner/userBuyHistory/selectBuyHistory")
-    UserBuyHistoryBean selectBuyHistory(@RequestParam("id") String id);
 
     /**
      * updateById
@@ -164,7 +155,7 @@ public interface BuyFeign {
     /**
      * deletePoundage
      */
-    @PostMapping("/inner/buyPoundage/deletePoundage")
+    @PostMapping("/inner/buyPoundage/deleteById")
     void deletePoundage(@RequestParam("id") String id);
 
     /**
@@ -208,12 +199,12 @@ public interface BuyFeign {
     void updateBrokerageById(@RequestBody UserBrokerageEntity entity);
 
     /**
-     * selectOne
+     * selectById
      *
      * @param id
      * @return
      */
-    @PostMapping("/inner/userBrokerage/selectOne")
+    @PostMapping("/inner/userBrokerage/selectById")
     UserBrokerageEntity selectBrokerageById(@RequestParam("id") int id);
 
 
@@ -225,8 +216,8 @@ public interface BuyFeign {
      * @param uid
      * @return
      */
-    @PostMapping("inner/userPayPwd/selectUid")
-    UserPayPwdEntity selectUid(@RequestParam("uid") String uid);
+    @PostMapping("/inner/userPayPwd/selectById")
+    UserPayPwdEntity selectUid(@RequestParam("id") String uid);
 
     /**
      * getVal
@@ -240,16 +231,15 @@ public interface BuyFeign {
     /**
      * selectCid
      *
-     * @param param
      * @return
      */
     @PostMapping("/inner/userGTCidEntity/selectOne")
-    UserGTCidEntity selectCid(Map<String, Object> param);
+    String selectCid(@RequestParam("uid") String uid);
 
 
     /**
-     *
+     *selectPoundage
      */
-    @PostMapping("/inner/userTradeConfig/selectOne")
-    UserTradeConfigEntity selectConfig(@RequestParam("remark") String remark);
+    @PostMapping("/inner/userTradeConfig/selectById")
+    Float selectPoundage(@RequestParam("id") int id);
 }

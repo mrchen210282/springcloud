@@ -1,6 +1,6 @@
 package cn.bitflash.service.impl;
 
-import cn.bitflash.entity.UserAccountGameEntity;
+import cn.bitflash.entities.UserAccountGameEntity;
 import cn.bitflash.dao.UserAccountGameDao;
 import cn.bitflash.service.UserAccountGameService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;

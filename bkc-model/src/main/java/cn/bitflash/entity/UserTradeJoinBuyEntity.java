@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class UserTradeJoinBuyEntity {
 
-    private Integer orderId;
+    private String orderId;
 
     //价格
     private float price;
@@ -24,14 +24,14 @@ public class UserTradeJoinBuyEntity {
     //昵称
     private String nickname;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone="GMT+8" )
     private Date finishTime;
 
-    public Integer getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

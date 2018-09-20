@@ -1,52 +1,39 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.TokenEntity;
-import cn.bitflash.entity.UserEntity;
+import cn.bitflash.entities.TokenEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.TokenService;
-import io.swagger.annotations.ApiParam;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author GAOYGUUO
  */
 @RestController
-@RequestMapping("token")
 public class TokenController {
 
     @Autowired
     private TokenService service;
 
     /**
-     * selectOne
+     * selectById
      *
-     * @param param
      * @return
      */
-
-    public TokenEntity selectOne(Map<String, Object> param) {
-        List<TokenEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            TokenEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
-    }
-
-    @ApiParam
-    @PostMapping("insertOrUpdateToken")
-    public Boolean insertOrUpdateToken(@RequestBody TokenEntity tokenEntity){
-        return service.insertOrUpdate(tokenEntity);
+    @PostMapping("/inner/token/selectById")
+    public JSONObject selectById(@RequestParam("id") String id) {
+        TokenEntity entity = service.selectById(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("uid", entity.getUid());
+        jsonObject.put("token", entity.getToken());
+        jsonObject.put("expireTime", entity.getExpireTime());
+        jsonObject.put("updateTime", entity.getUpdateTime());
+        jsonObject.put("mobile", entity.getMobile());
+        return jsonObject;
     }
 
     /**
@@ -54,8 +41,15 @@ public class TokenController {
      *
      * @return
      */
+    @PostMapping("/inner/token/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(TokenEntity entity) {
+    public void updateById(@RequestBody JSONObject json) {
+        TokenEntity entity = new TokenEntity();
+        entity.setUid(json.getString("uid"));
+        entity.setToken(json.getString("token"));
+        entity.setExpireTime(json.getDate("expireTime"));
+        entity.setUpdateTime(json.getDate("updateTime"));
+        entity.setMobile(json.getString("mobile"));
         service.updateById(entity);
     }
 
@@ -64,8 +58,15 @@ public class TokenController {
      *
      * @return
      */
+    @PostMapping("/inner/token/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(TokenEntity entity) {
+    public void insert(@RequestBody JSONObject json) {
+        TokenEntity entity = new TokenEntity();
+        entity.setUid(json.getString("uid"));
+        entity.setToken(json.getString("token"));
+        entity.setExpireTime(json.getDate("expireTime"));
+        entity.setUpdateTime(json.getDate("updateTime"));
+        entity.setMobile(json.getString("mobile"));
         service.insert(entity);
     }
 
@@ -74,41 +75,18 @@ public class TokenController {
      *
      * @return
      */
+    @PostMapping("/inner/token/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(String id) {
+    public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
     }
 
     /**
-     * queryByToken
-     *
-     * @return
+     * insertOrUpdateToken
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public TokenEntity queryByToken(String mobile) {
-        TokenEntity tokenEntity = service.queryByToken(mobile);
-        return tokenEntity;
-    }
-
-    /**
-     * createToken
-     *
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public TokenEntity createToken(UserEntity user) {
-        TokenEntity tokenEntity = service.createToken(user);
-        return tokenEntity;
-    }
-
-    /**
-     * createToken
-     *
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void expireToken(String uid) {
-        service.queryByToken(uid);
+    @PostMapping("/inner/token/insertOrUpdateToken")
+    public Boolean insertOrUpdateToken(@RequestBody TokenEntity tokenEntity){
+        return service.insertOrUpdate(tokenEntity);
     }
 
 }

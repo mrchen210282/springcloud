@@ -16,7 +16,7 @@
 
 package cn.bitflash.service;
 
-import cn.bitflash.entity.UserTradeConfigEntity;
+import cn.bitflash.entities.UserTradeConfigEntity;
 import com.baomidou.mybatisplus.service.IService;
 
 /**

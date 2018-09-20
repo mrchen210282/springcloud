@@ -17,7 +17,7 @@
 package cn.bitflash.service;
 
 
-import cn.bitflash.entity.UserSendEntity;
+import cn.bitflash.entities.UserSendEntity;
 import com.baomidou.mybatisplus.service.IService;
 
 import java.util.List;

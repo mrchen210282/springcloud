@@ -17,7 +17,7 @@
 package cn.bitflash.dao;
 
 
-import cn.bitflash.entity.UserBrokerageEntity;
+import cn.bitflash.entities.UserBrokerageEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**

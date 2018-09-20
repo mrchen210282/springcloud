@@ -17,7 +17,7 @@
 package cn.bitflash.service;
 
 
-import cn.bitflash.entity.UserBrokerageEntity;
+import cn.bitflash.entities.UserBrokerageEntity;
 import com.baomidou.mybatisplus.service.IService;
 
 /**

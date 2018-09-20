@@ -1,6 +1,6 @@
 package cn.bitflash.dao;
 
-import cn.bitflash.entity.UserRelationEntity;
+import cn.bitflash.entities.UserRelationEntity;
 import cn.bitflash.entity.UserRelationJoinAccountEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;

@@ -133,8 +133,8 @@
     <select id="selectTradeUrl" resultType="java.util.Map">
         select a.id,a.price,a.quantity,b.img_type as imgType,
         b.img_url as
-        imgUrl,c.realname,c.mobile from user_trade a
-        left join user_pay_url b on a.uid =
+        imgUrl,c.realna
+        left join user_pay_url b on a.uid =me,c.mobile from user_trade a
         b.uid
         left join user_info c on a.uid = c.uid
         <where>
@@ -229,71 +229,6 @@
             </if>
         </where>
     </select>
-
-
-    <!-- add by wangjun 2018.6.23 查询交易历史 -->
-    <select id="selectTradeHistory" resultType="cn.bitflash.entity.UserTradeBean">
-        select a.purchase_uid,a.sell_uid,a.user_trade_id,
-
-        <if test='state == "4"'>
-            a.sell_quantity as quantity,
-        </if>
-        <if test='state == "2"'>
-            a.purchase_quantity as quantity,
-        </if>
-
-        a.price,a.create_time,
-        c.price,
-        <if test='state == "4"'>
-            (select d.nickname from user_info d where a.sell_uid =
-            d.uid) as realname
-        </if>
-        <if test='state == "2"'>
-            (select d.nickname from user_info d where
-            a.purchase_uid = d.uid) as realname
-        </if>
-        from user_trade_history a
-        left join user_account b on a.purchase_uid =
-        b.uid
-        left join user_trade c on a.user_trade_id = c.id
-        <where>
-            1 = 1
-            <if test='state == "4"'>
-                and a.purchase_uid = #{uid} and c.state = #{state}
-            </if>
-            <if test='state == "2"'>
-                and a.sell_uid = #{uid}
-            </if>
-            and <![CDATA[a.state <> '6']]>
-        </where>
-        order by create_time desc
-    </select>
-
-    <select id="getHistoryBystate5" resultType="java.util.Map">
-        SELECT
-        ul.user_trade_id AS userTradeId,
-        ul.lock_uid AS lockUid,
-        ul.lock_time AS lockTime
-        FROM
-        user_trade_lock ul
-        LEFT JOIN user_trade ut ON (ul.user_trade_id = ut.id)
-        WHERE
-        ut.state = '5'
-
-    </select>
-
-    <!--<select id="getHistoryBystate5" resultType="java.util.Map">-->
-    <!--SELECT-->
-    <!--ul.user_trade_id AS userTradeId,-->
-    <!--ul.lock_uid AS lockUid,-->
-    <!--ul.lock_time AS lockTime-->
-    <!--FROM-->
-    <!--user_trade_lock ul-->
-    <!--LEFT JOIN user_trade ut ON (ul.user_trade_id = ut.id)-->
-    <!--WHERE-->
-    <!--ut.state = '5'-->
-    <!--</select>-->
-
 
     <select id="selectById" resultType="cn.bitflash.entity.UserTradeEntity">
         select

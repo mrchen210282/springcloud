@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class OrderListEntity {
+public class TradeListBean {
 
     private String realname;
 
@@ -29,8 +29,6 @@ public class OrderListEntity {
     private Date createTime;
 
     private String state;
-
-    private String isMySelf;
 
     public String getRealname() {
         return realname;
@@ -94,13 +92,5 @@ public class OrderListEntity {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public String getIsMySelf() {
-        return isMySelf;
-    }
-
-    public void setIsMySelf(String isMySelf) {
-        this.isMySelf = isMySelf;
     }
 }

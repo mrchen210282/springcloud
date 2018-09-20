@@ -1,5 +1,6 @@
 package cn.bitflash.vip.trade.feign;
 
+import cn.bitflash.entities.*;
 import cn.bitflash.entity.*;
 import cn.bitflash.vip.trade.entity.UserTradeConfigEntity;
 import cn.bitflash.vip.trade.entity.UserTradeDetail;
@@ -45,19 +46,19 @@ public interface TradeFeign {
     UserTradeDetail selectDetail(@RequestParam("id") String id);
 
     @PostMapping("")
-    AllUserTradeDetail queryDetail(@RequestParam("id") String id);
+    AllUserTradeBean queryDetail(@RequestParam("id") String id);
 
     @PostMapping("")
-    List<TradeListEntity> selectTradeHistory(@RequestBody Map<String, Object> param);
+    List<TradeListBean> selectTradeHistory(@RequestBody Map<String, Object> param);
 
     @PostMapping("")
-    List<TradeListEntity> tradeList(@RequestParam("uid")String uid,@RequestParam("pageNum")String pageNum,@RequestParam("pageTotal")String pageTotal);
+    List<TradeListBean> tradeList(@RequestParam("uid")String uid, @RequestParam("pageNum")String pageNum, @RequestParam("pageTotal")String pageTotal);
 
     @PostMapping("")
     List<UserTradeEntity> selectTradeByState(@RequestParam("state") String state);
 
     @PostMapping("")
-    List<OrderListEntity> selectOrderTrade(@RequestParam("uid")String uid,@RequestParam("pageNum")String pageNum,@RequestParam("pageTotal")String pageTotal);
+    List<OrderListBean> selectOrderTrade(@RequestParam("uid")String uid, @RequestParam("pageNum")String pageNum, @RequestParam("pageTotal")String pageTotal);
 
     @PostMapping("")
     Integer selectTradeCount(@RequestParam("uid")String uid,@RequestParam("pageNum")String pageNum,@RequestParam("pageTotal")String pageTotal);

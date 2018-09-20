@@ -1,7 +1,7 @@
 package cn.bitflash.dao;
 
+import cn.bitflash.entities.UserTradeHistoryEntity;
 import cn.bitflash.entity.UserTradeHistoryBean;
-import cn.bitflash.entity.UserTradeHistoryEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 import java.util.List;

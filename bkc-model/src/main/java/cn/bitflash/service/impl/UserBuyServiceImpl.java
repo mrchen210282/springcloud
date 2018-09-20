@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
 import java.util.List;
@@ -26,32 +27,49 @@ public class UserBuyServiceImpl extends ServiceImpl<UserBuyDao, UserBuyEntity> i
     private final Logger logger = LoggerFactory.getLogger(UserBuyServiceImpl.class);
 
     @Override
-    public List<UserBuyMessageBean> getBuyMessage(String uid, Integer pages) {
-        return baseMapper.getBuyMessage(uid, pages);
-    }
-
-    @Override
     public Integer getNumToPaging() {
         return baseMapper.getNumToPaging();
     }
 
+    /**
+     * 交易页集合
+     * @param uid
+     * @param pages
+     * @return
+     */
     @Override
-    public List<UserBuyBean> selectBuyList(String uid, Integer pages) {
-        return baseMapper.selectBuyList(uid, pages);
+    public List<UserBuyBean> showBuying(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages){
+        return baseMapper.showBuying(uid,pages);
     }
 
+    /**
+     * 订单页集合
+     * @param uid
+     * @param pages
+     * @return
+     */
     @Override
-    public List<UserBuyBean> selectAppealList(String uid, Integer pages) {
-        return baseMapper.selectAppealList(uid, pages);
+    public List<UserBuyBean> showOrder(@RequestParam("uid") String uid,@RequestParam("pages") Integer pages){
+        return  baseMapper.showOrder(uid,pages);
     }
 
+    /**
+     * 订单数量
+     * @param uid
+     * @return
+     */
     @Override
-    public Integer selectAppealCount(String uid) {
-        return baseMapper.selectAppealCount(uid);
+    public Integer showOrderCount(@RequestParam("uid") String uid){
+        return baseMapper.showOrderCount(uid);
     }
 
+    /**
+     * 订单详情
+     * @param id
+     * @return
+     */
     @Override
-    public Integer selectUserBuyOwnCount(String uid) {
-        return baseMapper.selectUserBuyOwnCount(uid);
+    public UserBuyBean checkOrder(@RequestParam("id")String id){
+        return  baseMapper.checkOrder(id);
     }
 }

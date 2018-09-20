@@ -1,6 +1,7 @@
 package cn.bitflash.controller;
 
 
+import cn.bitflash.entity.UserBuyBean;
 import cn.bitflash.entity.UserBuyEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserBuyService;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author GAOYUGUO
@@ -91,5 +94,53 @@ public class UserBuyController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
+    }
+
+    /**
+     * showBuying
+     *
+     * @param uid
+     * @param pages
+     * @return
+     */
+    @PostMapping("/inner/userBuy/showBuying")
+    List<UserBuyBean> showBuying(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages) {
+        List<UserBuyBean> userBuyBeans = service.showBuying(uid, pages);
+        return userBuyBeans;
+    }
+
+    /**
+     * showOrder
+     *
+     * @param uid
+     * @param pages
+     * @return
+     */
+    @PostMapping("/inner/userBuy/showOrder")
+    List<UserBuyBean> showOrder(@RequestParam("uid") String uid,@RequestParam("pages") Integer pages){
+        List<UserBuyBean> userBuyBeans = service.showOrder(uid, pages);
+        return userBuyBeans;
+    }
+
+    /**
+     * showOrderCount
+     *
+     * @param uid
+     * @return
+     */
+    @PostMapping("/inner/userBuy/showOrderCount")
+    Integer showOrderCount(@RequestParam("uid") String uid){
+        int count = service.showOrderCount(uid);
+        return count;
+    }
+
+    /**
+     * checkOrder
+     *
+     */
+    @PostMapping("/inner/userBuy/checkOrder")
+    UserBuyBean checkOrder(@RequestParam("id")String id){
+        UserBuyBean userBuyBean = service.checkOrder(id);
+        return userBuyBean;
     }
 }

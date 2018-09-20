@@ -5,6 +5,7 @@ import cn.bitflash.entity.UserBuyEntity;
 import cn.bitflash.entity.UserBuyMessageBean;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -16,15 +17,13 @@ import java.util.List;
  */
 public interface UserBuyDao extends BaseMapper<UserBuyEntity> {
 
-    List<UserBuyMessageBean> getBuyMessage(@Param("uid") String uid, @Param("pages") Integer pages);
-
     Integer getNumToPaging();
 
-    List<UserBuyBean> selectBuyList(@Param("uid") String uid, @Param("pages") Integer pages);
+    List<UserBuyBean> showBuying(@Param("uid") String uid, @Param("pages") Integer pages);
 
-    List<UserBuyBean> selectAppealList(@Param("uid") String uid, @Param("pages") Integer pages);
+    List<UserBuyBean> showOrder(@RequestParam("uid") String uid,@RequestParam("pages") Integer pages);
 
-    Integer selectAppealCount(String uid);
+    Integer showOrderCount(@RequestParam("uid") String uid);
 
-    Integer selectUserBuyOwnCount(@Param("uid") String uid);
+    UserBuyBean checkOrder(@RequestParam("id")String id);
 }

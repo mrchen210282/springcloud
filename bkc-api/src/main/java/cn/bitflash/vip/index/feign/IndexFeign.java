@@ -21,7 +21,7 @@ public interface IndexFeign {
      * tb_user表
      */
     @ApiOperation(value = "根据手机号查询用户是否存在")
-    @PostMapping("user/queryByMobile")
+    @PostMapping("/inner/user/selectById")
     UserEntity selectUserEntityByMobile(@RequestParam("mobile")String mobile);
 
     @ApiOperation(value = "根据手机号删除用户信息")

@@ -26,7 +26,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/inner/user/selectById")
-    public JSONObject selectById(@RequestParam("id") String id) {
+    public JSONObject selectById(@RequestParam("mobile") String id) {
         UserEntity entity = userService.selectById(id);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("uuid", entity.getUuid());

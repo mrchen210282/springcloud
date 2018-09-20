@@ -53,9 +53,6 @@ public class AppStatusController {
      * @return
      */
     @PostMapping("/inner/appStatus/updateById")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(AppStatusEntity appStatusEntity) {
-        appStatusService.updateById(appStatusEntity);
     public void updateById(@RequestBody JSONObject json) {
         AppStatusEntity entity = new AppStatusEntity();
         entity.setAppid(json.getString("appId"));
@@ -72,9 +69,6 @@ public class AppStatusController {
      * @return
      */
     @PostMapping("/inner/appStatus/insert")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(AppStatusEntity appStatusEntity) {
-        appStatusService.insert(appStatusEntity);
     public void insert(@RequestBody JSONObject json) {
         AppStatusEntity entity = new AppStatusEntity();
         entity.setAppid(json.getString("appId"));
@@ -91,9 +85,6 @@ public class AppStatusController {
      * @return
      */
     @PostMapping("/inner/appStatus/deleteById")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(String id) {
-        appStatusService.deleteById(id);
     public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
     }

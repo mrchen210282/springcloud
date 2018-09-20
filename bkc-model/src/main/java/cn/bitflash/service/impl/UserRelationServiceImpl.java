@@ -35,15 +35,7 @@ public class UserRelationServiceImpl extends ServiceImpl<UserRelationDao, UserRe
 
     }
 
-    @Override
-    public int updateTreeNodes(Integer leftCode, String column) {
-        return baseMapper.updateTreeNodes(leftCode, column);
-    }
 
-    @Override
-    public int selectLayer(Integer rgt) {
-        return baseMapper.selectLayer(rgt);
-    }
 
 
 }

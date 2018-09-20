@@ -1,23 +1,23 @@
 package cn.bitflash.vip.level.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.*;
+import cn.bitflash.entities.UserCashIncome;
+import cn.bitflash.entities.UserDigitalIncome;
+import cn.bitflash.entities.UserInfoEntity;
+import cn.bitflash.entities.UserInvitationCodeEntity;
+import cn.bitflash.entity.UserVipConditionsEntity;
 import cn.bitflash.exception.RRException;
-import cn.bitflash.util.Assert;
-import cn.bitflash.util.CodeUtils;
-import cn.bitflash.util.Common;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.level.entity.UserRelationJoinAccountEntity;
 import cn.bitflash.vip.level.feign.LevelFeign;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,24 +36,27 @@ public class Vip {
     public R updateVipLevel(@RequestAttribute("uid") String uid) {
 
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
-        UserAccountEntity userAccount = levelFeign.selectAccountByUid(uid);
+        UserDigitalIncome userAccount = levelFeign.selectAccountByUid(uid);
         List<UserVipConditionsEntity> vipConditions = levelFeign.selectVipConditonsByLevel(userInfo.getIsVip());
         if (vipConditions.size() < 2) {
             return R.error("更高算力暂未开放");
-        }
-        BigDecimal purchase = userAccount.getPurchase();
-        if (purchase.doubleValue() < vipConditions.get(1).getBkcount()) {
-            return R.error("bkc数量不够");
         }
         /**
          * 扣除冻结的bkc
          * 提升vip  userinfo
          */
-        
+        float cha = vipConditions.get(1).getBkcount()-vipConditions.get(0).getBkcount();
+        if(cha>userAccount.getAvailableAssets().doubleValue()){
+            return R.error("bkc数量不够");
+        }
+        userAccount.setAvailableAssets(new BigDecimal(userAccount.getAvailableAssets().doubleValue()-cha));
+        userAccount.setPurchase(new BigDecimal(cha));
+        userAccount.setFrozenAssets(userAccount.getFrozenAssets().add(new BigDecimal(cha)));
+        levelFeign.updateAccountById(userAccount);
 
-
-
-
+        UserCashIncome cashIncome = levelFeign.selectUserCashIncomeByUid(uid);
+        cashIncome.setPower(vipConditions.get(1).getPower());
+        levelFeign.updateUserCashIncomeById(cashIncome);
 
         List<UserRelationJoinAccountEntity> child_user = levelFeign.selectTreeNodes(uid);
         if (child_user != null || child_user.size() != 0) {

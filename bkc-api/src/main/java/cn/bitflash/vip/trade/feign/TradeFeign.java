@@ -17,28 +17,28 @@ public interface TradeFeign {
     /**
      * user_complaint 表
      */
-    @PostMapping("")
-    UserComplaintEntity selectUserCompById(@RequestParam("orderId") String orderId);
+    @PostMapping("/inner/userComplaint/selectById")
+    UserComplaintEntity selectUserCompById(@RequestParam("id") String orderId);
 
-    @PostMapping("")
-    Boolean insertUserComplaint(@RequestBody UserComplaintEntity complaint);
+    @PostMapping("/inner/userComplaint/updateById")
+    void insertUserComplaint(@RequestBody UserComplaintEntity complaint);
 
     /**
      * user_trade 表
      */
-    @PostMapping("")
-    Boolean insertOrUpdateTrade(@RequestBody UserTradeEntity trade);
+    @PostMapping("/inner/userTrade/insertOrUpdateTrade")
+    boolean insertOrUpdateTrade(@RequestBody UserTradeEntity trade);
 
-    @PostMapping("")
-    Boolean updateTrade(@RequestBody UserTradeEntity trade);
+    @PostMapping("/inner/userTrade/updateById")
+    void updateTrade(@RequestBody UserTradeEntity trade);
 
-    @PostMapping("")
-    Boolean deleteTrade(@RequestParam("id") String id);
+    @PostMapping("/inner/userTrade/deleteById")
+    void deleteTrade(@RequestParam("id") String id);
 
-    @PostMapping("")
+    @PostMapping("/inner/userTrade/selectById")
     UserTradeEntity selectTradeById(@RequestParam("id") String id);
 
-    @PostMapping("")
+    @PostMapping("/inner/userTrade/selectTradeByIdAndState")
     UserTradeEntity selectTradeByIdAndState(@RequestParam("id") String id,@RequestParam("state") String state);
 
     @PostMapping("")
@@ -68,17 +68,17 @@ public interface TradeFeign {
     /**
      * user_trade_history 表
      */
-    @PostMapping("")
-    UserTradeHistoryEntity selectTradeHistoryById(@RequestParam("orderId") String orderId);
+    @PostMapping("/inner/userTradeHistory/selectById")
+    UserTradeHistoryEntity selectTradeHistoryById(@RequestParam("id") String orderId);
 
     @PostMapping("")
-    Boolean updateUserTradeHistory(@RequestBody UserTradeHistoryEntity history);
+    void updateUserTradeHistory(@RequestBody UserTradeHistoryEntity history);
 
     @PostMapping("")
-    Boolean delUserTradeById(@RequestParam("orderId") String orderId);
+    void delUserTradeById(@RequestParam("orderId") String orderId);
 
     @PostMapping("")
-    Boolean insertUserTradeHistory(@RequestBody UserTradeHistoryEntity historyEntity);
+    void insertUserTradeHistory(@RequestBody UserTradeHistoryEntity historyEntity);
 
     /**
      * user_trade_config 表
@@ -93,10 +93,10 @@ public interface TradeFeign {
     TradePoundageEntity selectTradePoundageById(@RequestParam("id") String id);
 
     @PostMapping("")
-    Boolean deleteTradePoundageById(@RequestParam("id") String id);
+    void deleteTradePoundageById(@RequestParam("id") String id);
 
     @PostMapping("")
-    Boolean insertTradePoundage(@RequestBody TradePoundageEntity poundageEntity);
+    void insertTradePoundage(@RequestBody TradePoundageEntity poundageEntity);
 
     /**
      * user_pay_pwd 表
@@ -111,7 +111,7 @@ public interface TradeFeign {
     UserAccountEntity selectAccountByUid(@RequestParam("uid") String uid);
 
     @PostMapping("")
-    Boolean updateUserAccount(@RequestBody UserAccountEntity account);
+    void updateUserAccount(@RequestBody UserAccountEntity account);
 
     @PostMapping("")
     Map<String, Object> responseTrade(@RequestParam("uid") String uid);
@@ -123,7 +123,7 @@ public interface TradeFeign {
     UserBrokerageEntity selectUserBrokerageById(@RequestParam("id") Integer id);
 
     @PostMapping("")
-    Boolean updateUserBrokerage(@RequestBody UserBrokerageEntity brokerage);
+    void updateUserBrokerage(@RequestBody UserBrokerageEntity brokerage);
 
     /**
      * user_getui_cid 表

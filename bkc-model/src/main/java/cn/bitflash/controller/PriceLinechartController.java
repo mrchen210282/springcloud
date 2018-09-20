@@ -1,7 +1,7 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.PriceLinechartEntity;
+import cn.bitflash.entities.PriceLinechartEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.PriceLinechartService;
 import com.alibaba.fastjson.JSONObject;

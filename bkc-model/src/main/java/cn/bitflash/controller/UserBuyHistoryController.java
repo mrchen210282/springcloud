@@ -1,7 +1,7 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserBuyHistoryEntity;
+import cn.bitflash.entities.UserBuyHistoryEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserBuyHistoryService;
 import com.alibaba.fastjson.JSONObject;

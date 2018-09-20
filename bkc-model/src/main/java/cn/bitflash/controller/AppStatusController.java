@@ -1,38 +1,27 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.AppStatusEntity;
-import cn.bitflash.exception.RRException;
+import cn.bitflash.entities.AppStatusEntity;
 import cn.bitflash.service.AppStatusService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
-
 /**
  * @author GAOYGUUO
- * @author GAOYUGUO
  */
 @RestController
 public class AppStatusController {
 
     @Autowired
-    private AppStatusService appStatusService;
     private AppStatusService service;
 
     /**
      * selectById
      *
-     * @param param
      * @return
      */
     @PostMapping("/inner/appStatus/selectById")

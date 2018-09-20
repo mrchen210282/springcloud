@@ -1,6 +1,6 @@
 package cn.bitflash.service;
 
-import cn.bitflash.entity.TradePoundageEntity;
+import cn.bitflash.entities.TradePoundageEntity;
 import com.baomidou.mybatisplus.service.IService;
 
 import java.util.Map;

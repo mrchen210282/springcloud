@@ -4,7 +4,6 @@ import cn.bitflash.entity.UserAccountEntity;
 import cn.bitflash.entity.UserBuyEntity;
 import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -28,7 +27,7 @@ public class TradeUtil {
         //交易数量
         Float buyQuantity = Float.parseFloat(df.format(userBuy.getQuantity()));
         //手续费比率
-        Float poundage = feign.selectConfig("交易手续费").getPoundage();
+        Float poundage = feign.selectPoundage("交易手续费");
         //手续费数量
         Float totalPoundage = buyQuantity * poundage;
         //实际交易总数量

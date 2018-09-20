@@ -1,10 +1,11 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserEntity;
+import cn.bitflash.entities.UserEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
  * @author GAOYUGUO
  */
 @RestController
-@RequestMapping("user")
 public class UserController {
 
     @Autowired
@@ -79,4 +79,17 @@ public class UserController {
         userService.deleteById(id);
     }
 
+    /**
+     * selectByUuid
+     */
+    @PostMapping("/inner/user/selectByUuid")
+    JSONObject selectByUuid(@RequestParam("uuid") String uuid){
+        UserEntity entity = userService.selectOne(new EntityWrapper<UserEntity>().eq("uuid",uuid));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("uuid", entity.getUuid());
+        jsonObject.put("uid", entity.getUid());
+        jsonObject.put("password", entity.getPassword());
+        jsonObject.put("mobile", entity.getMobile());
+        return jsonObject;
+    }
 }

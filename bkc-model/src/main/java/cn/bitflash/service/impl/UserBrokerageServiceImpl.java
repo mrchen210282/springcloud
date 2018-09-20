@@ -1,6 +1,6 @@
 package cn.bitflash.service.impl;
 
-import cn.bitflash.entity.UserBrokerageEntity;
+import cn.bitflash.entities.UserBrokerageEntity;
 import cn.bitflash.dao.UserBrokerageDao;
 import cn.bitflash.service.UserBrokerageService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;

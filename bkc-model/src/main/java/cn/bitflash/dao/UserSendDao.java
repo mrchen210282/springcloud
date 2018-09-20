@@ -17,7 +17,7 @@
 package cn.bitflash.dao;
 
 
-import cn.bitflash.entity.UserSendEntity;
+import cn.bitflash.entities.UserSendEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 

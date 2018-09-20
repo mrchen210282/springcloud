@@ -1,6 +1,6 @@
 package cn.bitflash.service.impl;
 
-import cn.bitflash.entity.PlatformConfigEntity;
+import cn.bitflash.entities.PlatformConfigEntity;
 import cn.bitflash.dao.PlatFormConfigDao;
 import cn.bitflash.service.PlatFormConfigService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;

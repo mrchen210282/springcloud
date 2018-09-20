@@ -1,7 +1,7 @@
 package cn.bitflash.service;
 
+import cn.bitflash.entities.UserTradeEntity;
 import cn.bitflash.entity.UserTradeBean;
-import cn.bitflash.entity.UserTradeEntity;
 import cn.bitflash.entity.UserTradeJoinBuyEntity;
 import com.baomidou.mybatisplus.service.IService;
 

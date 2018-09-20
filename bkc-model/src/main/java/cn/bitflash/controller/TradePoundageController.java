@@ -1,17 +1,17 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.TradePoundageEntity;
+import cn.bitflash.entities.TradePoundageEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.TradePoundageService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author GAOYGUUO
@@ -23,31 +23,20 @@ public class TradePoundageController {
     private TradePoundageService service;
 
     /**
-     * selectOne
-     *
-     * @param param
-     * @return
-     */
-    @PostMapping("/inner/tradePoundage/selectOne")
-    public TradePoundageEntity selectOne(Map<String, Object> param) {
-        List<TradePoundageEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            TradePoundageEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
-    }
-
-    /**
      * selectById
      *
-     * @param id
      * @return
      */
     @PostMapping("/inner/tradePoundage/selectById")
-    public TradePoundageEntity selectById(String id) {
-        TradePoundageEntity tradePoundageEntity = service.selectById(id);
-        return tradePoundageEntity;
+    public JSONObject selectById(@RequestParam("id") String id) {
+        TradePoundageEntity entity = service.selectById(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userTradeId", entity.getUid());
+        jsonObject.put("uid", entity.getUid());
+        jsonObject.put("poundage", entity.getPoundage());
+        jsonObject.put("quantity", entity.getQuantity());
+        jsonObject.put("createTime", entity.getCreateTime());
+        return jsonObject;
     }
 
     /**
@@ -55,8 +44,15 @@ public class TradePoundageController {
      *
      * @return
      */
+    @PostMapping("/inner/tradePoundage/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(TradePoundageEntity entity) {
+    public void updateById(@RequestBody JSONObject json) {
+        TradePoundageEntity entity = new TradePoundageEntity();
+        entity.setUid(json.getString("uid"));
+        entity.setUserTradeId(json.getString("userTradeId"));
+        entity.setPoundage(json.getBigDecimal("poundage"));
+        entity.setQuantity(json.getBigDecimal("quantity"));
+        entity.setCreateTime(json.getDate("createTime"));
         service.updateById(entity);
     }
 
@@ -67,7 +63,13 @@ public class TradePoundageController {
      */
     @PostMapping("/inner/tradePoundage/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(TradePoundageEntity entity) {
+    public void insert(@RequestBody JSONObject json) {
+        TradePoundageEntity entity = new TradePoundageEntity();
+        entity.setUid(json.getString("uid"));
+        entity.setUserTradeId(json.getString("userTradeId"));
+        entity.setPoundage(json.getBigDecimal("poundage"));
+        entity.setQuantity(json.getBigDecimal("quantity"));
+        entity.setCreateTime(json.getDate("createTime"));
         service.insert(entity);
     }
 
@@ -78,18 +80,8 @@ public class TradePoundageController {
      */
     @PostMapping("/inner/tradePoundage/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(String id) {
+    public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
-    }
-
-    /**
-     * deleteTradePoundageById
-     *
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteTradePoundageById(Map<String, Object> map) {
-        service.deleteTradePoundageById(map);
     }
 
 }

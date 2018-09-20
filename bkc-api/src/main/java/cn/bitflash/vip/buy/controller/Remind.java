@@ -41,11 +41,11 @@ public class Remind {
         //获取推送信息
         String text = null;
         if (ORDER_STATE_STEP1.equals(userBuyEntity.getState())) {
-            cid = feign.selectCid(new ModelMap("uid", userBuyEntity.getPurchaseUid())).getCid();
+            cid = feign.selectCid(userBuyEntity.getPurchaseUid());
             text = feign.getVal("paymoney");
         }
         if (ORDER_STATE_STEP2.equals(userBuyEntity.getState())) {
-            cid = feign.selectCid(new ModelMap("uid", userBuyEntity.getSellUid())).getCid();
+            cid = feign.selectCid(userBuyEntity.getSellUid());
             text = feign.getVal("reminders");
         }
         String idVal = redisUtils.get(Common.ADD_LOCKNUM + id);

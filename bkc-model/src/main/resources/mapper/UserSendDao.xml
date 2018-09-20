@@ -3,7 +3,7 @@
 
 <mapper namespace="cn.bitflash.dao.UserSendDao">
 
-    <select id="selectaccount" resultType="cn.bitflash.entity.UserSendEntity">
+    <select id="selectaccount" resultType="cn.bitflash.entities.UserSendEntity">
         select us.send_uid , us.sendee_uid ,us.quantity, us.send_time, tu.uuid
         from user_send us
         left join tb_user tu
@@ -12,7 +12,7 @@
         limit #{pages},6
     </select>
 
-    <select id="selectaccept" resultType="cn.bitflash.entity.UserSendEntity">
+    <select id="selectaccept" resultType="cn.bitflash.entities.UserSendEntity">
         select us.send_uid , us.sendee_uid ,us.quantity, us.send_time, tu.uuid
         from user_send us
         left join tb_user tu

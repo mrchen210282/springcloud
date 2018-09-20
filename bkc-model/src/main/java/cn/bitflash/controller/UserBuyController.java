@@ -2,7 +2,7 @@ package cn.bitflash.controller;
 
 
 import cn.bitflash.entity.UserBuyBean;
-import cn.bitflash.entity.UserBuyEntity;
+import cn.bitflash.entities.UserBuyEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserBuyService;
 import com.alibaba.fastjson.JSONObject;
@@ -19,6 +19,7 @@ import java.util.List;
 /**
  * @author GAOYUGUO
  */
+
 @RestController
 public class UserBuyController {
 
@@ -120,6 +121,17 @@ public class UserBuyController {
     List<UserBuyBean> showOrder(@RequestParam("uid") String uid,@RequestParam("pages") Integer pages){
         List<UserBuyBean> userBuyBeans = service.showOrder(uid, pages);
         return userBuyBeans;
+    }
+
+    /**
+     * showBuyingCount
+     *
+     * @return
+     */
+    @PostMapping("/inner/userBuy/showBuyingCount")
+    Integer showBuyingCount(@RequestParam("uid") String uid){
+        int count = service.showBuyingCount(uid);
+        return count;
     }
 
     /**

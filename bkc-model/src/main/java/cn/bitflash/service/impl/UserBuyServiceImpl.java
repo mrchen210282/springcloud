@@ -1,8 +1,7 @@
 package cn.bitflash.service.impl;
 
 import cn.bitflash.entity.UserBuyBean;
-import cn.bitflash.entity.UserBuyEntity;
-import cn.bitflash.entity.UserBuyMessageBean;
+import cn.bitflash.entities.UserBuyEntity;
 import cn.bitflash.dao.UserBuyDao;
 import cn.bitflash.service.UserBuyService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -11,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -27,8 +25,8 @@ public class UserBuyServiceImpl extends ServiceImpl<UserBuyDao, UserBuyEntity> i
     private final Logger logger = LoggerFactory.getLogger(UserBuyServiceImpl.class);
 
     @Override
-    public Integer getNumToPaging() {
-        return baseMapper.getNumToPaging();
+    public Integer showBuyingCount(String uid) {
+        return baseMapper.showBuyingCount(uid);
     }
 
     /**

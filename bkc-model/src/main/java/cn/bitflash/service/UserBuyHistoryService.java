@@ -2,7 +2,7 @@ package cn.bitflash.service;
 
 
 import cn.bitflash.entity.UserBuyHistoryBean;
-import cn.bitflash.entity.UserBuyHistoryEntity;
+import cn.bitflash.entities.UserBuyHistoryEntity;
 import com.baomidou.mybatisplus.service.IService;
 
 /**

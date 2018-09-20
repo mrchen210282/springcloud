@@ -1,7 +1,7 @@
 package cn.bitflash.service;
 
 
-import cn.bitflash.entity.PlatformConfigEntity;
+import cn.bitflash.entities.PlatformConfigEntity;
 import com.baomidou.mybatisplus.service.IService;
 
 public interface PlatFormConfigService extends IService<PlatformConfigEntity> {

@@ -1,8 +1,9 @@
 package cn.bitflash.service.impl;
 
-import cn.bitflash.entity.UserTradeHistoryBean;
-import cn.bitflash.entity.UserTradeHistoryEntity;
+
 import cn.bitflash.dao.UserTradeHistoryDao;
+import cn.bitflash.entities.UserTradeHistoryEntity;
+import cn.bitflash.entity.UserTradeHistoryBean;
 import cn.bitflash.service.UserTradeHistoryService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -16,21 +17,21 @@ import java.util.Map;
  */
 @Service("userTradeHistoryService")
 public class UserTradeHistoryServiceImpl extends ServiceImpl<UserTradeHistoryDao, UserTradeHistoryEntity> implements UserTradeHistoryService {
-
+    @Override
     public void updateUserTradeHistory(UserTradeHistoryEntity uesrTradeHistory) {
         baseMapper.updateUserTradeHistory(uesrTradeHistory);
     }
-
+    @Override
     public List<UserTradeHistoryBean> selectTradeHistory(Map<String, Object> map) {
         List<UserTradeHistoryBean> list = baseMapper.selectTradeHistory(map);
         return list;
     }
-
+    @Override
     public Map<String, Object> selectTradeHistoryIncome(Map<String, Object> map) {
         Map<String, Object> returnMap = baseMapper.selectTradeHistoryIncome(map);
         return returnMap;
     }
-
+    @Override
     public void insertUserTradeHistory(UserTradeHistoryEntity uesrTradeHistory) {
         baseMapper.insertUserTradeHistory(uesrTradeHistory);
     }

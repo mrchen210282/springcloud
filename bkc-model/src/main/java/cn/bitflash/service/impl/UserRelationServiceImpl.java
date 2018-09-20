@@ -1,6 +1,6 @@
 package cn.bitflash.service.impl;
 
-import cn.bitflash.entity.UserRelationEntity;
+import cn.bitflash.entities.UserRelationEntity;
 import cn.bitflash.entity.UserRelationJoinAccountEntity;
 import cn.bitflash.dao.UserRelationDao;
 import cn.bitflash.service.UserRelationService;

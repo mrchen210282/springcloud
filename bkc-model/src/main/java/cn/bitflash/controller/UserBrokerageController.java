@@ -1,7 +1,7 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserBrokerageEntity;
+import cn.bitflash.entities.UserBrokerageEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserBrokerageService;
 import com.alibaba.fastjson.JSONObject;

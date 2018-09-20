@@ -1,8 +1,7 @@
 package cn.bitflash.service;
 
 import cn.bitflash.entity.UserBuyBean;
-import cn.bitflash.entity.UserBuyEntity;
-import cn.bitflash.entity.UserBuyMessageBean;
+import cn.bitflash.entities.UserBuyEntity;
 import com.baomidou.mybatisplus.service.IService;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,7 +19,7 @@ public interface UserBuyService extends IService<UserBuyEntity> {
     /**
      * @return 除用户所有求购信息数量
      */
-    Integer getNumToPaging();
+    Integer showBuyingCount(String uid);
 
     List<UserBuyBean> showBuying(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages);
 

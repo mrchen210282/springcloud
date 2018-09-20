@@ -1,10 +1,11 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserInvitationCodeEntity;
+import cn.bitflash.entities.UserInvitationCodeEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserInvitationCodeService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,6 +77,18 @@ public class UserInvitationCodeController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
+    }
+
+    /**
+     * selectCodeByCode
+     */
+    @PostMapping("/inner/userInvitationCode/selectCodeByCode")
+    UserInvitationCodeEntity selectCodeByCode(@RequestParam("code")String code){
+        UserInvitationCodeEntity entity = service.selectOne(new EntityWrapper<UserInvitationCodeEntity>().eq("lft_code",code));
+        if(entity == null){
+            entity = service.selectOne(new EntityWrapper<UserInvitationCodeEntity>().eq("rgt_code",code));
+        }
+        return entity;
     }
 
 }

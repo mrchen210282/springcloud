@@ -1,7 +1,7 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserEmpowerEntity;
+import cn.bitflash.entities.UserEmpowerEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserEmpowerService;
 import com.alibaba.fastjson.JSONObject;

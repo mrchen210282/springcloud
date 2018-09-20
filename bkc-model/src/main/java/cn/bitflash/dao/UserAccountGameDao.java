@@ -1,7 +1,7 @@
 package cn.bitflash.dao;
 
 
-import cn.bitflash.entity.UserAccountGameEntity;
+import cn.bitflash.entities.UserAccountGameEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 public interface UserAccountGameDao extends BaseMapper<UserAccountGameEntity> {

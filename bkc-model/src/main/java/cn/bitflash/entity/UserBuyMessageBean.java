@@ -1,5 +1,7 @@
 package cn.bitflash.entity;
 
+import cn.bitflash.entities.UserBuyEntity;
+
 import java.io.Serializable;
 
 public class UserBuyMessageBean extends UserBuyEntity implements Serializable {

@@ -1,7 +1,7 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserPayPwdEntity;
+import cn.bitflash.entities.UserPayPwdEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserPayPwdService;
 import com.alibaba.fastjson.JSONObject;
@@ -28,10 +28,9 @@ public class UserPayPwdController {
      * @return
      */
     @PostMapping("/inner/userPayPwd/selectById")
-    public JSONObject selectById(@RequestParam("id") Integer id) {
+    public JSONObject selectById(@RequestParam("id") String id) {
         UserPayPwdEntity entity = service.selectById(id);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", entity.getId());
         jsonObject.put("uid", entity.getUid());
         jsonObject.put("payPassword", entity.getPayPassword());
         jsonObject.put("createTime", entity.getCreateTime());
@@ -47,7 +46,6 @@ public class UserPayPwdController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void updateById(@RequestBody JSONObject json) {
         UserPayPwdEntity entity = new UserPayPwdEntity();
-        entity.setId(json.getInteger("id"));
         entity.setUid(json.getString("uid"));
         entity.setPayPassword(json.getString("payPassword"));
         entity.setCreateTime(json.getDate("createTime"));
@@ -63,7 +61,6 @@ public class UserPayPwdController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void insert(@RequestBody JSONObject json) {
         UserPayPwdEntity entity = new UserPayPwdEntity();
-        entity.setId(json.getInteger("id"));
         entity.setUid(json.getString("uid"));
         entity.setPayPassword(json.getString("payPassword"));
         entity.setCreateTime(json.getDate("createTime"));
@@ -77,7 +74,7 @@ public class UserPayPwdController {
      */
     @PostMapping("/inner/userPayPwd/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(@RequestParam("id") Integer id) {
+    public void deleteById(@RequestParam("id") String id) {
         service.deleteById(id);
     }
 

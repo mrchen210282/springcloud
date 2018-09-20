@@ -1,6 +1,6 @@
 package cn.bitflash.controller;
 
-import cn.bitflash.entity.UserSendEntity;
+import cn.bitflash.entities.UserSendEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserSendService;
 import com.alibaba.fastjson.JSONObject;
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author GAOYUGUO
@@ -86,4 +88,43 @@ public class UserSendController {
         service.deleteById(id);
     }
 
+    /**
+     *selectaccountcount
+     */
+    @PostMapping("/inner/userSend/selectaccountcount")
+    Integer selectaccountcount(@RequestParam("uid")String uid){
+        return service.selectaccountcount(uid);
+    }
+
+    /**
+     * selectacceptcount
+     */
+    @PostMapping("/inner/userSend/selectaccountcount")
+    Integer selectacceptcount(String send_uid){
+        return service.selectacceptcount(send_uid);
+    }
+
+    /**
+     *selectAccount
+     * @param uid
+     * @param pages
+     * @return
+     */
+    @PostMapping("/inner/userSend/selectAccount")
+    List<UserSendEntity> selectAccount(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages){
+        List<UserSendEntity> userSendEntities = service.selectaccount(uid,pages);
+        return userSendEntities;
+    }
+
+    /**
+     *selectaccept
+     * @param uid
+     * @param pages
+     * @return
+     */
+    @PostMapping("/inner/userSend/selectaccept")
+    List<UserSendEntity> selectaccept(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages){
+        List<UserSendEntity> userSendEntities = service.selectaccept(uid,pages);
+        return userSendEntities;
+    }
 }

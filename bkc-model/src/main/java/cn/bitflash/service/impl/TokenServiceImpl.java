@@ -16,8 +16,8 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.entity.TokenEntity;
-import cn.bitflash.entity.UserEntity;
+import cn.bitflash.entities.TokenEntity;
+import cn.bitflash.entities.UserEntity;
 import cn.bitflash.dao.TokenDao;
 import cn.bitflash.service.TokenService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;

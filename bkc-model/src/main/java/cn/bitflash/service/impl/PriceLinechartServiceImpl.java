@@ -1,6 +1,6 @@
 package cn.bitflash.service.impl;
 
-import cn.bitflash.entity.PriceLinechartEntity;
+import cn.bitflash.entities.PriceLinechartEntity;
 import cn.bitflash.dao.PriceLinechartDao;
 import cn.bitflash.service.PriceLinechartService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;

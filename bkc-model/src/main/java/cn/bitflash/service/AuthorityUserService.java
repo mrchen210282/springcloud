@@ -1,7 +1,7 @@
 package cn.bitflash.service;
 
 
-import cn.bitflash.entity.AuthorityUserEntity;
+import cn.bitflash.entities.AuthorityUserEntity;
 import com.baomidou.mybatisplus.service.IService;
 
 /**

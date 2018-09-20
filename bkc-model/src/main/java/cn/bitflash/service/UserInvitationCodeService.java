@@ -1,6 +1,6 @@
 package cn.bitflash.service;
 
-import cn.bitflash.entity.UserInvitationCodeEntity;
+import cn.bitflash.entities.UserInvitationCodeEntity;
 import com.baomidou.mybatisplus.service.IService;
 
 /**

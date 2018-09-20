@@ -5,6 +5,7 @@ import cn.bitflash.entity.UserTradeConfigEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserTradeConfigService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

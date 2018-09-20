@@ -48,12 +48,7 @@ public interface BuyFeign {
      */
     @PostMapping("/inner/userBuy/showBuying")
     List<UserBuyBean> showBuying(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages);
-//    select
-//    ub.* ,ui.nickname as nickname
-//    from user_buy ub left join user_info ui on ub.purchase_uid=ui.uid
-//    where ub.purchase_uid!=#{uid} and purchase_state ='1'
-//    order by ub.price desc
-//    limit #{pages},6
+
 
     /**
      * getNumToPaging
@@ -64,23 +59,15 @@ public interface BuyFeign {
     Integer getNumToPaging();
 
     /**
-     * selectOrder
+     * showOrder
      *
      * @param uid
      * @param pages
      * @return
      */
-    @PostMapping("/inner/userBuy/selectOrder")
-    List<UserBuyBean> selectOrder(@RequestParam("uid") String uid,@RequestParam("pages") Integer pages);
-//    select
-//    ub.* , ui.nickname as nickname
-//    from user_buy ub left join user_info ui on ub.purchase_uid=ui.uid
-//    WHERE
-//    ub.purchase_uid = #{uid}
-//    and ub.state != '0' and ub.state != '6' and ub.state != '9'
-//    or
-//    ub.sell_uid = #{uid}
-//    limit #{pages},6
+    @PostMapping("/inner/userBuy/showOrder")
+    List<UserBuyBean> showOrder(@RequestParam("uid") String uid,@RequestParam("pages") Integer pages);
+
 
     /**
      * showOrderCount
@@ -90,13 +77,7 @@ public interface BuyFeign {
      */
     @PostMapping("/inner/userBuy/showOrderCount")
     Integer showOrderCount(@RequestParam("uid") String uid);
-//    SELECT count(0)
-//    FROM user_buy ub
-//    WHERE
-//    ub.purchase_uid = #{uid}
-//    and ub.state != '0' and ub.state != '6' and ub.state != '9'
-//    or
-//    ub.sell_uid = #{uid}
+
 
     /**
      * deleteById
@@ -107,36 +88,13 @@ public interface BuyFeign {
     void deleteBuyById(@RequestParam("id")String id);
 
     /**
-     * selectOrderCheck
+     * checkOrder
      *
      */
-    @PostMapping("/inner/userBuy/selectOrderCheck")
-    UserBuyBean selectOrderCheck(@RequestParam("id")String id);
+    @PostMapping("/inner/userBuy/checkOrder")
+    UserBuyBean checkOrder(@RequestParam("id")String id);
 
-//    SELECT
-//    ub.*,
-//    ( SELECT ui.nickname
-//    FROM user_info ui
-//    WHERE
-//    uh.purchase_uid=ui.uid
-//	   ) AS purchaseNickname,
-//	  ( SELECT ui.nickname
-//    FROM user_info ui
-//    WHERE
-//    ub.sell_uid=ui.uid
-//	  ) AS sellNickname,
-//	  ( SELECT ui.mobile
-//    FROM user_info ui
-//    WHERE
-//    uh.purchase_uid=ui.uid
-//	  ) AS purMobile,
-//	  ( SELECT ui.mobile
-//    FROM user_info ui
-//    WHERE
-//    uh.sell_uid=ui.uid
-//		) AS sellMobile
-//    FROM user_buy ub
-//    where ub.id = #{id}
+
 
 //-------------------------------------------------------userBuyHistory-------------------------------------------------
 

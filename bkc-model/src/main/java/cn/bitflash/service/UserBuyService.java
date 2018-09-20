@@ -18,41 +18,17 @@ import java.util.List;
 public interface UserBuyService extends IService<UserBuyEntity> {
 
     /**
-     * @param uid   用户id
-     * @param pages 分页
-     * @return 除用户所有求购信息
-     */
-    List<UserBuyMessageBean> getBuyMessage(String uid, Integer pages);
-
-    /**
      * @return 除用户所有求购信息数量
      */
     Integer getNumToPaging();
 
-    /**
-     * @param uid   用户id
-     * @param pages 分页
-     * @return 用户所有求购信息
-     */
-    List<UserBuyBean> selectBuyList(String uid, Integer pages);
+    List<UserBuyBean> showBuying(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages);
 
-    /**
-     * @param uid 用户id
-     * @return 用户所有求购信息数量
-     */
-    Integer selectUserBuyOwnCount(String uid);
+    List<UserBuyBean> showOrder(@RequestParam("uid") String uid,@RequestParam("pages") Integer pages);
 
-    /**
-     * @param uid   用户id
-     * @param pages 分页
-     * @return 用户申诉记录
-     */
-    List<UserBuyBean> selectAppealList(String uid,Integer pages);
+    Integer showOrderCount(@RequestParam("uid") String uid);
 
-    /**
-     * @param uid 用户id
-     * @return 用户申诉记录数量
-     */
-    Integer selectAppealCount(String uid);
+    UserBuyBean checkOrder(@RequestParam("id")String id);
+
 
 }

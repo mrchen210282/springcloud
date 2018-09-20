@@ -1,6 +1,8 @@
 package cn.bitflash.vip.trade.feign;
 
 import cn.bitflash.entity.*;
+import cn.bitflash.vip.trade.entity.UserTradeConfigEntity;
+import cn.bitflash.vip.trade.entity.UserTradeDetail;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

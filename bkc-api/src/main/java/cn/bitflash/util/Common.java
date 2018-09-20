@@ -92,6 +92,10 @@ public class Common {
 	//申拆状态:未处理0
 	public final static String COMPLAINT_NO = "0";
 
+	//userinfo 实名认证完成状态码
+	public final static String AUTHENTICATION = "2";
+
+
 	/**
 	 * 生成8位随机数
 	 *

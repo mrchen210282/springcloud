@@ -4,16 +4,20 @@ import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.*;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.order.feign.OrderFeign;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RestController
+@RequestMapping("order")
+@Api("申诉")
 public class Remind {
 
     @Autowired
@@ -21,7 +25,8 @@ public class Remind {
 
     @Login
     @PostMapping("/appealList")
-    public R selectAppealList(@RequestAttribute("uid") String uid, @RequestParam("pages") String pages) {
+    @ApiOperation("申诉列表")
+    public R selectAppealList(@RequestAttribute("uid") String uid,@ApiParam @RequestParam("pages") String pages) {
 
         List<UserBuyBean> ub = orderFeign.selectAppealList(uid, Integer.valueOf(pages));
         if (ub == null || ub.size() < 0) {
@@ -34,7 +39,8 @@ public class Remind {
 
     @Login
     @PostMapping("/check")
-    public R checkAppeal(@RequestParam("id") String id, @RequestAttribute("uid") String uid) {
+    @ApiOperation("申诉详情")
+    public R checkAppeal(@ApiParam @RequestParam("id") String id, @RequestAttribute("uid") String uid) {
         String name = null;
         String mobile = null;
 

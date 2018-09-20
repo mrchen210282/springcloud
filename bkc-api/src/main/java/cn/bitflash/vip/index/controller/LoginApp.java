@@ -10,6 +10,9 @@ import cn.bitflash.util.*;
 import cn.bitflash.vip.index.entity.LoginForm;
 import cn.bitflash.vip.index.feign.IndexFeign;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +34,12 @@ public class LoginApp {
     private RedisUtils redisUtils;
 
     @PostMapping("login")
+    @ApiOperation("登录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "mobile",dataType = "String"),
+            @ApiImplicitParam(value = "password",dataType = "password"),
+            @ApiImplicitParam(value = "cid",dataType = "cid")
+    })
     public R login(@RequestBody LoginForm form){
         // 表单校验
         ValidatorUtils.validateEntity(form);

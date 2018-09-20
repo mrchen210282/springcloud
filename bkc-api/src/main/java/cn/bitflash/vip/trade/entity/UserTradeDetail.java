@@ -1,4 +1,4 @@
-package cn.bitflash.entity;
+package cn.bitflash.vip.trade.entity;
 
 import java.math.BigDecimal;
 

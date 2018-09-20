@@ -1,4 +1,4 @@
-package cn.bitflash.entity;
+package cn.bitflash.vip.trade.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;

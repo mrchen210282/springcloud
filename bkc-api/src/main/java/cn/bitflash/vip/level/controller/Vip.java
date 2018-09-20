@@ -32,8 +32,8 @@ public class Vip {
     private LevelFeign levelFeign;
 
     @Login
-    @PostMapping("updateVipLevel")
-    public R updateVipLevel(@RequestAttribute("uid") String uid, @RequestParam("vipLevel") Integer vipLevel) {
+    @PostMapping("updateLevel")
+    public R updateVipLevel(@RequestAttribute("uid") String uid) {
         /**
          *  1.查询是否是vip
          *		只有vip等级为0的用户才能有机会赠送贝壳

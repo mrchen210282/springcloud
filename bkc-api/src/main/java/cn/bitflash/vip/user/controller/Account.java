@@ -75,12 +75,12 @@ public class Account {
             Double yestbuy = 0d;
             if (buys != null && buys.size() > 0) {
                 allbuy = buys.stream().mapToDouble(u -> {
-                    Double money = u.getQuantity().doubleValue();
+                    Float money = u.getQuantity();
                     return money;
                 }).sum();
                 //昨日求购购买
                 yestbuy = buys.stream().filter(u -> u.getFinishTime() != null && sdf.format(u.getFinishTime()).equals(yester)).mapToDouble(u -> {
-                    Double money = u.getQuantity().doubleValue();
+                    Float money = u.getQuantity();
                     return money;
                 }).sum();
             }

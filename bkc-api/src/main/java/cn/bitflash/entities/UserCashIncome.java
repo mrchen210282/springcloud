@@ -1,31 +1,35 @@
 package cn.bitflash.entities;
 
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
+@TableName("user_cash_income")
 public class UserCashIncome implements Serializable {
-
+    @TableId
     private String uid;
 
-    private float totel_income;
+    private BigDecimal totelIncome;
 
-    private float daily_income;
+    private BigDecimal dailyIncome;
 
-    private String stage_head;
+    private String stageHead;
 
-    private String share_benefit;
+    private String shareBenefit;
 
-    private float power;
+    private BigDecimal power;
 
-    private float total_income;
+    private BigDecimal totalIncome;
 
-    private String line_f;
+    private String lineF;
 
-    private String line_s;
+    private String lineS;
 
-    private String line_t;
+    private String lineT;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
@@ -38,76 +42,76 @@ public class UserCashIncome implements Serializable {
         this.uid = uid;
     }
 
-    public float getTotel_income() {
-        return totel_income;
+    public BigDecimal getTotelIncome() {
+        return totelIncome;
     }
 
-    public void setTotel_income(float totel_income) {
-        this.totel_income = totel_income;
+    public void setTotelIncome(BigDecimal totelIncome) {
+        this.totelIncome = totelIncome;
     }
 
-    public float getDaily_income() {
-        return daily_income;
+    public BigDecimal getDailyIncome() {
+        return dailyIncome;
     }
 
-    public void setDaily_income(float daily_income) {
-        this.daily_income = daily_income;
+    public void setDailyIncome(BigDecimal dailyIncome) {
+        this.dailyIncome = dailyIncome;
     }
 
-    public String getStage_head() {
-        return stage_head;
+    public String getStageHead() {
+        return stageHead;
     }
 
-    public void setStage_head(String stage_head) {
-        this.stage_head = stage_head;
+    public void setStageHead(String stageHead) {
+        this.stageHead = stageHead;
     }
 
-    public String getShare_benefit() {
-        return share_benefit;
+    public String getShareBenefit() {
+        return shareBenefit;
     }
 
-    public void setShare_benefit(String share_benefit) {
-        this.share_benefit = share_benefit;
+    public void setShareBenefit(String shareBenefit) {
+        this.shareBenefit = shareBenefit;
     }
 
-    public float getPower() {
+    public BigDecimal getPower() {
         return power;
     }
 
-    public void setPower(float power) {
+    public void setPower(BigDecimal power) {
         this.power = power;
     }
 
-    public float getTotal_income() {
-        return total_income;
+    public BigDecimal getTotalIncome() {
+        return totalIncome;
     }
 
-    public void setTotal_income(float total_income) {
-        this.total_income = total_income;
+    public void setTotalIncome(BigDecimal totalIncome) {
+        this.totalIncome = totalIncome;
     }
 
-    public String getLine_f() {
-        return line_f;
+    public String getLineF() {
+        return lineF;
     }
 
-    public void setLine_f(String line_f) {
-        this.line_f = line_f;
+    public void setLineF(String lineF) {
+        this.lineF = lineF;
     }
 
-    public String getLine_s() {
-        return line_s;
+    public String getLineS() {
+        return lineS;
     }
 
-    public void setLine_s(String line_s) {
-        this.line_s = line_s;
+    public void setLineS(String lineS) {
+        this.lineS = lineS;
     }
 
-    public String getLine_t() {
-        return line_t;
+    public String getLineT() {
+        return lineT;
     }
 
-    public void setLine_t(String line_t) {
-        this.line_t = line_t;
+    public void setLineT(String lineT) {
+        this.lineT = lineT;
     }
 
     public Date getCreateTime() {

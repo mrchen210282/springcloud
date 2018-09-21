@@ -1,7 +1,11 @@
 package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.*;
+import cn.bitflash.entities.UserBrokerageEntity;
+import cn.bitflash.entities.UserBuyEntity;
+import cn.bitflash.entities.UserBuyHistoryEntity;
+import cn.bitflash.entities.UserPayPwdEntity;
+import cn.bitflash.entity.UserAccountEntity;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.transaction.annotation.Propagation;
@@ -12,7 +16,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 
-import static cn.bitflash.util.Common.*;
+import static cn.bitflash.util.Common.ORDER_STATE_FINISH;
+import static cn.bitflash.util.Common.SUCCESS;
 
 @RestController
 @RequestMapping("/buy")
@@ -62,7 +67,7 @@ public class Confirm {
         userBuyHistoryEntity.setOrderState(ORDER_STATE_FINISH);
         userBuyHistoryEntity.setPurchaseUid(userBuyEntity.getPurchaseUid());
         userBuyHistoryEntity.setSellUid(uid);
-        userBuyHistoryEntity.setId(id);
+        userBuyHistoryEntity.setUserBuyId(id);
         userBuyHistoryEntity.setQuantity(userBuyEntity.getQuantity());
         userBuyHistoryEntity.setPrice(userBuyEntity.getPrice());
         feign.insertHistory(userBuyHistoryEntity);

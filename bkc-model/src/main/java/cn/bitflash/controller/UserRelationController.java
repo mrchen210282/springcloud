@@ -1,5 +1,5 @@
-package cn.bitflash.controller;
 
+package cn.bitflash.controller;
 
 import cn.bitflash.entities.UserRelationEntity;
 import cn.bitflash.entity.UserRelationJoinAccountEntity;

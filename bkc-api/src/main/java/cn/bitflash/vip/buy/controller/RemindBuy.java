@@ -1,6 +1,6 @@
 package cn.bitflash.vip.buy.controller;
 
-import cn.bitflash.entity.UserBuyEntity;
+import cn.bitflash.entities.UserBuyEntity;
 import cn.bitflash.util.Common;
 import cn.bitflash.util.GeTuiSendMessage;
 import cn.bitflash.util.R;
@@ -10,7 +10,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +19,7 @@ import static cn.bitflash.util.Common.*;
 
 @RestController
 @RequestMapping("/buy")
-public class Remind {
+public class RemindBuy {
 
     @Autowired
     private RedisUtils redisUtils;

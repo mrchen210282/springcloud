@@ -1,7 +1,7 @@
 package cn.bitflash.vip.buy.controller;
 
+import cn.bitflash.entities.UserBuyEntity;
 import cn.bitflash.entity.UserBuyBean;
-import cn.bitflash.entity.UserBuyEntity;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;

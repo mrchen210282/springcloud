@@ -1,7 +1,7 @@
 package cn.bitflash.vip.buy.controller;
 
-import cn.bitflash.entity.UserBuyEntity;
-import cn.bitflash.entity.UserComplaintEntity;
+import cn.bitflash.entities.UserBuyEntity;
+import cn.bitflash.entities.UserComplaintEntity;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 
-import static cn.bitflash.util.Common.*;
+import static cn.bitflash.util.Common.ORDER_STATE_APPEAL;
+import static cn.bitflash.util.Common.SUCCESS;
 
 @RestController
 @RequestMapping("/buy")

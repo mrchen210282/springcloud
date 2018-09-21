@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserBrokerageController {
 
     @Autowired
-    private UserBrokerageService service;
+    private UserBrokerageService userBrokerageService;
 
     /**
      * selectById
@@ -28,13 +28,9 @@ public class UserBrokerageController {
      * @return
      */
     @PostMapping("/inner/userBrokerage/selectById")
-    public JSONObject selectById(@RequestParam("id") Integer id) {
-        UserBrokerageEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", entity.getId());
-        jsonObject.put("purchaseBrokerage", entity.getPurchaseBrokerage());
-        jsonObject.put("sellBrokerage", entity.getSellBrokerage());
-        return jsonObject;
+    public UserBrokerageEntity selectById(@RequestParam("id") Integer id) {
+        UserBrokerageEntity entity = userBrokerageService.selectById(id);
+        return entity;
     }
 
     /**
@@ -49,7 +45,7 @@ public class UserBrokerageController {
         entity.setId(json.getInteger("id"));
         entity.setPurchaseBrokerage(json.getBigDecimal("purchaseBrokerage"));
         entity.setSellBrokerage(json.getBigDecimal("sellBrokerage"));
-        service.updateById(entity);
+        userBrokerageService.updateById(entity);
     }
 
     /**
@@ -64,7 +60,7 @@ public class UserBrokerageController {
         entity.setId(json.getInteger("id"));
         entity.setPurchaseBrokerage(json.getBigDecimal("purchaseBrokerage"));
         entity.setSellBrokerage(json.getBigDecimal("sellBrokerage"));
-        service.insert(entity);
+        userBrokerageService.insert(entity);
     }
 
     /**
@@ -75,7 +71,7 @@ public class UserBrokerageController {
     @PostMapping("/inner/userBrokerage/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") Integer id) {
-        service.deleteById(id);
+        userBrokerageService.deleteById(id);
     }
 
 }

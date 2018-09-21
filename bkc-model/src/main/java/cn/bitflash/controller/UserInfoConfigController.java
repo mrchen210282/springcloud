@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserInfoConfigController {
 
     @Autowired
-    private UserInfoConfigService service;
+    private UserInfoConfigService userInfoConfigService;
 
     /**
      * selectById
@@ -28,15 +28,9 @@ public class UserInfoConfigController {
      * @return
      */
     @PostMapping("/inner/userInfoConfig/selectById")
-    public JSONObject selectById(@RequestParam("id") Integer id) {
-        UserInfoConfigEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", entity.getId());
-        jsonObject.put("min", entity.getMin());
-        jsonObject.put("showPower", entity.getShowPower());
-        jsonObject.put("giveRate", entity.getGiveRate());
-        jsonObject.put("showGiveRate", entity.getShowGiveRate());
-        return jsonObject;
+    public UserInfoConfigEntity selectById(@RequestParam("id") Integer id) {
+        UserInfoConfigEntity entity = userInfoConfigService.selectById(id);
+        return entity;
     }
 
     /**
@@ -53,7 +47,7 @@ public class UserInfoConfigController {
         entity.setShowPower(json.getString("showPower"));
         entity.setGiveRate(json.getDouble("giveRate"));
         entity.setShowGiveRate(json.getString("showGiveRate"));
-        service.updateById(entity);
+        userInfoConfigService.updateById(entity);
     }
 
     /**
@@ -70,7 +64,7 @@ public class UserInfoConfigController {
         entity.setShowPower(json.getString("showPower"));
         entity.setGiveRate(json.getDouble("giveRate"));
         entity.setShowGiveRate(json.getString("showGiveRate"));
-        service.insert(entity);
+        userInfoConfigService.insert(entity);
     }
 
     /**
@@ -81,7 +75,7 @@ public class UserInfoConfigController {
     @PostMapping("/inner/userInfoConfig/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") Integer id) {
-        service.deleteById(id);
+        userInfoConfigService.deleteById(id);
     }
 
 }

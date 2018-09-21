@@ -21,7 +21,7 @@ import java.util.List;
 public class UserSendController {
 
     @Autowired
-    private UserSendService service;
+    private UserSendService userSendService;
 
     /**
      * selectById
@@ -29,16 +29,9 @@ public class UserSendController {
      * @return
      */
     @PostMapping("/inner/userSend/selectById")
-    public JSONObject selectById(@RequestParam("id") Integer id) {
-        UserSendEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", entity.getId());
-        jsonObject.put("sendUid", entity.getSendeeUid());
-        jsonObject.put("quantity", entity.getQuantity());
-        jsonObject.put("sendeeUid", entity.getSendeeUid());
-        jsonObject.put("uuid", entity.getUuid());
-        jsonObject.put("sendTime", entity.getSendTime());
-        return jsonObject;
+    public UserSendEntity selectById(@RequestParam("id") Integer id) {
+        UserSendEntity entity = userSendService.selectById(id);
+        return entity;
     }
 
     /**
@@ -54,9 +47,8 @@ public class UserSendController {
         entity.setSendUid(json.getString("sendUid"));
         entity.setQuantity(json.getFloat("quantity"));
         entity.setSendeeUid(json.getString("sendeeUid"));
-        entity.setUuid(json.getString("uuid"));
         entity.setSendTime(json.getDate("sendTime"));
-        service.updateById(entity);
+        userSendService.updateById(entity);
     }
 
     /**
@@ -72,9 +64,8 @@ public class UserSendController {
         entity.setSendUid(json.getString("sendUid"));
         entity.setQuantity(json.getFloat("quantity"));
         entity.setSendeeUid(json.getString("sendeeUid"));
-        entity.setUuid(json.getString("uuid"));
         entity.setSendTime(json.getDate("sendTime"));
-        service.insert(entity);
+        userSendService.insert(entity);
     }
 
     /**
@@ -85,7 +76,7 @@ public class UserSendController {
     @PostMapping("/inner/userSend/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") Integer id) {
-        service.deleteById(id);
+        userSendService.deleteById(id);
     }
 
     /**
@@ -93,7 +84,7 @@ public class UserSendController {
      */
     @PostMapping("/inner/userSend/selectaccountcount")
     Integer selectaccountcount(@RequestParam("uid")String uid){
-        return service.selectaccountcount(uid);
+        return userSendService.selectaccountcount(uid);
     }
 
     /**
@@ -101,7 +92,7 @@ public class UserSendController {
      */
     @PostMapping("/inner/userSend/selectaccountcount")
     Integer selectacceptcount(String send_uid){
-        return service.selectacceptcount(send_uid);
+        return userSendService.selectacceptcount(send_uid);
     }
 
     /**
@@ -112,7 +103,7 @@ public class UserSendController {
      */
     @PostMapping("/inner/userSend/selectAccount")
     List<UserSendEntity> selectAccount(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages){
-        List<UserSendEntity> userSendEntities = service.selectaccount(uid,pages);
+        List<UserSendEntity> userSendEntities = userSendService.selectaccount(uid,pages);
         return userSendEntities;
     }
 
@@ -124,7 +115,7 @@ public class UserSendController {
      */
     @PostMapping("/inner/userSend/selectaccept")
     List<UserSendEntity> selectaccept(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages){
-        List<UserSendEntity> userSendEntities = service.selectaccept(uid,pages);
+        List<UserSendEntity> userSendEntities = userSendService.selectaccept(uid,pages);
         return userSendEntities;
     }
 }

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlatFormConfigController {
 
     @Autowired
-    private PlatFormConfigService service;
+    private PlatFormConfigService platFornConfigService;
 
     /**
      * selectById
@@ -28,16 +28,9 @@ public class PlatFormConfigController {
      * @return
      */
     @PostMapping("/inner/platFormConfig/selectById")
-    public JSONObject selectById(@RequestParam("id") Integer id) {
-        PlatformConfigEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", entity.getId());
-        jsonObject.put("unit", entity.getUnit());
-        jsonObject.put("configName", entity.getConfigName());
-        jsonObject.put("configValue", entity.getConfigValue());
-        jsonObject.put("updateTime", entity.getUpdateTime());
-        jsonObject.put("createTime", entity.getCreateTime());
-        return jsonObject;
+    public PlatformConfigEntity selectById(@RequestParam("id") Integer id) {
+        PlatformConfigEntity entity = platFornConfigService.selectById(id);
+        return entity;
     }
 
     /**
@@ -55,7 +48,7 @@ public class PlatFormConfigController {
         entity.setConfigValue(json.getString("configValue"));
         entity.setCreateTime(json.getDate("createTime"));
         entity.setUpdateTime(json.getDate("updateTime"));
-        service.updateById(entity);
+        platFornConfigService.updateById(entity);
     }
 
     /**
@@ -73,7 +66,7 @@ public class PlatFormConfigController {
         entity.setConfigValue(json.getString("configValue"));
         entity.setCreateTime(json.getDate("createTime"));
         entity.setUpdateTime(json.getDate("updateTime"));
-        service.insert(entity);
+        platFornConfigService.insert(entity);
     }
 
     /**
@@ -84,7 +77,7 @@ public class PlatFormConfigController {
     @PostMapping("/inner/platFormConfig/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") Integer id) {
-        service.deleteById(id);
+        platFornConfigService.deleteById(id);
     }
 
     /**
@@ -95,7 +88,7 @@ public class PlatFormConfigController {
      */
     @PostMapping("/inner/platFormConfig/getVal")
     String getVal(@RequestParam("key") String key){
-        String val = service.getVal(key);
+        String val = platFornConfigService.getVal(key);
         return val;
     }
 

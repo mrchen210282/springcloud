@@ -25,7 +25,7 @@ import java.util.Date;
 public class PriceLinechartController {
 
     @Autowired
-    private PriceLinechartService service;
+    private PriceLinechartService priceLinechartService;
 
     /**
      * selectById
@@ -33,15 +33,9 @@ public class PriceLinechartController {
      * @return
      */
     @PostMapping("/inner/priceLinechart/selectById")
-    public JSONObject selectById(@RequestParam("id") String id) {
-        PriceLinechartEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("rateTime", entity.getRateTime());
-        jsonObject.put("bkc", entity.getBkc());
-        jsonObject.put("rate", entity.getRate());
-        jsonObject.put("cny", entity.getCny());
-        jsonObject.put("price", entity.getPrice());
-        return jsonObject;
+    public PriceLinechartEntity selectById(@RequestParam("id") String id) {
+        PriceLinechartEntity entity = priceLinechartService.selectById(id);
+        return entity;
     }
 
     /**
@@ -64,7 +58,7 @@ public class PriceLinechartController {
         entity.setBkc(json.getFloat("bkc"));
         entity.setRate(json.getFloat("rate"));
         entity.setPrice(json.getFloat("price"));
-        service.updateById(entity);
+        priceLinechartService.updateById(entity);
     }
 
     /**
@@ -86,7 +80,7 @@ public class PriceLinechartController {
         entity.setBkc(json.getFloat("bkc"));
         entity.setRate(json.getFloat("rate"));
         entity.setPrice(json.getFloat("price"));
-        service.insert(entity);
+        priceLinechartService.insert(entity);
     }
 
     /**
@@ -97,7 +91,7 @@ public class PriceLinechartController {
     @PostMapping("/inner/priceLinechart/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") String id) {
-        service.deleteById(id);
+        priceLinechartService.deleteById(id);
     }
 
 }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthorityUserController {
     @Autowired
-    private AuthorityUserService service;
+    private AuthorityUserService authorityUserService;
 
     /**
      * selectById
@@ -26,13 +26,9 @@ public class AuthorityUserController {
      * @return
      */
     @PostMapping("/inner/authorityUser/selectById")
-    public JSONObject selectById(@RequestParam("id") String id) {
-        AuthorityUserEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("mobile", entity.getMobile());
-        jsonObject.put("ticket", entity.getTicket());
-        jsonObject.put("uid", entity.getUid());
-        return jsonObject;
+    public AuthorityUserEntity selectById(@RequestParam("id") String id) {
+        AuthorityUserEntity entity = authorityUserService.selectById(id);
+        return entity;
     }
 
     /**
@@ -47,7 +43,7 @@ public class AuthorityUserController {
         entity.setMobile(json.getString("mobile"));
         entity.setTicket(json.getString("ticket"));
         entity.setUid(json.getString("uid"));
-        service.updateById(entity);
+        authorityUserService.updateById(entity);
     }
 
     /**
@@ -62,7 +58,7 @@ public class AuthorityUserController {
         entity.setMobile(json.getString("mobile"));
         entity.setTicket(json.getString("ticket"));
         entity.setUid(json.getString("uid"));
-        service.insert(entity);
+        authorityUserService.insert(entity);
     }
 
     /**
@@ -73,7 +69,7 @@ public class AuthorityUserController {
     @PostMapping("/inner/authorityUser/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") String id) {
-        service.deleteById(id);
+        authorityUserService.deleteById(id);
     }
 
 }

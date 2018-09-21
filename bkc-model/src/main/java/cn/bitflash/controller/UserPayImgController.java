@@ -3,7 +3,7 @@ package cn.bitflash.controller;
 
 import cn.bitflash.entities.UserPayImgEntity;
 import cn.bitflash.exception.RRException;
-import cn.bitflash.service.UserPayUrlService;
+import cn.bitflash.service.UserPayImgService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * @author GAOYUGUO
  */
 @RestController
-public class UserPayUrlController {
+public class UserPayImgController {
 
     @Autowired
-    private UserPayUrlService service;
+    private UserPayImgService userPayImgService;
 
     /**
      * selectById
@@ -32,17 +31,9 @@ public class UserPayUrlController {
      * @return
      */
     @PostMapping("/inner/userPayUrl/selectById")
-    public JSONObject selectById(@RequestParam("id") String id) {
-        UserPayImgEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", entity.getId());
-        jsonObject.put("uid", entity.getUid());
-        jsonObject.put("imgType", entity.getImgType());
-        jsonObject.put("imgUrl", entity.getImgUrl());
-        jsonObject.put("mobile", entity.getMobile());
-        jsonObject.put("name", entity.getName());
-        jsonObject.put("account", entity.getAccount());
-        return jsonObject;
+    public UserPayImgEntity selectById(@RequestParam("id") String id) {
+        UserPayImgEntity entity = userPayImgService.selectById(id);
+        return entity;
     }
 
     /**
@@ -54,14 +45,13 @@ public class UserPayUrlController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void updateById(@RequestBody JSONObject json) {
         UserPayImgEntity entity = new UserPayImgEntity();
-        entity.setId(json.getInteger("id"));
         entity.setUid(json.getString("uid"));
         entity.setImgType(json.getString("imgType"));
         entity.setImgUrl(json.getString("imgUrl"));
         entity.setMobile(json.getString("mobile"));
-        entity.setName(json.getString("name"));
+        entity.setAccount(json.getString("accountName"));
         entity.setAccount(json.getString("account"));
-        service.updateById(entity);
+        userPayImgService.updateById(entity);
     }
 
     /**
@@ -73,14 +63,13 @@ public class UserPayUrlController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void insert(@RequestBody JSONObject json) {
         UserPayImgEntity entity = new UserPayImgEntity();
-        entity.setId(json.getInteger("id"));
         entity.setUid(json.getString("uid"));
         entity.setImgType(json.getString("imgType"));
         entity.setImgUrl(json.getString("imgUrl"));
         entity.setMobile(json.getString("mobile"));
-        entity.setName(json.getString("name"));
+        entity.setAccount(json.getString("accountName"));
         entity.setAccount(json.getString("account"));
-        service.insert(entity);
+        userPayImgService.insert(entity);
     }
 
     /**
@@ -91,7 +80,7 @@ public class UserPayUrlController {
     @PostMapping("/inner/userPayUrl/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") String id) {
-        service.deleteById(id);
+        userPayImgService.deleteById(id);
     }
 
     /**
@@ -100,21 +89,9 @@ public class UserPayUrlController {
      * @return
      */
     @PostMapping("/inner/userPayUrl/selectList")
-    public List<JSONObject> selectList(@RequestParam("id") String id) {
-        List<JSONObject> jsonObjects = new LinkedList<JSONObject>();
-        List<UserPayImgEntity> entities = service.selectList(new EntityWrapper<UserPayImgEntity>().eq("uid",id));
-        for(UserPayImgEntity entity :entities){
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", entity.getId());
-            jsonObject.put("uid", entity.getUid());
-            jsonObject.put("imgType", entity.getImgType());
-            jsonObject.put("imgUrl", entity.getImgUrl());
-            jsonObject.put("mobile", entity.getMobile());
-            jsonObject.put("name", entity.getName());
-            jsonObject.put("account", entity.getAccount());
-            jsonObjects.add(jsonObject);
-        }
-        return jsonObjects;
+    public List<UserPayImgEntity> selectList(@RequestParam("id") String id) {
+        List<UserPayImgEntity> entities = userPayImgService.selectList(new EntityWrapper<UserPayImgEntity>().eq("uid",id));
+        return entities;
     }
 
 }

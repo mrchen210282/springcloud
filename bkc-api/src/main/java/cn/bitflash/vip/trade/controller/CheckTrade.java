@@ -2,7 +2,7 @@ package cn.bitflash.vip.trade.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entities.TradePoundageEntity;
-import cn.bitflash.entity.AllUserTradeDetail;
+import cn.bitflash.entity.AllUserTradeBean;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.trade.entity.UserTradeDetail;
 import cn.bitflash.vip.trade.feign.TradeFeign;
@@ -57,7 +57,7 @@ public class CheckTrade {
     @ApiOperation(value = "查看买入订单明细")
     public R viewDetail(@ApiParam(value = "订单id") @RequestParam String id) {
         if (StringUtils.isNotBlank(id)) {
-            AllUserTradeDetail alltrade = tradeFeign.queryDetail(id);
+            AllUserTradeBean alltrade = tradeFeign.queryDetail(id);
             TradePoundageEntity tradePoundageEntity = tradeFeign.selectTradePoundageById(id);
             if (null != tradePoundageEntity) {
                 //扣除交易额=交易额+手续费

@@ -2,7 +2,9 @@
 //
 //import cn.bitflash.annotation.Login;
 //import cn.bitflash.entities.UserDigitalIncome;
+//import cn.bitflash.entity.OrderListBean;
 //import cn.bitflash.entity.OrderListEntity;
+//import cn.bitflash.entity.TradeListBean;
 //import cn.bitflash.entity.TradeListEntity;
 //import cn.bitflash.entity.UserAccountEntity;
 //import cn.bitflash.util.Assert;
@@ -36,7 +38,7 @@
 //        UserDigitalIncome userAccount = tradeFeign.selectAccountByUid(uid);
 //        Assert.isNull(userAccount, "无此用户");
 //        // 查询自身用户信息
-//        List<TradeListEntity> listEntity = tradeFeign.tradeList(uid, pageNum, "6");
+//        List<TradeListBean> listEntity = tradeFeign.tradeList(uid, pageNum, "6");
 //        Integer count = tradeFeign.tradeListCount(uid, pageNum, "6");
 //        Map<String, Object> param = new HashMap<>();
 //        param.put("availableAssets", BigDecimalUtils.DecimalFormat(userAccount.getAvailableAssets()));
@@ -50,12 +52,12 @@
 //    @PostMapping("/orderList")
 //    @ApiOperation(value = "订单列表")
 //    public R orderList(@RequestAttribute("uid") String uid, @ApiParam @RequestParam String pageNum) {
-//        UserAccountEntity userAccount = tradeFeign.selectAccountByUid(uid);
+//        UserDigitalIncome userAccount = tradeFeign.selectAccountByUid(uid);
 //        int pageTotal = 6;
 //        Map<String, Object> param = new HashMap<String, Object>();
 //        if (StringUtils.isNotBlank(userAccount.getUid())) {
 //            // 查询交易
-//            List<OrderListEntity> listEntity = tradeFeign.selectOrderTrade(uid, pageNum, "6");
+//            List<OrderListBean> listEntity = tradeFeign.selectOrderTrade(uid, pageNum, "6");
 //            Integer count = tradeFeign.selectTradeCount(uid, pageNum, "6");
 //            param.put("availableAssets", Common.decimalFormat(Double.parseDouble(userAccount.getAvailableAssets().toString())));
 //            param.put("userAccountList", listEntity);

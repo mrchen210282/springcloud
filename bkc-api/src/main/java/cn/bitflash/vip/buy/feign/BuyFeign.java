@@ -1,14 +1,14 @@
 package cn.bitflash.vip.buy.feign;
 
-import cn.bitflash.entity.*;
-import cn.bitflash.vip.trade.entity.UserTradeConfigEntity;
+import cn.bitflash.entities.*;
+import cn.bitflash.entity.UserAccountEntity;
+import cn.bitflash.entity.UserBuyBean;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Map;
 
 @FeignClient(value = "bkc-model")
 public interface BuyFeign {

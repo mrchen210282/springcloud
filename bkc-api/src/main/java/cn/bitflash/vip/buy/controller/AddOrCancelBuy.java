@@ -1,7 +1,9 @@
 package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.*;
+import cn.bitflash.entities.BuyPoundageEntity;
+import cn.bitflash.entities.UserBuyEntity;
+import cn.bitflash.entities.UserBuyHistoryEntity;
 import cn.bitflash.util.Common;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.buy.feign.BuyFeign;
@@ -67,7 +69,7 @@ public class AddOrCancelBuy {
         feign.deleteBuyById(id);
         //user_buy_histoty添加该记录为撤销完成
         UserBuyHistoryEntity userBuyHistoryEntity = new UserBuyHistoryEntity();
-        userBuyHistoryEntity.setId(id);
+        userBuyHistoryEntity.setUserBuyId(id);
         userBuyHistoryEntity.setOrderState(ORDER_STATE_CANCEL);
         userBuyHistoryEntity.setPrice(ub.getPrice());
         userBuyHistoryEntity.setQuantity(ub.getQuantity());

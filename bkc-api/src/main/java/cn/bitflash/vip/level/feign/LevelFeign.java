@@ -70,11 +70,13 @@ public interface LevelFeign {
     /**
      * vip_conditions 表
      */
+    @PostMapping("/inner/VipConditions/selectVipConditonsByLevel")
     List<UserVipConditionsEntity> selectVipConditonsByLevel(@RequestParam("level") String level);
 
     /**
      * user_cash_income 表
      */
+
     UserCashIncome selectUserCashIncomeByUid(@RequestParam("uid") String uid);
 
     Boolean updateUserCashIncomeById(@RequestBody UserCashIncome cashIncome);

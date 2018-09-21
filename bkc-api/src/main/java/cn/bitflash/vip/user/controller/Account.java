@@ -1,9 +1,9 @@
 package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
+import cn.bitflash.entities.UserBuyHistoryEntity;
+import cn.bitflash.entities.UserTradeHistoryEntity;
 import cn.bitflash.entity.UserAccountEntity;
-import cn.bitflash.entity.UserBuyHistoryEntity;
-import cn.bitflash.entity.UserTradeHistoryEntity;
 import cn.bitflash.util.DateUtils;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.user.feign.UserFeign;

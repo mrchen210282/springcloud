@@ -1,7 +1,11 @@
 package cn.bitflash.vip.order.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.*;
+import cn.bitflash.entities.UserBuyEntity;
+import cn.bitflash.entities.UserDigitalIncome;
+import cn.bitflash.entities.UserTradeEntity;
+import cn.bitflash.entity.UserBuyBean;
+import cn.bitflash.entity.UserComplaintBean;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.order.feign.OrderFeign;
 import io.swagger.annotations.Api;
@@ -33,7 +37,7 @@ public class Remind {
             return R.error("暂时没有申诉信息");
         }
         Integer count = orderFeign.selectAppealCount(uid);
-        UserAccountEntity userAccount = orderFeign.selectAccountByUid(uid);
+        UserDigitalIncome userAccount = orderFeign.selectAccountByUid(uid);
         return R.ok().put("count", count).put("list", ub).put("availableAssets", userAccount.getAvailableAssets());
     }
 

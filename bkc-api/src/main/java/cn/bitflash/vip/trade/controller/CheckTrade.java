@@ -1,8 +1,8 @@
 package cn.bitflash.vip.trade.controller;
 
 import cn.bitflash.annotation.Login;
+import cn.bitflash.entities.TradePoundageEntity;
 import cn.bitflash.entity.AllUserTradeDetail;
-import cn.bitflash.entity.TradePoundageEntity;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.trade.entity.UserTradeDetail;
 import cn.bitflash.vip.trade.feign.TradeFeign;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/trade")
 @Api(value = "查询列表数据")
@@ -27,7 +28,7 @@ public class CheckTrade {
 
     @Login
     @PostMapping("selectDetail")
-    @ApiOperation(value =  "查看买入订单明细")
+    @ApiOperation(value = "查看买入订单明细")
     public R selectDetail(@ApiParam(value = "订单id") @RequestParam String id) {
         if (StringUtils.isNotBlank(id)) {
             UserTradeDetail userTradeDetail = tradeFeign.selectDetail(id);
@@ -54,7 +55,7 @@ public class CheckTrade {
     @Login
     @PostMapping("viewDetail")
     @ApiOperation(value = "查看买入订单明细")
-    public R viewDetail(@ApiParam(value = "订单id")@RequestParam String id) {
+    public R viewDetail(@ApiParam(value = "订单id") @RequestParam String id) {
         if (StringUtils.isNotBlank(id)) {
             AllUserTradeDetail alltrade = tradeFeign.queryDetail(id);
             TradePoundageEntity tradePoundageEntity = tradeFeign.selectTradePoundageById(id);

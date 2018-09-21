@@ -1,7 +1,7 @@
 package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserEntity;
+import cn.bitflash.entities.UserEntity;
 import cn.bitflash.interceptor.ApiLoginInterceptor;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.user.feign.UserFeign;

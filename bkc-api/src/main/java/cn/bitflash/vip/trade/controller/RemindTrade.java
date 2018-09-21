@@ -1,12 +1,11 @@
 package cn.bitflash.vip.trade.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserGTCidEntity;
+import cn.bitflash.entities.UserGTCidEntity;
 import cn.bitflash.util.*;
 import cn.bitflash.vip.trade.feign.TradeFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,12 +1,15 @@
 package cn.bitflash.vip.index.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.TokenEntity;
-import cn.bitflash.entity.UserEntity;
-import cn.bitflash.entity.UserGTCidEntity;
+import cn.bitflash.entities.TokenEntity;
+import cn.bitflash.entities.UserEntity;
+import cn.bitflash.entities.UserGTCidEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.interceptor.ApiLoginInterceptor;
-import cn.bitflash.util.*;
+import cn.bitflash.util.AESTokenUtil;
+import cn.bitflash.util.R;
+import cn.bitflash.util.RedisUtils;
+import cn.bitflash.util.ValidatorUtils;
 import cn.bitflash.vip.index.entity.LoginForm;
 import cn.bitflash.vip.index.feign.IndexFeign;
 import io.swagger.annotations.Api;

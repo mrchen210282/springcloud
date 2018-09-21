@@ -1,6 +1,9 @@
 package cn.bitflash.vip.trade.feign;
 
-import cn.bitflash.entity.*;
+import cn.bitflash.entities.*;
+import cn.bitflash.entity.AllUserTradeDetail;
+import cn.bitflash.entity.OrderListEntity;
+import cn.bitflash.entity.TradeListEntity;
 import cn.bitflash.vip.trade.entity.UserTradeConfigEntity;
 import cn.bitflash.vip.trade.entity.UserTradeDetail;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -108,10 +111,10 @@ public interface TradeFeign {
      * user_account 表
      */
     @PostMapping("")
-    UserAccountEntity selectAccountByUid(@RequestParam("uid") String uid);
+    UserDigitalIncome selectAccountByUid(@RequestParam("uid") String uid);
 
     @PostMapping("")
-    void updateUserAccount(@RequestBody UserAccountEntity account);
+    void updateUserAccount(@RequestBody UserDigitalIncome account);
 
     @PostMapping("")
     Map<String, Object> responseTrade(@RequestParam("uid") String uid);

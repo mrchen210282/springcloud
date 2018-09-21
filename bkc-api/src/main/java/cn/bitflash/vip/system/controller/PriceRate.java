@@ -2,7 +2,7 @@ package cn.bitflash.vip.system.controller;
 
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.PriceLinechartEntity;
+import cn.bitflash.entities.PriceLinechartEntity;
 import cn.bitflash.util.DateUtils;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.system.entity.PriceChart;

@@ -1,7 +1,7 @@
 package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.*;
+import cn.bitflash.entities.*;
 import cn.bitflash.util.R;
 import cn.bitflash.util.ValidatorUtils;
 import cn.bitflash.vip.user.entity.ImgForm;
@@ -91,21 +91,21 @@ public class PayUrl {
         }
 
         // 先查询是否已上传过图片，如果已上传则使用最新上传的图片
-        UserPayUrlEntity userPayUrlEntity = userFeign.selectUserPayUrlByUidAndType(uid, imgType);
-        if (userPayUrlEntity == null || userPayUrlEntity.getId() == null) {
-            userPayUrlEntity = new UserPayUrlEntity();
+        UserPayImgEntity userPayUrlEntity = userFeign.selectUserPayUrlByUidAndType(uid, imgType);
+        if (userPayUrlEntity == null || userPayUrlEntity.getUid() == null) {
+            userPayUrlEntity = new UserPayImgEntity();
             userPayUrlEntity.setImgType(imgType);
             userPayUrlEntity.setAccount(imgForm.getAccount());
             userPayUrlEntity.setCrateTime(new Date());
             userPayUrlEntity.setImgUrl(imgUrl);
             userPayUrlEntity.setMobile(user.getMobile());
-            userPayUrlEntity.setName(imgForm.getName());
+            userPayUrlEntity.setAccountName(imgForm.getName());
             userPayUrlEntity.setUid(user.getUid());
             userFeign.insertUserUrl(userPayUrlEntity);
         } else {
             userPayUrlEntity.setImgUrl(imgUrl);
             userPayUrlEntity.setAccount(imgForm.getAccount());
-            userPayUrlEntity.setName(imgForm.getName());
+            userPayUrlEntity.setAccountName(imgForm.getName());
             userFeign.updateUserUrlById(userPayUrlEntity);
         }
         return R.ok();
@@ -125,7 +125,7 @@ public class PayUrl {
             UserBuyHistoryEntity userBuyEntity = userFeign.selectBuyHistoryById(accountId);
             uid = userBuyEntity.getSellUid();
         }
-        List<UserPayUrlEntity> payUrlEntities = userFeign.selectUserUrlList(uid);
+        List<UserPayImgEntity> payUrlEntities = userFeign.selectUserUrlList(uid);
         if (payUrlEntities == null || payUrlEntities.size() == 0) {
             return R.error("未设置支付信息");
         }
@@ -148,7 +148,7 @@ public class PayUrl {
     @Login
     @PostMapping("getPayUrl")
     public R getPayUrl(@RequestAttribute("uid") String myuid, @RequestParam(value = "uid", required = false) String uid, @RequestParam("imgType") String imgType) {
-        UserPayUrlEntity payUrlEntity = null;
+        UserPayImgEntity payUrlEntity = null;
         if (uid == null) {
             payUrlEntity = userFeign.selectUserPayUrlByUidAndType(myuid, imgType);
         } else {
@@ -157,8 +157,8 @@ public class PayUrl {
         if (payUrlEntity == null) {
             return R.error("未上传收款信息");
         }
-        if (payUrlEntity.getName() != null && payUrlEntity.getAccount() != null) {
-            return R.ok().put("url", payUrlEntity.getImgUrl()).put("name", payUrlEntity.getName()).put("account", payUrlEntity.getAccount());
+        if (payUrlEntity.getAccountName() != null && payUrlEntity.getAccount() != null) {
+            return R.ok().put("url", payUrlEntity.getImgUrl()).put("name", payUrlEntity.getAccountName()).put("account", payUrlEntity.getAccount());
         }
         return R.ok().put("url", payUrlEntity.getImgUrl());
     }

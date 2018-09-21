@@ -1,7 +1,7 @@
 package cn.bitflash.vip.trade.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserTradeEntity;
+import cn.bitflash.entities.UserTradeEntity;
 import cn.bitflash.util.Common;
 import cn.bitflash.util.R;
 import cn.bitflash.util.RedisUtils;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("trade")
-@Api(value = "订单验证",tags = "订单验证，解锁")
+@Api(value = "订单验证", tags = "订单验证，解锁")
 public class Lock {
 
     @Autowired

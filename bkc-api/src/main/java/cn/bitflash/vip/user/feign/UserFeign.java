@@ -1,6 +1,7 @@
 package cn.bitflash.vip.user.feign;
 
-import cn.bitflash.entity.*;
+import cn.bitflash.entities.*;
+import cn.bitflash.entity.UserAccountEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,17 +58,17 @@ public interface UserFeign {
      * user_pay_url表
      */
     @PostMapping("")
-    UserPayUrlEntity selectUserPayUrlByUidAndType(@RequestParam("uid") String uid, @RequestParam("type") String type);
+    UserPayImgEntity selectUserPayUrlByUidAndType(@RequestParam("uid") String uid, @RequestParam("type") String type);
 
     @PostMapping("")
-    Boolean insertUserUrl(@RequestBody UserPayUrlEntity userPayUrlEntity);
+    Boolean insertUserUrl(@RequestBody UserPayImgEntity userPayUrlEntity);
 
     @PostMapping("")
-    Boolean updateUserUrlById(@RequestBody UserPayUrlEntity userPayUrlEntity);
+    Boolean updateUserUrlById(@RequestBody UserPayImgEntity userPayUrlEntity);
 
     //imgType 1,2,5
     @PostMapping("")
-    List<UserPayUrlEntity> selectUserUrlList(@RequestParam("uid") String uid);
+    List<UserPayImgEntity> selectUserUrlList(@RequestParam("uid") String uid);
 
     /**
      * user_pay_pwd 表

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserInfoController {
 
     @Autowired
-    private UserInfoService service;
+    private UserInfoService userInfoService;
 
     /**
      * selectById
@@ -28,22 +28,9 @@ public class UserInfoController {
      * @return
      */
     @PostMapping("/inner/userInfo/selectById")
-    public JSONObject selectById(@RequestParam("id") String id) {
-        UserInfoEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("uid", entity.getUid());
-        jsonObject.put("realname", entity.getRealname());
-        jsonObject.put("nickname", entity.getNickname());
-        jsonObject.put("nicklock", entity.getNicklock());
-        jsonObject.put("idNumber", entity.getIdNumber());
-        jsonObject.put("mobile", entity.getMobile());
-        jsonObject.put("vipCreateTime", entity.getVipCreateTime());
-        jsonObject.put("authenticationTime", entity.getAuthenticationTime());
-        jsonObject.put("isVip", entity.getIsVip());
-        jsonObject.put("isInvitation", entity.getInvitation());
-        jsonObject.put("isAuthentication", entity.getIsAuthentication());
-        jsonObject.put("invitationCode", entity.getInvitationCode());
-        return jsonObject;
+    public UserInfoEntity selectById(@RequestParam("id") String id) {
+        UserInfoEntity entity = userInfoService.selectById(id);
+        return entity;
     }
 
     /**
@@ -61,13 +48,13 @@ public class UserInfoController {
         entity.setNicklock(json.getString("nicklock"));
         entity.setIdNumber(json.getString("idNumber"));
         entity.setMobile(json.getString("mobile"));
-        entity.setVipCreateTime(json.getDate("vipCreateTime"));
-        entity.setAuthenticationTime(json.getDate("authenticationTime"));
         entity.setIsVip(json.getString("isVip"));
+        entity.setInvitationCode(json.getString("invitationCode"));
         entity.setIsInvitation(json.getBoolean("isInvitation"));
         entity.setIsAuthentication(json.getString("isAuthentication"));
-        entity.setInvitationCode(json.getString("invitationCode"));
-        service.updateById(entity);
+        entity.setVipCreateTime(json.getDate("vipCreateTime"));
+        entity.setAuthenticationTime(json.getDate("authenticationTime"));
+        userInfoService.updateById(entity);
     }
 
     /**
@@ -91,7 +78,7 @@ public class UserInfoController {
         entity.setIsInvitation(json.getBoolean("isInvitation"));
         entity.setIsAuthentication(json.getString("isAuthentication"));
         entity.setInvitationCode(json.getString("invitationCode"));
-        service.insert(entity);
+        userInfoService.insert(entity);
     }
 
     /**
@@ -102,7 +89,7 @@ public class UserInfoController {
     @PostMapping("/inner/userInfo/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") String id) {
-        service.deleteById(id);
+        userInfoService.deleteById(id);
     }
 
     /**
@@ -116,7 +103,7 @@ public class UserInfoController {
         entity.setIsInvitation(flag);
         entity.setNickname(name);
         entity.setRealname(name);
-        return service.insert(entity);
+        return userInfoService.insert(entity);
     }
 
     /**
@@ -133,7 +120,7 @@ public class UserInfoController {
         entity.setNickname(name);
         entity.setRealname(name);
         entity.setInvitationCode(code);
-        return service.insert(entity);
+        return userInfoService.insert(entity);
     }
 
 

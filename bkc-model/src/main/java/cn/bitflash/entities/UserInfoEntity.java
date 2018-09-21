@@ -103,11 +103,11 @@ public class UserInfoEntity implements Serializable {
         this.invitationCode = invitationCode;
     }
 
-    public Boolean getInvitation() {
+    public Boolean getIsInvitation() {
         return isInvitation;
     }
 
-    public void setInvitation(Boolean invitation) {
+    public void setIsInvitation(Boolean invitation) {
         isInvitation = invitation;
     }
 
@@ -142,4 +142,5 @@ public class UserInfoEntity implements Serializable {
     public void setImg_url(String img_url) {
         this.img_url = img_url;
     }
+
 }

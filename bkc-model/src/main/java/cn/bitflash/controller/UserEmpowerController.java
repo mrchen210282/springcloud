@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserEmpowerController {
 
     @Autowired
-    private UserEmpowerService service;
+    private UserEmpowerService userEmpowerService;
 
     /**
      * selectById
@@ -28,15 +28,9 @@ public class UserEmpowerController {
      * @return
      */
     @PostMapping("/inner/userEmpower/selectById")
-    public JSONObject selectById(@RequestParam("id") Integer id) {
-        UserEmpowerEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", entity.getId());
-        jsonObject.put("appid", entity.getAppid());
-        jsonObject.put("appkey", entity.getAppkey());
-        jsonObject.put("ticket", entity.getTicket());
-        jsonObject.put("createTime", entity.getCreateTime());
-        return jsonObject;
+    public UserEmpowerEntity selectById(@RequestParam("id") Integer id) {
+        UserEmpowerEntity entity = userEmpowerService.selectById(id);
+        return entity;
     }
 
     /**
@@ -53,7 +47,7 @@ public class UserEmpowerController {
         entity.setAppkey(json.getString("appkey"));
         entity.setTicket(json.getString("ticket"));
         entity.setCreateTime(json.getDate("createTime"));
-        service.updateById(entity);
+        userEmpowerService.updateById(entity);
     }
 
     /**
@@ -70,7 +64,7 @@ public class UserEmpowerController {
         entity.setAppkey(json.getString("appkey"));
         entity.setTicket(json.getString("ticket"));
         entity.setCreateTime(json.getDate("createTime"));
-        service.insert(entity);
+        userEmpowerService.insert(entity);
     }
 
     /**
@@ -81,7 +75,7 @@ public class UserEmpowerController {
     @PostMapping("/inner/userEmpower/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") Integer id) {
-        service.deleteById(id);
+        userEmpowerService.deleteById(id);
     }
 
 }

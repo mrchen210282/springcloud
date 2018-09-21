@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserPayPwdController {
 
     @Autowired
-    private UserPayPwdService service;
+    private UserPayPwdService userPayPwdService;
 
     /**
      * selectById
@@ -28,13 +28,9 @@ public class UserPayPwdController {
      * @return
      */
     @PostMapping("/inner/userPayPwd/selectById")
-    public JSONObject selectById(@RequestParam("id") String id) {
-        UserPayPwdEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("uid", entity.getUid());
-        jsonObject.put("payPassword", entity.getPayPassword());
-        jsonObject.put("createTime", entity.getCreateTime());
-        return jsonObject;
+    public UserPayPwdEntity selectById(@RequestParam("id") String id) {
+        UserPayPwdEntity entity = userPayPwdService.selectById(id);
+        return entity;
     }
 
     /**
@@ -49,7 +45,7 @@ public class UserPayPwdController {
         entity.setUid(json.getString("uid"));
         entity.setPayPassword(json.getString("payPassword"));
         entity.setCreateTime(json.getDate("createTime"));
-        service.updateById(entity);
+        userPayPwdService.updateById(entity);
     }
 
     /**
@@ -64,7 +60,7 @@ public class UserPayPwdController {
         entity.setUid(json.getString("uid"));
         entity.setPayPassword(json.getString("payPassword"));
         entity.setCreateTime(json.getDate("createTime"));
-        service.insert(entity);
+        userPayPwdService.insert(entity);
     }
 
     /**
@@ -75,7 +71,7 @@ public class UserPayPwdController {
     @PostMapping("/inner/userPayPwd/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") String id) {
-        service.deleteById(id);
+        userPayPwdService.deleteById(id);
     }
 
 }

@@ -1,87 +1,79 @@
-package cn.bitflash.controller;
-
-
-import cn.bitflash.entities.TradePoundageEntity;
-import cn.bitflash.exception.RRException;
-import cn.bitflash.service.TradePoundageService;
-import com.alibaba.fastjson.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-/**
- * @author GAOYGUUO
- */
-@RestController
-public class TradePoundageController {
-
-    @Autowired
-    private TradePoundageService service;
-
-    /**
-     * selectById
-     *
-     * @return
-     */
-    @PostMapping("/inner/tradePoundage/selectById")
-    public JSONObject selectById(@RequestParam("id") String id) {
-        TradePoundageEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("userTradeId", entity.getUid());
-        jsonObject.put("uid", entity.getUid());
-        jsonObject.put("poundage", entity.getPoundage());
-        jsonObject.put("quantity", entity.getQuantity());
-        jsonObject.put("createTime", entity.getCreateTime());
-        return jsonObject;
-    }
-
-    /**
-     * updateById
-     *
-     * @return
-     */
-    @PostMapping("/inner/tradePoundage/updateById")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(@RequestBody JSONObject json) {
-        TradePoundageEntity entity = new TradePoundageEntity();
-        entity.setUid(json.getString("uid"));
-        entity.setUserTradeId(json.getString("userTradeId"));
-        entity.setPoundage(json.getBigDecimal("poundage"));
-        entity.setQuantity(json.getBigDecimal("quantity"));
-        entity.setCreateTime(json.getDate("createTime"));
-        service.updateById(entity);
-    }
-
-    /**
-     * insert
-     *
-     * @return
-     */
-    @PostMapping("/inner/tradePoundage/insert")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(@RequestBody JSONObject json) {
-        TradePoundageEntity entity = new TradePoundageEntity();
-        entity.setUid(json.getString("uid"));
-        entity.setUserTradeId(json.getString("userTradeId"));
-        entity.setPoundage(json.getBigDecimal("poundage"));
-        entity.setQuantity(json.getBigDecimal("quantity"));
-        entity.setCreateTime(json.getDate("createTime"));
-        service.insert(entity);
-    }
-
-    /**
-     * deleteById
-     *
-     * @return
-     */
-    @PostMapping("/inner/tradePoundage/deleteById")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(@RequestParam("id") String id) {
-        service.deleteById(id);
-    }
-
-}
+//package cn.bitflash.controller;
+//
+//
+//import cn.bitflash.entities.TradePoundageEntity;
+//import cn.bitflash.exception.RRException;
+//import cn.bitflash.service.TradePoundageService;
+//import com.alibaba.fastjson.JSONObject;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.transaction.annotation.Propagation;
+//import org.springframework.transaction.annotation.Transactional;
+//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RestController;
+//
+///**
+// * @author GAOYGUUO
+// */
+//@RestController
+//public class TradePoundageController {
+//
+//    @Autowired
+//    private TradePoundageService tradePoundageService;
+//
+//    /**
+//     * selectById
+//     *
+//     * @return
+//     */
+//    @PostMapping("/inner/tradePoundage/selectById")
+//    public TradePoundageEntity selectById(@RequestParam("id") String id) {
+//        TradePoundageEntity entity = tradePoundageService.selectById(id);
+//        return entity;
+//    }
+//
+//    /**
+//     * updateById
+//     *
+//     * @return
+//     */
+//    @PostMapping("/inner/tradePoundage/updateById")
+//    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
+//    public void updateById(@RequestBody JSONObject json) {
+//        TradePoundageEntity entity = new TradePoundageEntity();
+//        entity.setUid(json.getString("uid"));
+//        entity.setUserTradeId(json.getString("userTradeId"));
+//        entity.setPoundage(json.getBigDecimal("poundage"));
+//        entity.setCreateTime(json.getDate("createTime"));
+//        tradePoundageService.updateById(entity);
+//    }
+//
+//    /**
+//     * insert
+//     *
+//     * @return
+//     */
+//    @PostMapping("/inner/tradePoundage/insert")
+//    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
+//    public void insert(@RequestBody JSONObject json) {
+//        TradePoundageEntity entity = new TradePoundageEntity();
+//        entity.setUid(json.getString("uid"));
+//        entity.setUserTradeId(json.getString("userTradeId"));
+//        entity.setPoundage(json.getBigDecimal("poundage"));
+//        entity.setCreateTime(json.getDate("createTime"));
+//        tradePoundageService.insert(entity);
+//    }
+//
+//    /**
+//     * deleteById
+//     *
+//     * @return
+//     */
+//    @PostMapping("/inner/tradePoundage/deleteById")
+//    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
+//    public void deleteById(@RequestParam("id") String id) {
+//        tradePoundageService.deleteById(id);
+//    }
+//
+//}

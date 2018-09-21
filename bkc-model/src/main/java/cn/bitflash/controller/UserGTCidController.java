@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.*;
  * @author GAOYGUUO
  */
 @RestController
-@RequestMapping("getui")
 public class UserGTCidController {
 
     @Autowired
-    private UserGTCidService service;
+    private UserGTCidService userGTCidService;
 
 
     /**
@@ -24,7 +23,7 @@ public class UserGTCidController {
      */
     @PostMapping("/inner/userGTCidEntity/selectCid")
     String selectCid(@RequestParam("uid") String uid){
-        String cid = service.selectOne(new EntityWrapper<UserGTCidEntity>().eq("uid",uid)).getCid();
+        String cid = userGTCidService.selectOne(new EntityWrapper<UserGTCidEntity>().eq("uid",uid)).getCid();
         return cid;
     }
 
@@ -33,6 +32,6 @@ public class UserGTCidController {
      */
     @PostMapping("/inner/userGTCidEntity/insertOrUpdateGT")
     public Boolean insertOrUpdateGT(@RequestBody UserGTCidEntity userGTCidEntity){
-        return service.insertOrUpdate(userGTCidEntity);
+        return userGTCidService.insertOrUpdate(userGTCidEntity);
     }
 }

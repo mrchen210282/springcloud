@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserInvitationCodeController {
 
     @Autowired
-    private UserInvitationCodeService service;
+    private UserInvitationCodeService userInvitationCodeService;
 
     /**
      * selectById
@@ -29,13 +29,9 @@ public class UserInvitationCodeController {
      * @return
      */
     @PostMapping("/inner/userInvitationCode/selectById")
-    public JSONObject selectById(@RequestParam("id") String id) {
-        UserInvitationCodeEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("uid", entity.getUid());
-        jsonObject.put("lftCode", entity.getLftCode());
-        jsonObject.put("rgtCode", entity.getRgtCode());
-        return jsonObject;
+    public UserInvitationCodeEntity selectById(@RequestParam("id") String id) {
+        UserInvitationCodeEntity entity = userInvitationCodeService.selectById(id);
+        return entity;
     }
 
     /**
@@ -50,7 +46,7 @@ public class UserInvitationCodeController {
         entity.setUid(json.getString("uid"));
         entity.setLftCode(json.getString("lftCode"));
         entity.setRgtCode(json.getString("rgtCode"));
-        service.updateById(entity);
+        userInvitationCodeService.updateById(entity);
     }
 
     /**
@@ -65,7 +61,7 @@ public class UserInvitationCodeController {
         entity.setUid(json.getString("uid"));
         entity.setLftCode(json.getString("lftCode"));
         entity.setRgtCode(json.getString("rgtCode"));
-        service.insert(entity);
+        userInvitationCodeService.insert(entity);
     }
 
     /**
@@ -76,7 +72,7 @@ public class UserInvitationCodeController {
     @PostMapping("/inner/userInvitationCode/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") String id) {
-        service.deleteById(id);
+        userInvitationCodeService.deleteById(id);
     }
 
     /**
@@ -84,9 +80,9 @@ public class UserInvitationCodeController {
      */
     @PostMapping("/inner/userInvitationCode/selectCodeByCode")
     UserInvitationCodeEntity selectCodeByCode(@RequestParam("code")String code){
-        UserInvitationCodeEntity entity = service.selectOne(new EntityWrapper<UserInvitationCodeEntity>().eq("lft_code",code));
+        UserInvitationCodeEntity entity = userInvitationCodeService.selectOne(new EntityWrapper<UserInvitationCodeEntity>().eq("lft_code",code));
         if(entity == null){
-            entity = service.selectOne(new EntityWrapper<UserInvitationCodeEntity>().eq("rgt_code",code));
+            entity = userInvitationCodeService.selectOne(new EntityWrapper<UserInvitationCodeEntity>().eq("rgt_code",code));
         }
         return entity;
     }

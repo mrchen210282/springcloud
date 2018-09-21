@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserBuyHistoryController {
 
     @Autowired
-    private UserBuyHistoryService service;
+    private UserBuyHistoryService userBuyHistoryService;
 
     /**
      * selectById
@@ -29,9 +29,9 @@ public class UserBuyHistoryController {
      */
     @PostMapping("/inner/userBuyHistory/selectById")
     public JSONObject selectById(@RequestParam("id") String id) {
-        UserBuyHistoryEntity entity = service.selectById(id);
+        UserBuyHistoryEntity entity = userBuyHistoryService.selectById(id);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", entity.getId());
+        jsonObject.put("userBuyId", entity.getUserBuyId());
         jsonObject.put("orderState", entity.getOrderState());
         jsonObject.put("purchaseUid", entity.getPurchaseUid());
         jsonObject.put("quantity", entity.getQuantity());
@@ -50,14 +50,14 @@ public class UserBuyHistoryController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void updateById(@RequestBody JSONObject json) {
         UserBuyHistoryEntity entity = new UserBuyHistoryEntity();
-        entity.setId(json.getString("id"));
+        entity.setUserBuyId(json.getString("userBuyId"));
         entity.setOrderState(json.getString("orderState"));
         entity.setPurchaseUid(json.getString("purchaseUid"));
         entity.setQuantity(json.getFloat("quantity"));
         entity.setPrice(json.getFloat("price"));
         entity.setSellUid(json.getString("sellUid"));
         entity.setFinishTime(json.getDate("finishTime"));
-        service.updateById(entity);
+        userBuyHistoryService.updateById(entity);
     }
 
     /**
@@ -69,14 +69,14 @@ public class UserBuyHistoryController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void insert(@RequestBody JSONObject json) {
         UserBuyHistoryEntity entity = new UserBuyHistoryEntity();
-        entity.setId(json.getString("id"));
+        entity.setUserBuyId(json.getString("userBuyId"));
         entity.setOrderState(json.getString("orderState"));
         entity.setPurchaseUid(json.getString("purchaseUid"));
         entity.setQuantity(json.getFloat("quantity"));
         entity.setPrice(json.getFloat("price"));
         entity.setSellUid(json.getString("sellUid"));
         entity.setFinishTime(json.getDate("finishTime"));
-        service.insert(entity);
+        userBuyHistoryService.insert(entity);
     }
 
     /**
@@ -87,7 +87,7 @@ public class UserBuyHistoryController {
     @PostMapping("/inner/userBuyHistory/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") String id) {
-        service.deleteById(id);
+        userBuyHistoryService.deleteById(id);
     }
 
 }

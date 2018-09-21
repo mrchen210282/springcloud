@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserComplaintController {
 
     @Autowired
-    private UserComplaintService service;
+    private UserComplaintService userComplaintService;
 
     /**
      * selectById
@@ -28,16 +28,9 @@ public class UserComplaintController {
      * @return
      */
     @PostMapping("/inner/userComplaint/selectById")
-    public JSONObject selectById(@RequestParam("id") String id) {
-        UserComplaintEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("orderId", entity.getOrderId());
-        jsonObject.put("complaintUid", entity.getComplaintUid());
-        jsonObject.put("contactsUid", entity.getContactsUid());
-        jsonObject.put("complaintState", entity.getComplaintState());
-        jsonObject.put("orderState", entity.getOrderId());
-        jsonObject.put("createTime", entity.getCreateTime());
-        return jsonObject;
+    public UserComplaintEntity selectById(@RequestParam("id") String id) {
+        UserComplaintEntity entity = userComplaintService.selectById(id);
+        return entity;
     }
 
     /**
@@ -55,7 +48,7 @@ public class UserComplaintController {
         entity.setComplaintState(json.getString("complaintState"));
         entity.setOrderId(json.getString("orderState"));
         entity.setCreateTime(json.getDate("createTime"));
-        service.updateById(entity);
+        userComplaintService.updateById(entity);
     }
 
     /**
@@ -73,7 +66,7 @@ public class UserComplaintController {
         entity.setComplaintState(json.getString("complaintState"));
         entity.setOrderId(json.getString("orderState"));
         entity.setCreateTime(json.getDate("createTime"));
-        service.insert(entity);
+        userComplaintService.insert(entity);
     }
 
     /**
@@ -84,7 +77,7 @@ public class UserComplaintController {
     @PostMapping("/inner/userComplaint/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") String id) {
-        service.deleteById(id);
+        userComplaintService.deleteById(id);
     }
 
 }

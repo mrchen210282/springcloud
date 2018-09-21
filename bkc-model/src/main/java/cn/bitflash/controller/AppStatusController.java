@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppStatusController {
 
     @Autowired
-    private AppStatusService service;
+    private AppStatusService appStatusService;
 
     /**
      * selectById
@@ -25,15 +25,9 @@ public class AppStatusController {
      * @return
      */
     @PostMapping("/inner/appStatus/selectById")
-    public JSONObject selectById(@RequestParam("id") String id) {
-        AppStatusEntity entity = service.selectById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("url", entity.getUrl());
-        jsonObject.put("title", entity.getTitle());
-        jsonObject.put("note", entity.getNote());
-        jsonObject.put("appId", entity.getAppid());
-        jsonObject.put("version", entity.getVersion());
-        return jsonObject;
+    public AppStatusEntity selectById(@RequestParam("id") String id) {
+        AppStatusEntity entity = appStatusService.selectById(id);
+        return entity;
     }
 
     /**
@@ -45,11 +39,11 @@ public class AppStatusController {
     public void updateById(@RequestBody JSONObject json) {
         AppStatusEntity entity = new AppStatusEntity();
         entity.setAppid(json.getString("appId"));
+        entity.setVersion(json.getString("version"));
         entity.setUrl(json.getString("url"));
         entity.setTitle(json.getString("title"));
         entity.setNote(json.getString("note"));
-        entity.setVersion(json.getString("version"));
-        service.updateById(entity);
+        appStatusService.updateById(entity);
     }
 
     /**
@@ -65,7 +59,7 @@ public class AppStatusController {
         entity.setTitle(json.getString("title"));
         entity.setNote(json.getString("note"));
         entity.setVersion(json.getString("version"));
-        service.insert(entity);
+        appStatusService.insert(entity);
     }
 
     /**
@@ -75,7 +69,7 @@ public class AppStatusController {
      */
     @PostMapping("/inner/appStatus/deleteById")
     public void deleteById(@RequestParam("id") String id) {
-        service.deleteById(id);
+        appStatusService.deleteById(id);
     }
 
 }

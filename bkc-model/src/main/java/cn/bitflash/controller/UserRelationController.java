@@ -2,6 +2,7 @@ package cn.bitflash.controller;
 
 
 import cn.bitflash.entities.UserRelationEntity;
+import cn.bitflash.entity.UserRelationJoinAccountEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserRelationService;
 import com.alibaba.fastjson.JSONObject;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author GAOYUGUO
@@ -87,13 +90,28 @@ public class UserRelationController {
 
     /**
      * selectRelationByCode
+     *
      * @param code
      * @return
      */
     @PostMapping("/inner/userRelation/selectRelationByCode")
-    UserRelationEntity selectRelationByCode(@RequestParam("code")String code){
-        UserRelationEntity entity = userRelationService.selectOne(new EntityWrapper<UserRelationEntity>().eq("invitation_code",code));
+    public UserRelationEntity selectRelationByCode(@RequestParam("code") String code) {
+        UserRelationEntity entity = userRelationService.selectOne(new EntityWrapper<UserRelationEntity>().eq("invitation_code", code));
         return entity;
     }
+
+    @PostMapping("/inner/userRelation/insertTreeNode")
+    public void insertTreeNode(@RequestParam("f_uid") String f_uid,
+                                                              @RequestParam("c_uid") String c_uid,
+                                                              @RequestParam("invitation_code") String invitation_code){
+         userRelationService.insertTreeNode(f_uid,c_uid,invitation_code);
+    }
+
+    @PostMapping("/inner/userRelation/selectTreeNodes")
+    public List<UserRelationJoinAccountEntity> selectTreeNodes(@RequestParam("f_uid")String f_uid){
+        return userRelationService.selectTreeNodes(f_uid);
+    }
+
+
 
 }

@@ -16,6 +16,7 @@
 
 package cn.bitflash.entity;
 
+import cn.bitflash.entities.UserBuyEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
@@ -97,25 +98,6 @@ public class UserBuyBean extends UserBuyEntity implements Serializable {
      */
     private String state;
 
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @Override
-    public String getPurchaseUid() {
-        return purchaseUid;
-    }
-
-    @Override
-    public void setPurchaseUid(String purchaseUid) {
-        this.purchaseUid = purchaseUid;
-    }
 
     public String getPurchaseNickname() {
         return purchaseNickname;

@@ -54,7 +54,7 @@ public class UserAccountEntity implements Serializable {
      */
     private BigDecimal giveAmount;
 
-    /**
+    /**条件
      * 报单总数 （实际报单数+赠送量）
      */
     private BigDecimal totelAssets;

@@ -3,27 +3,28 @@ package cn.bitflash.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class UserDigitalIncome implements Serializable {
 
     private String uid;
 
-    private float purchase;
+    private BigDecimal purchase;
 
-    private float frozenAssets;
+    private BigDecimal frozenAssets;
 
-    private float purchaseRelease;
+    private BigDecimal purchaseRelease;
 
-    private float dailyRelease;
+    private BigDecimal dailyRelease;
 
-    private float totelRelease;
+    private BigDecimal totelRelease;
 
-    private float availableAssets;
+    private BigDecimal availableAssets;
 
-    private float lftAchievement;
+    private BigDecimal lftAchievement;
 
-    private float rgtAchievement;
+    private BigDecimal rgtAchievement;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
@@ -36,67 +37,67 @@ public class UserDigitalIncome implements Serializable {
         this.uid = uid;
     }
 
-    public float getPurchase() {
+    public BigDecimal getPurchase() {
         return purchase;
     }
 
-    public void setPurchase(float purchase) {
+    public void setPurchase(BigDecimal purchase) {
         this.purchase = purchase;
     }
 
-    public float getFrozenAssets() {
+    public BigDecimal getFrozenAssets() {
         return frozenAssets;
     }
 
-    public void setFrozenAssets(float frozenAssets) {
+    public void setFrozenAssets(BigDecimal frozenAssets) {
         this.frozenAssets = frozenAssets;
     }
 
-    public float getPurchaseRelease() {
+    public BigDecimal getPurchaseRelease() {
         return purchaseRelease;
     }
 
-    public void setPurchaseRelease(float purchaseRelease) {
+    public void setPurchaseRelease(BigDecimal purchaseRelease) {
         this.purchaseRelease = purchaseRelease;
     }
 
-    public float getDailyRelease() {
+    public BigDecimal getDailyRelease() {
         return dailyRelease;
     }
 
-    public void setDailyRelease(float dailyRelease) {
+    public void setDailyRelease(BigDecimal dailyRelease) {
         this.dailyRelease = dailyRelease;
     }
 
-    public float getTotelRelease() {
+    public BigDecimal getTotelRelease() {
         return totelRelease;
     }
 
-    public void setTotelRelease(float totelRelease) {
+    public void setTotelRelease(BigDecimal totelRelease) {
         this.totelRelease = totelRelease;
     }
 
-    public float getAvailableAssets() {
+    public BigDecimal getAvailableAssets() {
         return availableAssets;
     }
 
-    public void setAvailableAssets(float availableAssets) {
+    public void setAvailableAssets(BigDecimal availableAssets) {
         this.availableAssets = availableAssets;
     }
 
-    public float getLftAchievement() {
+    public BigDecimal getLftAchievement() {
         return lftAchievement;
     }
 
-    public void setLftAchievement(float lftAchievement) {
+    public void setLftAchievement(BigDecimal lftAchievement) {
         this.lftAchievement = lftAchievement;
     }
 
-    public float getRgtAchievement() {
+    public BigDecimal getRgtAchievement() {
         return rgtAchievement;
     }
 
-    public void setRgtAchievement(float rgtAchievement) {
+    public void setRgtAchievement(BigDecimal rgtAchievement) {
         this.rgtAchievement = rgtAchievement;
     }
 

@@ -1,7 +1,11 @@
 package cn.bitflash.vip.usersend.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.*;
+import cn.bitflash.entities.UserBrokerageEntity;
+import cn.bitflash.entities.UserEntity;
+import cn.bitflash.entities.UserPayPwdEntity;
+import cn.bitflash.entities.UserSendEntity;
+import cn.bitflash.entity.UserAccountEntity;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.trade.entity.UserTradeConfigEntity;
 import cn.bitflash.vip.usersend.feign.SendFrign;

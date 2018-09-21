@@ -1,6 +1,7 @@
 package cn.bitflash.vip.level.feign;
 
 import cn.bitflash.entities.*;
+import cn.bitflash.entity.UserVipConditionsEntity;
 import cn.bitflash.vip.level.entity.UserRelationJoinAccountEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,4 +66,16 @@ public interface LevelFeign {
      */
     @PostMapping("/inner/userInfoConfig/selectById")
     UserInfoConfigEntity selectInfoConfigById(@RequestParam("vip") Integer vip);
+
+    /**
+     * vip_conditions 表
+     */
+    List<UserVipConditionsEntity> selectVipConditonsByLevel(@RequestParam("level")String level);
+
+    /**
+     * user_cash_income 表
+     */
+    UserCashIncome selectUserCashIncomeByUid(@RequestParam("uid")String uid);
+
+    Boolean updateUserCashIncomeById(@RequestBody UserCashIncome cashIncome);
 }

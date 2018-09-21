@@ -1,9 +1,11 @@
 package cn.bitflash.vip.system.controller;
 
-import cn.bitflash.entity.AppStatusEntity;
+import cn.bitflash.entities.AppStatusEntity;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.system.feign.SystemFeign;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

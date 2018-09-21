@@ -2,9 +2,9 @@ package cn.bitflash.vip.verify.controller;
 
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserInfoEntity;
-import cn.bitflash.entity.UserPayPwdEntity;
-import cn.bitflash.entity.UserPayUrlEntity;
+import cn.bitflash.entities.UserInfoEntity;
+import cn.bitflash.entities.UserPayImgEntity;
+import cn.bitflash.entities.UserPayPwdEntity;
 import cn.bitflash.interceptor.ApiLoginInterceptor;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.verify.feign.VerifyFeign;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("verify")
@@ -43,7 +42,7 @@ public class ValidateInfo {
             //如果没有交易密码
             return R.ok().put("msg", "1");
         }
-        List<UserPayUrlEntity> urlEntity = verifyFeign.selectUserUrlList(uid);
+        List<UserPayImgEntity> urlEntity = verifyFeign.selectUserUrlList(uid);
         if (urlEntity.size() == 0) {
             //未上传收款码
             return R.ok().put("msg", "2");

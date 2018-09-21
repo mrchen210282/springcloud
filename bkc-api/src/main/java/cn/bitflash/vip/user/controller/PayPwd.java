@@ -1,8 +1,8 @@
 package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserEntity;
-import cn.bitflash.entity.UserPayPwdEntity;
+import cn.bitflash.entities.UserEntity;
+import cn.bitflash.entities.UserPayPwdEntity;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.user.feign.UserFeign;
 import io.swagger.annotations.Api;

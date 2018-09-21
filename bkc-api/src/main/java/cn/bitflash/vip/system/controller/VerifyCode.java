@@ -1,6 +1,6 @@
 package cn.bitflash.vip.system.controller;
 
-import cn.bitflash.entity.UserEntity;
+import cn.bitflash.entities.UserEntity;
 import cn.bitflash.util.R;
 import cn.bitflash.util.SmsUtils;
 import cn.bitflash.vip.system.feign.SystemFeign;

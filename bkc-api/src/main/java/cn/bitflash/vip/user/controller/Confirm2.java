@@ -1,7 +1,7 @@
 package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserInfoEntity;
+import cn.bitflash.entities.UserInfoEntity;
 import cn.bitflash.util.Common;
 import cn.bitflash.util.HttpUtils;
 import cn.bitflash.util.R;

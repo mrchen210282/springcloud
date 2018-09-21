@@ -1,9 +1,6 @@
 package cn.bitflash.vip.index.feign;
 
-import cn.bitflash.entity.TokenEntity;
-import cn.bitflash.entity.UserEntity;
-import cn.bitflash.entity.UserGTCidEntity;
-import cn.bitflash.entity.UserInvitationCodeEntity;
+import cn.bitflash.entities.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -91,4 +88,9 @@ public interface IndexFeign {
      */
     @PostMapping("/inner/userInvitationCode/selectCodeByCode")
     UserInvitationCodeEntity selectCodeByCode(@RequestParam("code")String code);
+
+    /**
+     * UserCashIncome 表
+     */
+     Boolean insertUserCashIncome(@RequestBody UserCashIncome cashIncome);
 }

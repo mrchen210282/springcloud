@@ -45,11 +45,11 @@ public class Vip {
          * 扣除冻结的bkc
          * 提升vip  userinfo
          */
-        float cha = vipConditions.get(1).getBkcount()-vipConditions.get(0).getBkcount();
-        if(cha>userAccount.getAvailableAssets().doubleValue()){
+        float cha = vipConditions.get(1).getBkcount() - vipConditions.get(0).getBkcount();
+        if (cha > userAccount.getAvailableAssets().doubleValue()) {
             return R.error("bkc数量不够");
         }
-        userAccount.setAvailableAssets(new BigDecimal(userAccount.getAvailableAssets().doubleValue()-cha));
+        userAccount.setAvailableAssets(new BigDecimal(userAccount.getAvailableAssets().doubleValue() - cha));
         userAccount.setPurchase(new BigDecimal(cha));
         userAccount.setFrozenAssets(userAccount.getFrozenAssets().add(new BigDecimal(cha)));
         levelFeign.updateAccountById(userAccount);
@@ -141,9 +141,9 @@ public class Vip {
                         levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode);
                     }
                 }
-
+                break;
         }
-
+        return R.ok();
     }
 
 

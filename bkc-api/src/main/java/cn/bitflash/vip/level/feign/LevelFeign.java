@@ -37,7 +37,7 @@ public interface LevelFeign {
     @PostMapping("/inner/userRelation/selectRelationByCode")
     UserRelationEntity selectRelationByCode(@RequestParam("code") String code);
 
-    @PostMapping("")
+    @PostMapping("/inner/userRelation/selectTreeNodes")
     List<UserRelationJoinAccountEntity> selectTreeNodes(@RequestParam("uid") String uid);
 
     /**
@@ -52,7 +52,7 @@ public interface LevelFeign {
     @PostMapping("/inner/userInvitationCode/insert")
     Boolean insertInvitationCode(@RequestBody UserInvitationCodeEntity code);
 
-    @PostMapping("")
+    @PostMapping("/inner/userRelation/insertTreeNode")
     Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid, @RequestParam("code") String code);
 
     /**
@@ -70,12 +70,12 @@ public interface LevelFeign {
     /**
      * vip_conditions 表
      */
-    List<UserVipConditionsEntity> selectVipConditonsByLevel(@RequestParam("level")String level);
+    List<UserVipConditionsEntity> selectVipConditonsByLevel(@RequestParam("level") String level);
 
     /**
      * user_cash_income 表
      */
-    UserCashIncome selectUserCashIncomeByUid(@RequestParam("uid")String uid);
+    UserCashIncome selectUserCashIncomeByUid(@RequestParam("uid") String uid);
 
     Boolean updateUserCashIncomeById(@RequestBody UserCashIncome cashIncome);
 }

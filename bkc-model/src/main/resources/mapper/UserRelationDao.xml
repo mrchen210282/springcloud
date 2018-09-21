@@ -19,46 +19,6 @@
 
         ]]>
     </select>
-    <update id="updateTreeNodes">
-        UPDATE user_relation SET ${column} = ${column} + 2 WHERE ${column} >= #{leftCode}
-    </update>
-
-    <select id="selectChildNode" resultType="cn.bitflash.entity.UserRelationJoinAccountEntity">
-        SELECT
-        ur.uid,
-        ui.realname,
-        ur.invitation_code,
-        ur.lft,
-        ur.rgt,
-        ua.purchase,
-        ua.give_amount,
-        ua.totel_assets,
-        ua.frozen_assets,
-        ua.daily_release,
-        ua.regulate_release,
-        ua.totel_release,
-        ua.available_assets,
-        ua.regulate_income,
-        ua.totel_income,
-        ua.daily_income,
-        ua.lft_achievement,
-        ua.rgt_achievements
-        FROM
-        user_relation ur
-        LEFT JOIN
-        user_account ua
-        on
-        ur.uid = ua.uid
-        where
-        ur.rgt=#{rgt}
-        or
-        ur.lft=#{lft}
-    </select>
-
-    <select id="selectLayer" resultType="java.lang.Integer">
-        select count(*) FROM user_relation WHERE <![CDATA[ lft<= #{rgt}]]> AND <![CDATA[ rgt>=(#{rgt}+1)
-        ]]>
-    </select>
 
 
 </mapper>

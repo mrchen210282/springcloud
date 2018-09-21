@@ -1,7 +1,6 @@
 package cn.bitflash.vip.user.feign;
 
 import cn.bitflash.entities.*;
-import cn.bitflash.entity.UserAccountEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,17 +14,17 @@ public interface UserFeign {
     /**
      * tb_user表
      */
-    @PostMapping("")
-    UserEntity selectUserByUid(@RequestParam("uid") String uid);
+    @PostMapping("/inner/user/selectById")
+    UserEntity selectUserByUid(@RequestParam("id") String id);
 
-    @PostMapping("")
+    @PostMapping("/inner/user/updateById")
     Boolean updateUserById(@RequestBody UserEntity userEntity);
 
     /**
      * user_account表
      */
-    @PostMapping("")
-    UserAccountEntity selectAccountByUid(@RequestParam("uid") String uid);
+    @PostMapping("/inner/userDigitalIncome/selectById")
+    UserDigitalIncome selectAccountByUid(@RequestParam("id") String id);
 
     /**
      * user_info表
@@ -34,11 +33,11 @@ public interface UserFeign {
     @PostMapping("")
     String selectUserInfoByColumn(@RequestParam("uid") String uid, @RequestParam("column") String column);
 
-    @PostMapping("")
+    @PostMapping("/inner/userInfo/updateById")
     Boolean updateUserInfoById(@RequestBody UserInfoEntity userInfo);
 
-    @PostMapping("")
-    UserInfoEntity selectUserinfoById(@RequestParam("uid") String uid);
+    @PostMapping("/inner/userInfo/selectById")
+    UserInfoEntity selectUserinfoById(@RequestParam("id") String id);
 
 
     /**
@@ -60,10 +59,10 @@ public interface UserFeign {
     @PostMapping("")
     UserPayImgEntity selectUserPayUrlByUidAndType(@RequestParam("uid") String uid, @RequestParam("type") String type);
 
-    @PostMapping("")
+    @PostMapping("/inner/userPayUrl/insert")
     Boolean insertUserUrl(@RequestBody UserPayImgEntity userPayUrlEntity);
 
-    @PostMapping("")
+    @PostMapping("/inner/userPayUrl/updateById")
     Boolean updateUserUrlById(@RequestBody UserPayImgEntity userPayUrlEntity);
 
     //imgType 1,2,5
@@ -73,13 +72,13 @@ public interface UserFeign {
     /**
      * user_pay_pwd 表
      */
-    @PostMapping("")
-    UserPayPwdEntity selectUserPwdByUid(@RequestParam("uid") String uid);
+    @PostMapping("/inner/userPayPwd/selectById")
+    UserPayPwdEntity selectUserPwdByUid(@RequestParam("id") String id);
 
-    @PostMapping("")
+    @PostMapping("/inner/userPayPwd/insert")
     Boolean insertUserPwd(@RequestBody UserPayPwdEntity userPayPwdEntity);
 
-    @PostMapping("")
+    @PostMapping("/inner/userPayPwd/updateById")
     Boolean updateUserPwdById(@RequestBody UserPayPwdEntity userPayPwdEntity);
 
     /**

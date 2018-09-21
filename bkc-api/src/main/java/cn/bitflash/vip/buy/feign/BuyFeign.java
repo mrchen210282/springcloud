@@ -238,7 +238,7 @@ public interface BuyFeign {
 
 
     /**
-     *selectPoundage
+     * selectPoundage
      */
     @PostMapping("/inner/userTradeConfig/selectById")
     Float selectPoundage(@RequestParam("id") int id);
